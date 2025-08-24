@@ -27,7 +27,8 @@ let currentTab = 'basic';
 let inviteData = null;
 
 // Supabase configuration
-const SUPABASE_URL = 'https://kprqdwwjywxtkariwjyd.supabase.co';
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL ;
+const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
 // Initialize the page
 document.addEventListener('DOMContentLoaded', function() {
@@ -49,11 +50,13 @@ async function validateInviteToken() {
 
         console.log('🔍 Davet token doğrulanıyor:', token);
 
-        // Token'ı doğrula - sadece varlık kontrolü
+        // Token'ı doğrula - public endpoint
         const response = await fetch(`${SUPABASE_URL}/functions/v1/invite-verify`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'apikey': SUPABASE_ANON_KEY,
+                'authorization': `Bearer ${SUPABASE_ANON_KEY}`
             },
             body: JSON.stringify({
                 token: token,
@@ -80,6 +83,7 @@ async function validateInviteToken() {
         showError('Davet bağlantısı doğrulanamadı: ' + error.message);
     }
 }
+
 
 // Ana içeriği göster
 function showMainContent() {
