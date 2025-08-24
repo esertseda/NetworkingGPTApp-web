@@ -50,13 +50,13 @@ body {
 }
 
 .header-subtitle p {
-    color: #a1a1aa;
+    color: #f8fafc;
     font-size: 1.1rem;
     margin-bottom: 8px;
 }
 
 .motto {
-    color: #fbbf24 !important;
+    color: #a855f7 !important;
     font-size: 1rem !important;
 }
 
@@ -140,14 +140,14 @@ body {
 .step-header h2 {
     font-size: 2.5rem;
     font-weight: 700;
-    color: #fbbf24;
+    color: #a855f7;
     margin-bottom: 12px;
-    text-shadow: 0 0 20px rgba(251, 191, 36, 0.3);
+    text-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
 }
 
 .step-header p {
     font-size: 1.2rem;
-    color: #a1a1aa;
+    color: #f8fafc;
     max-width: 600px;
     margin: 0 auto;
 }
@@ -170,14 +170,14 @@ body {
 
 .action-section h3 {
     font-size: 2rem;
-    color: #60a5fa;
+    color: #8b5cf6;
     margin-bottom: 12px;
     font-weight: 600;
 }
 
 .action-section p {
     font-size: 1.1rem;
-    color: #a1a1aa;
+    color: #f8fafc;
 }
 
 /* Progress Container */
@@ -200,7 +200,7 @@ body {
 
 .progress-percentage {
     font-size: 1.1rem;
-    color: #fbbf24;
+    color: #a855f7;
     font-weight: 600;
 }
 
@@ -253,7 +253,7 @@ body {
 .progress-label {
     text-align: center;
     font-size: 1rem;
-    color: #fbbf24;
+    color: #a855f7;
     font-weight: 500;
 }
 
@@ -330,7 +330,7 @@ body {
 
 .tab-header h3 {
     font-size: 1.8rem;
-    color: #fbbf24;
+    color: #a855f7;
     font-weight: 600;
 }
 
@@ -354,7 +354,7 @@ body {
 .form-group label {
     display: block;
     margin-bottom: 8px;
-    color: #e5e7eb;
+    color: #f8fafc;
     font-weight: 500;
     font-size: 1rem;
 }
@@ -451,7 +451,7 @@ body {
 
 .closeness-value {
     font-size: 0.9rem;
-    color: #fbbf24;
+    color: #a855f7;
     font-weight: 600;
     min-width: 30px;
 }
@@ -510,7 +510,7 @@ body {
 
 .section-header h4 {
     font-size: 1.4rem;
-    color: #fbbf24;
+    color: #a855f7;
     font-weight: 600;
 }
 
@@ -569,7 +569,7 @@ body {
 }
 
 .trait-text {
-    color: #e5e7eb;
+    color: #f8fafc;
     font-weight: 500;
 }
 
@@ -584,7 +584,7 @@ body {
 }
 
 .principle-text {
-    color: #e5e7eb;
+    color: #f8fafc;
     font-weight: 500;
 }
 
@@ -685,7 +685,7 @@ body {
 
 .btn-secondary {
     background: rgba(55, 65, 81, 0.8);
-    color: #e5e7eb;
+    color: #f8fafc;
     border: 1px solid rgba(75, 85, 99, 0.5);
 }
 
