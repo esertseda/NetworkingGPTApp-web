@@ -1,0 +1,27 @@
+{
+  "name": "web",
+  "version": "1.0.0",
+  "description": "Bu klasör, NetworkingGPT davet sistemi için statik web dosyalarını içerir.",
+  "main": "index.js",
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite",
+    "preview": "vite preview",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/esertseda/NetworkingGPTApp-web.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/esertseda/NetworkingGPTApp-web/issues"
+  },
+  "homepage": "https://github.com/esertseda/NetworkingGPTApp-web#readme",
+  "devDependencies": {
+    "vite": "^7.1.3"
+  }
+}
