@@ -59,8 +59,7 @@ async function validateInviteToken() {
                 'authorization': `Bearer ${SUPABASE_ANON_KEY}`
             },
             body: JSON.stringify({
-                token: token,
-                inviter: { first_name: '', last_name: '' } // Boş veri ile sadece token kontrolü
+                token: token
             })
         });
 
