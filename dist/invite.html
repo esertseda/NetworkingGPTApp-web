@@ -5,15 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NetworkingGPT - Davet Bağlantısı</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <script type="module" crossorigin src="/assets/invite-BaGiLlgs.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/style-DaBLxyyI.css">
+  <script type="module" crossorigin src="/assets/invite-BcRE2G7y.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/style-CnN5VMnr.css">
 </head>
 <body>
     <div class="container">
         <!-- Header -->
         <header class="header">
             <div class="logo">
-                <h1>NetworkingGPT</h1>
+                <div class="logo-icon">🦉</div>
+                <div class="logo-text">
+                    <div class="logo-main">NETWORKING</div>
+                    <div class="logo-sub">GPT</div>
+                </div>
+            </div>
+            <div class="header-subtitle">
+                <p>Davete özel kişi ekleme platformu</p>
+                <p class="motto">✨ Mitolojik güçle ağınızı genişletin</p>
             </div>
         </header>
 
@@ -36,268 +44,535 @@
             <!-- Step 1: Inviter Info -->
             <div id="step1" class="step active">
                 <div class="step-header">
-                    <h2>Adım 1: Sizin Bilgileriniz</h2>
-                    <p>Ağ'a ekleyen kişi olarak bilgilerinizi girin</p>
+                    <div class="step-icon">👤</div>
+                    <h2>Adım 1: Davet Gönderen Bilgileri</h2>
+                    <p>Sizinle bağlantı kurmak isteyen kişinin bilgilerini girin</p>
                 </div>
                 
                 <form id="inviterForm" class="form">
                     <div class="form-group">
                         <label for="inviterFirstName">Ad *</label>
-                        <input type="text" id="inviterFirstName" name="inviterFirstName" required>
+                        <input type="text" id="inviterFirstName" name="inviterFirstName" placeholder="Adınız" required>
                     </div>
                     
                     <div class="form-group">
                         <label for="inviterLastName">Soyad *</label>
-                        <input type="text" id="inviterLastName" name="inviterLastName" required>
+                        <input type="text" id="inviterLastName" name="inviterLastName" placeholder="Soyadınız" required>
                     </div>
                     
                     <div class="form-group">
                         <label for="inviterEmail">E-posta</label>
-                        <input type="email" id="inviterEmail" name="inviterEmail">
+                        <input type="email" id="inviterEmail" name="inviterEmail" placeholder="e-posta@ornek.com">
                     </div>
                     
-                    <button type="submit" class="btn btn-primary">Devam Et</button>
+                    <button type="submit" class="btn btn-primary">
+                        <span class="btn-icon">✓</span>
+                        Devam Et
+                    </button>
                 </form>
             </div>
 
             <!-- Step 2: New Contact Info -->
             <div id="step2" class="step">
                 <div class="step-header">
-                    <h2>Adım 2: Yeni Kişi Bilgileri</h2>
-                    <p>Eklemek istediğiniz kişinin detaylı bilgilerini girin</p>
+                    <div class="step-icon">👥</div>
+                    <h2>Adım 2: Ağınıza Katılın</h2>
+                    <p>Hermes'in rehberliğinde yeni bağlantınızı oluşturun</p>
+                </div>
+
+                <div class="action-section">
+                    <div class="action-icon">👤+</div>
+                    <h3>Yeni Kişi Ekle</h3>
+                    <p>Ağınıza yeni bir bağlantı ekleyin ✨</p>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="progress-container">
+                    <div class="progress-info">
+                        <span class="progress-step">Adım 1/6</span>
+                        <span class="progress-percentage">17% Tamamlandı</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 17%"></div>
+                        <div class="progress-markers">
+                            <div class="progress-marker active">1</div>
+                            <div class="progress-marker">2</div>
+                            <div class="progress-marker">3</div>
+                            <div class="progress-marker">4</div>
+                            <div class="progress-marker">5</div>
+                            <div class="progress-marker">6</div>
+                        </div>
+                    </div>
+                    <div class="progress-label">Temel Bilgiler</div>
                 </div>
 
                 <!-- Tab Navigation -->
                 <div class="tab-navigation">
-                    <button class="tab-btn active" data-tab="basic">Temel</button>
-                    <button class="tab-btn" data-tab="work">İş</button>
-                    <button class="tab-btn" data-tab="personal">Kişisel</button>
-                    <button class="tab-btn" data-tab="social">Sosyal</button>
-                    <button class="tab-btn" data-tab="experience">Deneyim</button>
-                    <button class="tab-btn" data-tab="future">Gelecek</button>
+                    <button class="tab-btn active" data-tab="basic">
+                        <div class="tab-icon">👤</div>
+                        <span>Temel</span>
+                    </button>
+                    <button class="tab-btn" data-tab="work">
+                        <div class="tab-icon">🏢</div>
+                        <span>İş</span>
+                    </button>
+                    <button class="tab-btn" data-tab="personal">
+                        <div class="tab-icon">🎯</div>
+                        <span>Kişisel</span>
+                    </button>
+                    <button class="tab-btn" data-tab="social">
+                        <div class="tab-icon">🌟</div>
+                        <span>Sosyal</span>
+                    </button>
+                    <button class="tab-btn" data-tab="experience">
+                        <div class="tab-icon">🏆</div>
+                        <span>Deneyim</span>
+                    </button>
+                    <button class="tab-btn" data-tab="future">
+                        <div class="tab-icon">🚀</div>
+                        <span>Gelecek</span>
+                    </button>
                 </div>
 
                 <!-- Tab Content -->
                 <div class="tab-content">
                     <!-- Basic Tab -->
                     <div id="basic" class="tab-pane active">
-                        <h3>Temel Bilgiler</h3>
+                        <div class="tab-header">
+                            <div class="tab-icon">👤</div>
+                            <h3>Temel Bilgiler</h3>
+                        </div>
                         
                         <div class="form-row">
                             <div class="form-group">
-                                <label for="firstName">Ad *</label>
-                                <input type="text" id="firstName" name="firstName" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="lastName">Soyad *</label>
-                                <input type="text" id="lastName" name="lastName" required>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="closeness">Yakınlık Seviyesi (1-10)</label>
-                            <div class="slider-container">
-                                <input type="range" id="closeness" name="closeness" min="1" max="10" value="5" class="slider">
-                                <span class="slider-value">5</span>
+                                <label for="firstName">Ad Soyad *</label>
+                                <input type="text" id="firstName" name="firstName" placeholder="Ad Soyad" required>
                             </div>
                         </div>
 
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="age">Yaş</label>
-                                <input type="number" id="age" name="age" min="1" max="120">
+                                <input type="number" id="age" name="age" placeholder="25" min="1" max="120">
                             </div>
                             <div class="form-group">
                                 <label for="hometown">Nereli</label>
-                                <input type="text" id="hometown" name="hometown">
+                                <input type="text" id="hometown" name="hometown" placeholder="İstanbul">
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="currentCity">Şu anki Şehir</label>
-                            <input type="text" id="currentCity" name="currentCity">
+                            <label for="currentCity">Şu An Yaşadığı Şehir</label>
+                            <input type="text" id="currentCity" name="currentCity" placeholder="İstanbul">
                         </div>
 
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="email">E-posta</label>
-                                <input type="email" id="email" name="email">
+                                <input type="email" id="email" name="email" placeholder="ornek@email.com">
                             </div>
                             <div class="form-group">
                                 <label for="phone">Telefon</label>
-                                <input type="tel" id="phone" name="phone">
+                                <input type="tel" id="phone" name="phone" placeholder="+90 5XX XXX XX XX">
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="summary">Kısa Açıklama</label>
-                            <textarea id="summary" name="summary" rows="3" placeholder="Bu kişi hakkında kısa bir açıklama..."></textarea>
+                            <label for="summary">Genel Açıklama</label>
+                            <textarea id="summary" name="summary" rows="3" placeholder="Kişi hakkında genel notlar..."></textarea>
+                        </div>
+
+                        <div class="form-group checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="sendEmail" name="sendEmail">
+                                <span class="checkmark"></span>
+                                Kişiye e-posta göndermek ister misiniz?
+                            </label>
                         </div>
                     </div>
 
                     <!-- Work Tab -->
                     <div id="work" class="tab-pane">
-                        <h3>İş Bilgileri</h3>
+                        <div class="tab-header">
+                            <div class="tab-icon">🏢</div>
+                            <h3>İş ve Profesyonel Bilgiler</h3>
+                        </div>
                         
                         <div class="form-row">
                             <div class="form-group">
-                                <label for="currentTitle">Pozisyon</label>
-                                <input type="text" id="currentTitle" name="currentTitle">
+                                <label for="currentTitle">Pozisyon *</label>
+                                <input type="text" id="currentTitle" name="currentTitle" placeholder="Senior Frontend Developer">
                             </div>
                             <div class="form-group">
                                 <label for="currentCompany">Şirket</label>
-                                <input type="text" id="currentCompany" name="currentCompany">
+                                <input type="text" id="currentCompany" name="currentCompany" placeholder="Google">
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="university">Üniversite</label>
-                            <input type="text" id="university" name="university">
+                            <label for="university">Okul/Üniversite</label>
+                            <input type="text" id="university" name="university" placeholder="Boğaziçi Üniversitesi">
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="department">Bölüm</label>
+                                <input type="text" id="department" name="department" placeholder="Bilgisayar Mühendisliği">
+                            </div>
+                            <div class="form-group">
+                                <label for="degree">Derece</label>
+                                <input type="text" id="degree" name="degree" placeholder="Lisans">
+                            </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="education">Eğitim</label>
-                            <textarea id="education" name="education" rows="3" placeholder="Eğitim bilgileri..."></textarea>
+                            <label for="graduationYear">Mezuniyet Yılı</label>
+                            <input type="number" id="graduationYear" name="graduationYear" placeholder="2020" min="1950" max="2030">
                         </div>
 
                         <div class="form-group">
-                            <label for="pastExperiences">Geçmiş Deneyimler</label>
-                            <textarea id="pastExperiences" name="pastExperiences" rows="3" placeholder="Önceki iş deneyimleri..."></textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="expertiseTags">Uzmanlık Alanları</label>
-                            <input type="text" id="expertiseTags" name="expertiseTags" placeholder="Teknoloji, Finans, Pazarlama...">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="serviceTags">Sunduğu Hizmetler</label>
-                            <input type="text" id="serviceTags" name="serviceTags" placeholder="Danışmanlık, Eğitim, Mentorluk...">
+                            <label for="pastExperiences">İş Deneyimi (Kısa Notlar)</label>
+                            <textarea id="pastExperiences" name="pastExperiences" rows="3" placeholder="Önceki iş deneyimleri, projeler, başarılar..."></textarea>
                         </div>
 
                         <div class="form-group">
                             <label for="sectors">Sektörler</label>
-                            <input type="text" id="sectors" name="sectors" placeholder="Teknoloji, Sağlık, Eğitim...">
+                            <select id="sectors" name="sectors">
+                                <option value="">Sektör seçin...</option>
+                                <option value="teknoloji">Teknoloji</option>
+                                <option value="finans">Finans</option>
+                                <option value="saglik">Sağlık</option>
+                                <option value="egitim">Eğitim</option>
+                                <option value="pazarlama">Pazarlama</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="expertiseTags">Uzmanlık Alanları</label>
+                            <select id="expertiseTags" name="expertiseTags">
+                                <option value="">Uzmanlık alanı seçin...</option>
+                                <option value="frontend">Frontend Geliştirme</option>
+                                <option value="backend">Backend Geliştirme</option>
+                                <option value="mobile">Mobil Geliştirme</option>
+                                <option value="data">Veri Bilimi</option>
+                                <option value="ai">Yapay Zeka</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="serviceTags">Verebileceği Hizmetler</label>
+                            <select id="serviceTags" name="serviceTags">
+                                <option value="">Hizmet seçin...</option>
+                                <option value="danismanlik">Danışmanlık</option>
+                                <option value="egitim">Eğitim</option>
+                                <option value="mentorluk">Mentorluk</option>
+                                <option value="proje">Proje Yönetimi</option>
+                                <option value="analiz">Analiz</option>
+                            </select>
                         </div>
                     </div>
 
                     <!-- Personal Tab -->
                     <div id="personal" class="tab-pane">
-                        <h3>Kişisel Özellikler</h3>
-                        
-                        <div class="form-group">
-                            <label for="traits">Kişisel Özellikler</label>
-                            <textarea id="traits" name="traits" rows="3" placeholder="Liderlik, Yaratıcılık, Analitik düşünce..."></textarea>
+                        <div class="tab-header">
+                            <div class="tab-icon">🎯</div>
+                            <h3>Kişisel Özellikler</h3>
+                        </div>
+
+                        <div class="category-section">
+                            <div class="category-header">
+                                <div class="category-icon">📁</div>
+                                <span>Kategori</span>
+                                <div class="closeness-section">
+                                    <span>Yakınlık Seviyesi</span>
+                                    <div class="closeness-container">
+                                        <span class="closeness-label">Uzak (1)</span>
+                                        <input type="range" id="closeness" name="closeness" min="1" max="10" value="5" class="closeness-slider">
+                                        <span class="closeness-label">Yakın (10)</span>
+                                        <span class="closeness-value">5/10</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="category-buttons">
+                                <button type="button" class="category-btn active" data-category="work">
+                                    <div class="btn-icon">💼</div>
+                                    <span>İş</span>
+                                </button>
+                                <button type="button" class="category-btn" data-category="family">
+                                    <div class="btn-icon">🏠</div>
+                                    <span>Aile</span>
+                                </button>
+                                <button type="button" class="category-btn" data-category="friend">
+                                    <div class="btn-icon">❤️</div>
+                                    <span>Arkadaş</span>
+                                </button>
+                                <button type="button" class="category-btn" data-category="other">
+                                    <div class="btn-icon">⋯</div>
+                                    <span>Diğer</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="traits-section">
+                            <div class="section-header">
+                                <div class="section-icon">✨</div>
+                                <h4>Kişisel Özellikler</h4>
+                            </div>
+                            <div class="traits-grid">
+                                <label class="trait-item">
+                                    <input type="checkbox" name="traits" value="honesty">
+                                    <span class="trait-checkbox"></span>
+                                    <span class="trait-text">Dürüstlük</span>
+                                </label>
+                                <label class="trait-item">
+                                    <input type="checkbox" name="traits" value="discipline">
+                                    <span class="trait-checkbox"></span>
+                                    <span class="trait-text">Disiplin</span>
+                                </label>
+                                <label class="trait-item">
+                                    <input type="checkbox" name="traits" value="patience">
+                                    <span class="trait-checkbox"></span>
+                                    <span class="trait-text">Sabırlılık</span>
+                                </label>
+                                <label class="trait-item">
+                                    <input type="checkbox" name="traits" value="teamwork">
+                                    <span class="trait-checkbox"></span>
+                                    <span class="trait-text">Takım Çalışması</span>
+                                </label>
+                                <label class="trait-item">
+                                    <input type="checkbox" name="traits" value="creativity">
+                                    <span class="trait-checkbox"></span>
+                                    <span class="trait-text">Yaratıcılık</span>
+                                </label>
+                                <label class="trait-item">
+                                    <input type="checkbox" name="traits" value="reliability">
+                                    <span class="trait-checkbox"></span>
+                                    <span class="trait-text">Güvenilirlik</span>
+                                </label>
+                                <label class="trait-item">
+                                    <input type="checkbox" name="traits" value="diligence">
+                                    <span class="trait-checkbox"></span>
+                                    <span class="trait-text">Çalışkanlık</span>
+                                </label>
+                                <label class="trait-item">
+                                    <input type="checkbox" name="traits" value="leadership">
+                                    <span class="trait-checkbox"></span>
+                                    <span class="trait-text">Liderlik</span>
+                                </label>
+                                <label class="trait-item">
+                                    <input type="checkbox" name="traits" value="communication">
+                                    <span class="trait-checkbox"></span>
+                                    <span class="trait-text">İletişim Becerisi</span>
+                                </label>
+                                <label class="trait-item">
+                                    <input type="checkbox" name="traits" value="adaptability">
+                                    <span class="trait-checkbox"></span>
+                                    <span class="trait-text">Uyum Yeteneği</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="principles-section">
+                            <div class="section-header">
+                                <div class="section-icon">💎</div>
+                                <h4>Değer Verdiği Prensipler</h4>
+                            </div>
+                            <div class="principles-grid">
+                                <label class="principle-item">
+                                    <input type="checkbox" name="principles" value="ethics">
+                                    <span class="principle-checkbox"></span>
+                                    <div class="principle-content">
+                                        <div class="principle-icon">⚖️</div>
+                                        <span class="principle-text">Etik</span>
+                                    </div>
+                                </label>
+                                <label class="principle-item">
+                                    <input type="checkbox" name="principles" value="sustainability">
+                                    <span class="principle-checkbox"></span>
+                                    <div class="principle-content">
+                                        <div class="principle-icon">🌱</div>
+                                        <span class="principle-text">Sürdürülebilirlik</span>
+                                    </div>
+                                </label>
+                                <label class="principle-item">
+                                    <input type="checkbox" name="principles" value="society">
+                                    <span class="principle-checkbox"></span>
+                                    <div class="principle-content">
+                                        <div class="principle-icon">🤝</div>
+                                        <span class="principle-text">Topluma Fayda</span>
+                                    </div>
+                                </label>
+                                <label class="principle-item">
+                                    <input type="checkbox" name="principles" value="innovation">
+                                    <span class="principle-checkbox"></span>
+                                    <div class="principle-content">
+                                        <div class="principle-icon">💡</div>
+                                        <span class="principle-text">İnovasyon</span>
+                                    </div>
+                                </label>
+                                <label class="principle-item">
+                                    <input type="checkbox" name="principles" value="quality">
+                                    <span class="principle-checkbox"></span>
+                                    <div class="principle-content">
+                                        <div class="principle-icon">⭐</div>
+                                        <span class="principle-text">Kalite</span>
+                                    </div>
+                                </label>
+                                <label class="principle-item">
+                                    <input type="checkbox" name="principles" value="customer">
+                                    <span class="principle-checkbox"></span>
+                                    <div class="principle-content">
+                                        <div class="principle-icon">👤❤️</div>
+                                        <span class="principle-text">Müşteri Odaklılık</span>
+                                    </div>
+                                </label>
+                                <label class="principle-item">
+                                    <input type="checkbox" name="principles" value="learning">
+                                    <span class="principle-checkbox"></span>
+                                    <div class="principle-content">
+                                        <div class="principle-icon">📚</div>
+                                        <span class="principle-text">Sürekli Öğrenme</span>
+                                    </div>
+                                </label>
+                                <label class="principle-item">
+                                    <input type="checkbox" name="principles" value="transparency">
+                                    <span class="principle-checkbox"></span>
+                                    <div class="principle-content">
+                                        <div class="principle-icon">👁️</div>
+                                        <span class="principle-text">Şeffaflık</span>
+                                    </div>
+                                </label>
+                                <label class="principle-item">
+                                    <input type="checkbox" name="principles" value="justice">
+                                    <span class="principle-checkbox"></span>
+                                    <div class="principle-content">
+                                        <div class="principle-icon">⚖️</div>
+                                        <span class="principle-text">Adalet</span>
+                                    </div>
+                                </label>
+                                <label class="principle-item">
+                                    <input type="checkbox" name="principles" value="empathy">
+                                    <span class="principle-checkbox"></span>
+                                    <div class="principle-content">
+                                        <div class="principle-icon">❤️</div>
+                                        <span class="principle-text">Empati</span>
+                                    </div>
+                                </label>
+                            </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="principles">Değerler</label>
-                            <textarea id="principles" name="principles" rows="3" placeholder="Kişisel değerleri..."></textarea>
+                            <label for="goals">🎯 Hedefleri</label>
+                            <textarea id="goals" name="goals" rows="3" placeholder="Kısa ve uzun vadeli hedefleri..."></textarea>
                         </div>
 
                         <div class="form-group">
-                            <label for="goals">Kısa Vadeli Hedefler</label>
-                            <textarea id="goals" name="goals" rows="3" placeholder="1-2 yıllık hedefler..."></textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="vision">Uzun Vadeli Vizyon</label>
-                            <textarea id="vision" name="vision" rows="3" placeholder="5-10 yıllık vizyon..."></textarea>
+                            <label for="vision">🔮 Vizyonu</label>
+                            <textarea id="vision" name="vision" rows="3" placeholder="Kişisel vizyonu ve misyonu..."></textarea>
                         </div>
                     </div>
 
                     <!-- Social Tab -->
                     <div id="social" class="tab-pane">
-                        <h3>Sosyal ve İletişim</h3>
+                        <div class="tab-header">
+                            <div class="tab-icon">🌟</div>
+                            <h3>Sosyal ve Networking</h3>
+                        </div>
                         
                         <div class="form-group">
-                            <label for="hobbies">Hobiler ve İlgi Alanları</label>
-                            <textarea id="hobbies" name="hobbies" rows="3" placeholder="Hobiler, spor, sanat, müzik..."></textarea>
-                        </div>
-
-                        <div class="form-group">
                             <label for="languages">Konuştuğu Diller</label>
-                            <input type="text" id="languages" name="languages" placeholder="Türkçe, İngilizce, Almanca...">
+                            <select id="languages" name="languages">
+                                <option value="">Dil seçin...</option>
+                                <option value="turkce">Türkçe</option>
+                                <option value="ingilizce">İngilizce</option>
+                                <option value="almanca">Almanca</option>
+                                <option value="fransizca">Fransızca</option>
+                                <option value="ispanyolca">İspanyolca</option>
+                            </select>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group checkbox-group">
                             <label class="checkbox-label">
                                 <input type="checkbox" id="isMentor" name="isMentor">
-                                Mentor olarak hizmet verebilir
+                                <span class="checkmark"></span>
+                                Mentor olarak hizmet veriyor
                             </label>
                         </div>
 
                         <div class="form-group">
-                            <label for="volunteering">Gönüllü Çalışmalar</label>
-                            <textarea id="volunteering" name="volunteering" rows="3" placeholder="Gönüllü olarak yaptığı işler..."></textarea>
+                            <label for="volunteering">Gönüllü İşler / Topluluk Deneyimleri</label>
+                            <textarea id="volunteering" name="volunteering" rows="3" placeholder="Gönüllü çalışmaları ve topluluk deneyimleri..."></textarea>
                         </div>
                     </div>
 
                     <!-- Experience Tab -->
                     <div id="experience" class="tab-pane">
-                        <h3>Deneyim ve Öğrenimler</h3>
+                        <div class="tab-header">
+                            <div class="tab-icon">🏆</div>
+                            <h3>Kritik Yaşam Deneyimleri</h3>
+                        </div>
                         
                         <div class="form-group">
                             <label for="turningPoints">Hayatındaki Dönüm Noktaları</label>
-                            <textarea id="turningPoints" name="turningPoints" rows="3" placeholder="Kariyer, eğitim, kişisel hayat..."></textarea>
+                            <textarea id="turningPoints" name="turningPoints" rows="3" placeholder="Şirket kurma, iş değiştirme, ülke değiştirme gibi dönüm noktaları..."></textarea>
                         </div>
 
                         <div class="form-group">
                             <label for="bigChallenges">Karşılaştığı Büyük Zorluklar</label>
-                            <textarea id="bigChallenges" name="bigChallenges" rows="3" placeholder="Üstesinden geldiği zorluklar..."></textarea>
+                            <textarea id="bigChallenges" name="bigChallenges" rows="3" placeholder="Karşılaştığı zorluklar ve nasıl aştığı..."></textarea>
                         </div>
 
                         <div class="form-group">
-                            <label for="bigLessons">Öğrendiği Büyük Dersler</label>
-                            <textarea id="bigLessons" name="bigLessons" rows="3" placeholder="Hayatından çıkardığı dersler..."></textarea>
+                            <label for="bigLessons">Öğrendiği En Büyük Dersler</label>
+                            <textarea id="bigLessons" name="bigLessons" rows="3" placeholder="Hayattan öğrendiği en önemli dersler..."></textarea>
                         </div>
                     </div>
 
                     <!-- Future Tab -->
                     <div id="future" class="tab-pane">
-                        <h3>Gelecek ve İşbirliği</h3>
+                        <div class="tab-header">
+                            <div class="tab-icon">🚀</div>
+                            <h3>İleriye Dönük Planlar</h3>
+                        </div>
                         
                         <div class="form-group">
-                            <label for="goals5y">5 Yıllık Hedefler</label>
-                            <textarea id="goals5y" name="goals5y" rows="3" placeholder="5 yıl içinde ulaşmak istediği hedefler..."></textarea>
+                            <label for="goals5y">5-10 Yıllık Hedefleri</label>
+                            <textarea id="goals5y" name="goals5y" rows="3" placeholder="Gelecek planları ve hedefleri..."></textarea>
                         </div>
 
-                        <div class="form-group">
-                            <label for="goals10y">10 Yıllık Hedefler</label>
-                            <textarea id="goals10y" name="goals10y" rows="3" placeholder="10 yıl içinde ulaşmak istediği hedefler..."></textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="approachNewIdeas">Yeni Fikirlere Yaklaşımı</label>
-                            <textarea id="approachNewIdeas" name="approachNewIdeas" rows="3" placeholder="Yeni fikirlere nasıl yaklaşır..."></textarea>
-                        </div>
-
-                        <div class="form-group">
+                        <div class="form-group checkbox-group">
                             <label class="checkbox-label">
                                 <input type="checkbox" id="willingToInvest" name="willingToInvest">
-                                Yatırım yapmaya istekli
+                                <span class="checkmark"></span>
+                                <div class="checkbox-content">
+                                    <div class="checkbox-icon">💰</div>
+                                    <span>Yatırım yapma / ortaklık kurma isteği var</span>
+                                </div>
                             </label>
                         </div>
 
                         <div class="form-group">
-                            <label class="checkbox-label">
-                                <input type="checkbox" id="willingToPartner" name="willingToPartner">
-                                Ortaklık kurmaya istekli
-                            </label>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="collaborationAreas">İşbirliği Alanları</label>
-                            <textarea id="collaborationAreas" name="collaborationAreas" rows="3" placeholder="Hangi alanlarda işbirliği yapabilir..."></textarea>
+                            <label for="collaborationAreas">İş Birliği Yapmak İstediği Alanlar</label>
+                            <textarea id="collaborationAreas" name="collaborationAreas" rows="3" placeholder="Hangi alanlarda iş birliği yapmak istediği..."></textarea>
                         </div>
                     </div>
                 </div>
 
                 <!-- Navigation Buttons -->
                 <div class="navigation-buttons">
-                    <button id="prevBtn" class="btn btn-secondary" style="display: none;">Önceki</button>
-                    <button id="nextBtn" class="btn btn-primary">Sonraki</button>
-                    <button id="submitBtn" class="btn btn-success" style="display: none;">Kişiyi Ekle</button>
+                    <button id="prevBtn" class="btn btn-secondary" style="display: none;">
+                        <span class="btn-icon">←</span>
+                        Önceki Adım
+                    </button>
+                    <button id="nextBtn" class="btn btn-primary">
+                        <span class="btn-icon">→</span>
+                        Sonraki Adım
+                    </button>
+                    <button id="submitBtn" class="btn btn-success" style="display: none;">
+                        <span class="btn-icon">✓</span>
+                        Kişi Ekle
+                    </button>
                 </div>
             </div>
 
@@ -313,5 +588,9 @@
         </main>
     </div>
 
+    <!-- Debug Info -->
+    <div class="debug-info">
+        Debug: Current Step: <span id="debugStep">0</span>, Total Steps: <span id="debugTotal">6</span>, Progress: <span id="debugProgress">0%</span>
+    </div>
 </body>
 </html>

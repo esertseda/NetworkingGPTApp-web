@@ -17,23 +17,42 @@ const errorMessage = document.getElementById('errorMessage');
 const tabBtns = document.querySelectorAll('.tab-btn');
 const tabPanes = document.querySelectorAll('.tab-pane');
 
-// Slider Elements
-const closenessSlider = document.getElementById('closeness');
-const sliderValue = document.querySelector('.slider-value');
+// Progress Elements
+const progressStep = document.querySelector('.progress-step');
+const progressPercentage = document.querySelector('.progress-percentage');
+const progressFill = document.querySelector('.progress-fill');
+const progressLabel = document.querySelector('.progress-label');
+const progressMarkers = document.querySelectorAll('.progress-marker');
+
+// Debug Elements
+const debugStep = document.getElementById('debugStep');
+const debugTotal = document.getElementById('debugTotal');
+const debugProgress = document.getElementById('debugProgress');
 
 // Current step tracking
 let currentStep = 1;
 let currentTab = 'basic';
 let inviteData = null;
 
+// Step configuration
+const STEPS = [
+    { id: 1, name: 'basic', label: 'Temel Bilgiler', progress: 17 },
+    { id: 2, name: 'work', label: 'İş Bilgileri', progress: 33 },
+    { id: 3, name: 'personal', label: 'Kişisel Özellikler', progress: 50 },
+    { id: 4, name: 'social', label: 'Sosyal ve Networking', progress: 67 },
+    { id: 5, name: 'experience', label: 'Deneyim', progress: 83 },
+    { id: 6, name: 'future', label: 'Gelecek', progress: 100 }
+];
+
 // Supabase configuration
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL ;
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
 const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
 // Initialize the page
 document.addEventListener('DOMContentLoaded', function() {
     initializeEventListeners();
     updateSliderValue();
+    updateDebugInfo();
     
     // Sayfa yüklendiğinde token doğrulaması yap
     validateInviteToken();
@@ -83,7 +102,6 @@ async function validateInviteToken() {
     }
 }
 
-
 // Ana içeriği göster
 function showMainContent() {
     loadingState.style.display = 'none';
@@ -115,7 +133,16 @@ function initializeEventListeners() {
     });
     
     // Slider value update
-    if (closenessSlider) closenessSlider.addEventListener('input', updateSliderValue);
+    const closenessSlider = document.getElementById('closeness');
+    if (closenessSlider) {
+        closenessSlider.addEventListener('input', updateSliderValue);
+    }
+
+    // Category buttons
+    const categoryBtns = document.querySelectorAll('.category-btn');
+    categoryBtns.forEach(btn => {
+        btn.addEventListener('click', () => selectCategory(btn.dataset.category));
+    });
 }
 
 // Handle inviter form submission
@@ -148,15 +175,18 @@ function goToStep(step) {
         step2.classList.add('active');
         currentStep = 2;
         updateNavigationButtons();
+        updateProgress(2);
     } else if (step === 'success') {
         success.classList.add('active');
         currentStep = 'success';
+        updateProgress(6);
     }
 }
 
 function goToPreviousStep() {
     if (currentStep === 2) {
         goToStep(1);
+        updateProgress(1);
     }
 }
 
@@ -195,6 +225,7 @@ function switchTab(tabName) {
     
     currentTab = tabName;
     updateNavigationButtons();
+    updateProgressByTab(tabName);
 }
 
 // Update navigation buttons
@@ -222,8 +253,74 @@ function showSubmitButton() {
 
 // Update slider value display
 function updateSliderValue() {
+    const closenessSlider = document.getElementById('closeness');
+    const sliderValue = document.querySelector('.closeness-value');
+    
     if (sliderValue && closenessSlider) {
         sliderValue.textContent = closenessSlider.value;
+    }
+}
+
+// Select category
+function selectCategory(category) {
+    const categoryBtns = document.querySelectorAll('.category-btn');
+    categoryBtns.forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.dataset.category === category) {
+            btn.classList.add('active');
+        }
+    });
+}
+
+// Update progress
+function updateProgress(stepNumber) {
+    const step = STEPS.find(s => s.id === stepNumber);
+    if (!step) return;
+
+    // Update progress elements
+    if (progressStep) progressStep.textContent = `Adım ${stepNumber}/6`;
+    if (progressPercentage) progressPercentage.textContent = `${step.progress}% Tamamlandı`;
+    if (progressFill) progressFill.style.width = `${step.progress}%`;
+    if (progressLabel) progressLabel.textContent = step.label;
+
+    // Update progress markers
+    progressMarkers.forEach((marker, index) => {
+        if (index < stepNumber) {
+            marker.classList.add('active');
+        } else {
+            marker.classList.remove('active');
+        }
+    });
+
+    // Update debug info
+    updateDebugInfo();
+}
+
+// Update progress by tab
+function updateProgressByTab(tabName) {
+    const stepMap = {
+        'basic': 1,
+        'work': 2,
+        'personal': 3,
+        'social': 4,
+        'experience': 5,
+        'future': 6
+    };
+
+    const stepNumber = stepMap[tabName];
+    if (stepNumber) {
+        updateProgress(stepNumber);
+    }
+}
+
+// Update debug info
+function updateDebugInfo() {
+    if (debugStep) debugStep.textContent = currentStep;
+    if (debugTotal) debugTotal.textContent = 6;
+    
+    const currentStepData = STEPS.find(s => s.id === currentStep);
+    if (debugProgress && currentStepData) {
+        debugProgress.textContent = `${currentStepData.progress}%`;
     }
 }
 
@@ -300,32 +397,35 @@ function collectFormData() {
         // Basic info
         first_name: document.getElementById('firstName').value,
         last_name: document.getElementById('lastName').value,
-        closeness: document.getElementById('closeness').value,
         age: document.getElementById('age').value,
         hometown: document.getElementById('hometown').value,
         current_city: document.getElementById('currentCity').value,
         email: document.getElementById('email').value,
         phone: document.getElementById('phone').value,
         summary: document.getElementById('summary').value,
+        send_email: document.getElementById('sendEmail').checked,
         
         // Work info
         current_title: document.getElementById('currentTitle').value,
         current_company: document.getElementById('currentCompany').value,
         university: document.getElementById('university').value,
-        education: document.getElementById('education').value,
+        department: document.getElementById('department').value,
+        degree: document.getElementById('degree').value,
+        graduation_year: document.getElementById('graduationYear').value,
         past_experiences: document.getElementById('pastExperiences').value,
+        sectors: document.getElementById('sectors').value,
         expertise_tags: document.getElementById('expertiseTags').value,
         service_tags: document.getElementById('serviceTags').value,
-        sectors: document.getElementById('sectors').value,
         
         // Personal info
-        traits: document.getElementById('traits').value,
-        principles: document.getElementById('principles').value,
+        closeness: document.getElementById('closeness').value,
+        category: getSelectedCategory(),
+        traits: getSelectedTraits(),
+        principles: getSelectedPrinciples(),
         goals: document.getElementById('goals').value,
         vision: document.getElementById('vision').value,
         
         // Social info
-        hobbies: document.getElementById('hobbies').value,
         languages: document.getElementById('languages').value,
         is_mentor: document.getElementById('isMentor').checked,
         volunteering: document.getElementById('volunteering').value,
@@ -337,14 +437,35 @@ function collectFormData() {
         
         // Future info
         goals_5y: document.getElementById('goals5y').value,
-        goals_10y: document.getElementById('goals10y').value,
-        approach_new_ideas: document.getElementById('approachNewIdeas').value,
         willing_to_invest: document.getElementById('willingToInvest').checked,
-        willing_to_partner: document.getElementById('willingToPartner').checked,
         collaboration_areas: document.getElementById('collaborationAreas').value
     };
     
     return data;
+}
+
+// Get selected category
+function getSelectedCategory() {
+    const activeCategory = document.querySelector('.category-btn.active');
+    return activeCategory ? activeCategory.dataset.category : '';
+}
+
+// Get selected traits
+function getSelectedTraits() {
+    const selectedTraits = [];
+    document.querySelectorAll('input[name="traits"]:checked').forEach(checkbox => {
+        selectedTraits.push(checkbox.value);
+    });
+    return selectedTraits;
+}
+
+// Get selected principles
+function getSelectedPrinciples() {
+    const selectedPrinciples = [];
+    document.querySelectorAll('input[name="principles"]:checked').forEach(checkbox => {
+        selectedPrinciples.push(checkbox.value);
+    });
+    return selectedPrinciples;
 }
 
 // Validate form data
