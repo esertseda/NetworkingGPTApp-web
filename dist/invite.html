@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NetworkingGPT - Davet Bağlantısı</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <script type="module" crossorigin src="/assets/invite-zYMaI9Mb.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/style-CLGj5pVV.css">
+  <script type="module" crossorigin src="/assets/invite-DLRfgbLp.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/style-zFUFDAAh.css">
 </head>
 <body>
     <div class="container">
@@ -133,58 +133,33 @@
                 <!-- Tab Content -->
                 <div class="tab-content">
                     <!-- Basic Tab -->
-                    <div id="basic" class="tab-pane active">
-                        <div class="tab-header">
-                            <div class="tab-icon">👤</div>
-                            <h3>Temel Bilgiler</h3>
-                        </div>
-                        
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="firstName">Ad Soyad *</label>
-                                <input type="text" id="firstName" name="firstName" placeholder="Ad Soyad" required>
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="age">Yaş</label>
-                                <input type="number" id="age" name="age" placeholder="25" min="1" max="120">
-                            </div>
-                            <div class="form-group">
-                                <label for="hometown">Nereli</label>
-                                <input type="text" id="hometown" name="hometown" placeholder="İstanbul">
-                            </div>
-                        </div>
-
+                    <div class="tab-pane active" id="basic">
+                      <div class="tab-header">
+                        <div class="tab-icon">👤</div>
+                        <h3>Temel Bilgiler</h3>
+                      </div>
+                      
+                      <div class="form-row">
                         <div class="form-group">
-                            <label for="currentCity">Şu An Yaşadığı Şehir</label>
-                            <input type="text" id="currentCity" name="currentCity" placeholder="İstanbul">
+                          <label for="firstName">Ad Soyad <span class="required">*</span></label>
+                          <input type="text" id="firstName" name="firstName" placeholder="Ad Soyad" required>
                         </div>
-
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="email">E-posta</label>
-                                <input type="email" id="email" name="email" placeholder="ornek@email.com">
-                            </div>
-                            <div class="form-group">
-                                <label for="phone">Telefon</label>
-                                <input type="tel" id="phone" name="phone" placeholder="+90 5XX XXX XX XX">
-                            </div>
-                        </div>
-
                         <div class="form-group">
-                            <label for="summary">Genel Açıklama</label>
-                            <textarea id="summary" name="summary" rows="3" placeholder="Kişi hakkında genel notlar..."></textarea>
+                          <label for="age">Yaş</label>
+                          <input type="number" id="age" name="age" placeholder="Yaş">
                         </div>
-
-                        <div class="form-group checkbox-group">
-                            <label class="checkbox-label">
-                                <input type="checkbox" id="sendEmail" name="sendEmail">
-                                <span class="checkmark"></span>
-                                Kişiye e-posta göndermek ister misiniz?
-                            </label>
+                      </div>
+                      
+                      <div class="form-row">
+                        <div class="form-group">
+                          <label for="city">Nereli 🏠</label>
+                          <input type="text" id="city" name="city" placeholder="Nereli">
                         </div>
+                        <div class="form-group">
+                          <label for="currentCity">Şu An Yaşadığı Şehir 📍</label>
+                          <input type="text" id="currentCity" name="currentCity" placeholder="Şu An Yaşadığı Şehir">
+                        </div>
+                      </div>
                     </div>
 
                     <!-- Work Tab -->

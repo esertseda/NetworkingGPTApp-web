@@ -393,56 +393,51 @@ async function handleSubmit() {
 
 // Collect all form data
 function collectFormData() {
-    const data = {
-        // Basic info
-        first_name: document.getElementById('firstName').value,
-        last_name: document.getElementById('lastName').value,
-        age: document.getElementById('age').value,
-        hometown: document.getElementById('hometown').value,
-        current_city: document.getElementById('currentCity').value,
-        email: document.getElementById('email').value,
-        phone: document.getElementById('phone').value,
-        summary: document.getElementById('summary').value,
-        send_email: document.getElementById('sendEmail').checked,
-        
-        // Work info
-        current_title: document.getElementById('currentTitle').value,
-        current_company: document.getElementById('currentCompany').value,
-        university: document.getElementById('university').value,
-        department: document.getElementById('department').value,
-        degree: document.getElementById('degree').value,
-        graduation_year: document.getElementById('graduationYear').value,
-        past_experiences: document.getElementById('pastExperiences').value,
-        sectors: document.getElementById('sectors').value,
-        expertise_tags: document.getElementById('expertiseTags').value,
-        service_tags: document.getElementById('serviceTags').value,
-        
-        // Personal info
-        closeness: document.getElementById('closeness').value,
-        category: getSelectedCategory(),
-        traits: getSelectedTraits(),
-        principles: getSelectedPrinciples(),
-        goals: document.getElementById('goals').value,
-        vision: document.getElementById('vision').value,
-        
-        // Social info
-        languages: document.getElementById('languages').value,
-        is_mentor: document.getElementById('isMentor').checked,
-        volunteering: document.getElementById('volunteering').value,
-        
-        // Experience info
-        turning_points: document.getElementById('turningPoints').value,
-        big_challenges: document.getElementById('bigChallenges').value,
-        big_lessons: document.getElementById('bigLessons').value,
-        
-        // Future info
-        goals_5y: document.getElementById('goals5y').value,
-        willing_to_invest: document.getElementById('willingToInvest').checked,
-        collaboration_areas: document.getElementById('collaborationAreas').value
+    const formData = {
+      // Basic Tab
+      first_name: document.getElementById('firstName').value,
+      age: document.getElementById('age').value,
+      city: document.getElementById('city').value,
+      current_city: document.getElementById('currentCity').value,
+      
+      // Work Tab
+      university: document.getElementById('university').value,
+      department: document.getElementById('department').value,
+      degree: document.getElementById('degree').value,
+      graduation_year: document.getElementById('graduationYear').value,
+      position: document.getElementById('position').value,
+      company: document.getElementById('company').value,
+      sectors: document.getElementById('sectors').value,
+      expertise_tags: document.getElementById('expertiseTags').value,
+      service_tags: document.getElementById('serviceTags').value,
+      
+      // Personal Tab
+      closeness: getSelectedCategory(),
+      category: getSelectedCategory(),
+      traits: getSelectedTraits(),
+      principles: getSelectedPrinciples(),
+      goals: document.getElementById('goals').value,
+      vision: document.getElementById('vision').value,
+      
+      // Social Tab
+      languages: document.getElementById('languages').value,
+      mentor_service: document.getElementById('isMentor').checked,
+      social_volunteer: document.getElementById('volunteering').value,
+      
+      // Experience Tab
+      life_experience: document.getElementById('lifeExperience').value,
+      challenges: document.getElementById('challenges').value,
+      lessons: document.getElementById('lessons').value,
+      
+      // Future Tab
+      future_goals: document.getElementById('goals5y').value,
+      investment_interest: document.getElementById('willingToInvest').checked,
+      collaboration_areas: document.getElementById('collaborationAreas').value
     };
     
-    return data;
-}
+    console.log('📝 Form verileri toplandı:', formData);
+    return formData;
+  }
 
 // Get selected category
 function getSelectedCategory() {
