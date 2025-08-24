@@ -32,28 +32,17 @@ body {
     margin-bottom: 20px;
 }
 
-.logo-icon {
-    font-size: 3rem;
-    margin-right: 15px;
-    filter: drop-shadow(0 0 10px rgba(147, 51, 234, 0.5));
+.logo-image {
+    height: 80px;
+    width: auto;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(139, 92, 246, 0.3);
+    transition: all 0.3s ease;
 }
 
-.logo-text {
-    text-align: left;
-}
-
-.logo-main {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #ffffff;
-    letter-spacing: 2px;
-}
-
-.logo-sub {
-    font-size: 2.5rem;
-    font-weight: 800;
-    color: #ffffff;
-    letter-spacing: 1px;
+.logo-image:hover {
+    transform: scale(1.05);
+    box-shadow: 0 12px 35px rgba(139, 92, 246, 0.5);
 }
 
 .header-subtitle {
@@ -842,12 +831,8 @@ body {
 }
 
 @media (max-width: 480px) {
-    .logo-main {
-        font-size: 1.2rem;
-    }
-    
-    .logo-sub {
-        font-size: 2rem;
+    .logo-image {
+        height: 60px;
     }
     
     .step-header h2 {
