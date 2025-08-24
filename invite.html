@@ -44,7 +44,7 @@
                 </div>
             </div>
 
-            <!-- Step 1: Basic Information -->
+            <!-- Step 1: Contact Verification -->
             <div id="step1" class="step active">
                 <div class="step-header">
                     <div class="step-icon">👤+</div>
@@ -69,7 +69,7 @@
                             <div class="progress-marker">🚀</div>
                         </div>
                     </div>
-                    <div class="progress-label">Temel Bilgiler</div>
+                    <div class="progress-label">Contact Doğrulama</div>
                 </div>
 
                 <!-- Navigation Buttons -->
@@ -78,8 +78,8 @@
                         <span class="btn-icon">←</span>
                         Önceki Adım
                     </button>
-                    <button class="btn btn-primary" onclick="nextStep()">
-                        Sonraki Adım →
+                    <button class="btn btn-primary" onclick="verifyContact()">
+                        Contact'ı Doğrula →
                     </button>
                 </div>
 
@@ -87,6 +87,89 @@
                 <div class="step-icons">
                     <div class="step-icon-item active">👤</div>
                     <div class="step-icon-item">💼</div>
+                    <div class="step-icon-item">🎯</div>
+                    <div class="step-icon-item">🌟</div>
+                    <div class="step-icon-item">🚀</div>
+                </div>
+
+                <!-- Form Content -->
+                <div class="form-card">
+                    <section class="form-section">
+                        <div class="section-header">
+                            <div class="section-icon">🔍</div>
+                            <h3>Contact Doğrulama</h3>
+                        </div>
+                        <p class="section-description">
+                            Ağına kişi eklemek istediğiniz contact'ın bilgilerini girin. 
+                            Eğer bu kişi veritabanında mevcutsa, adım 2'ye geçebilirsiniz.
+                        </p>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="contactFirstName">Ad <span class="required">*</span></label>
+                                <input type="text" id="contactFirstName" name="contactFirstName" placeholder="Ad" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="contactLastName">Soyad <span class="required">*</span></label>
+                                <input type="text" id="contactLastName" name="contactLastName" placeholder="Soyad" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="contactEmail">E-posta <span class="required">*</span></label>
+                            <input type="email" id="contactEmail" name="contactEmail" placeholder="e-posta@ornek.com" required>
+                        </div>
+                        
+                        <div class="info-message">
+                            <span class="info-icon">ℹ️</span>
+                            Bu bilgiler ile veritabanında contact aranacaktır.
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+            <!-- Step 2: New Person Information -->
+            <div id="step2" class="step">
+                <div class="step-header">
+                    <div class="step-icon">👤+</div>
+                    <h2>Yeni Kişi Ekle</h2>
+                    <p>Ağınıza yeni bir bağlantı ekleyin ✨</p>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="progress-container">
+                    <div class="progress-info">
+                        <span class="progress-step">Adım 2/6</span>
+                        <span class="progress-percentage">33% Tamamlandı</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 33%"></div>
+                        <div class="progress-markers">
+                            <div class="progress-marker active">👤</div>
+                            <div class="progress-marker active">💼</div>
+                            <div class="progress-marker">🎯</div>
+                            <div class="progress-marker">🌟</div>
+                            <div class="progress-marker">🏆</div>
+                            <div class="progress-marker">🚀</div>
+                        </div>
+                    </div>
+                    <div class="progress-label">Temel Bilgiler</div>
+                </div>
+
+                <!-- Navigation Buttons -->
+                <div class="navigation-buttons">
+                    <button class="btn btn-secondary" onclick="prevStep()">
+                        ← Önceki Adım
+                    </button>
+                    <button class="btn btn-primary" onclick="nextStep()">
+                        Sonraki Adım →
+                    </button>
+                </div>
+
+                <!-- Step Icons -->
+                <div class="step-icons">
+                    <div class="step-icon-item">👤</div>
+                    <div class="step-icon-item active">💼</div>
                     <div class="step-icon-item">🎯</div>
                     <div class="step-icon-item">🌟</div>
                     <div class="step-icon-item">🚀</div>
@@ -166,16 +249,6 @@
                         <div class="warning-message">
                             <span class="warning-icon">⚠️</span>
                             E-posta veya telefon bilgilerinden en az biri girilmelidir.
-                        </div>
-                    </section>
-
-                    <section class="form-section">
-                        <div class="section-header">
-                            <div class="section-icon">📝</div>
-                            <h3>Genel Açıklama</h3>
-                        </div>
-                        <div class="form-group">
-                            <textarea id="description" name="description" placeholder="Kişi hakkında genel notlar..." rows="4"></textarea>
                         </div>
                     </section>
                 </div>
@@ -850,7 +923,12 @@
         
         // Form verilerini saklamak için
         let formData = {
-            // Step 1: Temel Bilgiler
+            // Contact bilgileri (Adım 1)
+            contact_first_name: '',
+            contact_last_name: '',
+            contact_email: '',
+            
+            // Step 2: Temel Bilgiler
             first_name: '',
             last_name: '',
             age: null,
@@ -862,30 +940,30 @@
             email: '',
             phone: '',
             
-            // Step 2: İş Bilgileri
+            // Step 3: İş Bilgileri
             position: '',
             company: '',
             sectors: [],
             expertise: '',
             services: '',
             
-            // Step 3: Kişisel Özellikler
+            // Step 4: Kişisel Özellikler
             category: 'work',
             closeness_level: 5,
             traits: [],
             principles: [],
             
-            // Step 4: Sosyal
+            // Step 5: Sosyal
             languages: '',
             mentor_service: false,
             social_volunteer: '',
             
-            // Step 5: Deneyim
+            // Step 6: Deneyim
             life_experience: '',
             challenges: '',
             lessons: '',
             
-            // Step 6: Gelecek
+            // Step 7: Gelecek
             future_goals: '',
             investment_interest: false,
             collaboration_areas: ''
@@ -1159,6 +1237,7 @@
         function resetForm() {
             // Form verilerini sıfırla
             formData = {
+                contact_first_name: '', contact_last_name: '', contact_email: '',
                 first_name: '', last_name: '', age: null, city: '', current_city: '',
                 university: '', degree: '', graduation_year: null, email: '', phone: '',
                 position: '', company: '', sectors: [], expertise: '', services: '',
@@ -1193,6 +1272,58 @@
             document.querySelectorAll('input[name="traits"], input[name="principles"]').forEach(input => {
                 input.checked = false;
             });
+        }
+
+        // Contact doğrulama fonksiyonu
+        async function verifyContact() {
+            try {
+                const firstName = document.getElementById('contactFirstName').value.trim();
+                const lastName = document.getElementById('contactLastName').value.trim();
+                const email = document.getElementById('contactEmail').value.trim();
+
+                if (!firstName || !lastName || !email) {
+                    alert('Lütfen tüm alanları doldurunuz!');
+                    return;
+                }
+
+                // Contact bilgilerini kaydet
+                formData.contact_first_name = firstName;
+                formData.contact_last_name = lastName;
+                formData.contact_email = email;
+
+                // Supabase'de contact'ı ara
+                const { data, error } = await supabase
+                    .from('contacts')
+                    .select('*')
+                    .eq('first_name', firstName)
+                    .eq('last_name', lastName)
+                    .eq('email', email)
+                    .single();
+
+                if (error) {
+                    if (error.code === 'PGRST116') {
+                        // Contact bulunamadı
+                        alert('Bu bilgilerle eşleşen bir contact bulunamadı. Lütfen bilgileri kontrol ediniz.');
+                        return;
+                    } else {
+                        console.error('Supabase error:', error);
+                        alert('Contact aranırken bir hata oluştu: ' + error.message);
+                        return;
+                    }
+                }
+
+                // Contact bulundu
+                console.log('Contact bulundu:', data);
+                alert('Contact başarıyla doğrulandı! Adım 2\'ye geçebilirsiniz.');
+                
+                // Adım 2'ye geç
+                currentStep = 2;
+                showStep(2);
+                
+            } catch (error) {
+                console.error('Contact doğrulama hatası:', error);
+                alert('Beklenmeyen bir hata oluştu!');
+            }
         }
 
         // Initialize
