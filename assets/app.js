@@ -394,50 +394,53 @@ async function handleSubmit() {
 // Collect all form data
 function collectFormData() {
     const formData = {
-      // Basic Tab
-      first_name: document.getElementById('firstName').value,
-      age: document.getElementById('age').value,
-      city: document.getElementById('city').value,
-      current_city: document.getElementById('currentCity').value,
-      
-      // Work Tab
-      university: document.getElementById('university').value,
-      department: document.getElementById('department').value,
-      degree: document.getElementById('degree').value,
-      graduation_year: document.getElementById('graduationYear').value,
-      position: document.getElementById('position').value,
-      company: document.getElementById('company').value,
-      sectors: document.getElementById('sectors').value,
-      expertise_tags: document.getElementById('expertiseTags').value,
-      service_tags: document.getElementById('serviceTags').value,
-      
-      // Personal Tab
-      closeness: getSelectedCategory(),
+      // Basic
+      first_name: document.getElementById('firstName')?.value?.trim() || '',
+      last_name: document.getElementById('lastName')?.value?.trim() || '',
+
+      age: document.getElementById('age')?.value || '',
+      city: document.getElementById('city')?.value || '',
+      current_city: document.getElementById('currentCity')?.value || '',
+  
+      // Work / Education
+      university: document.getElementById('university')?.value || '',
+      department: document.getElementById('department')?.value || '',
+      degree: document.getElementById('degree')?.value || '',
+      graduation_year: document.getElementById('graduationYear')?.value || '',
+      position: document.getElementById('currentTitle')?.value || '',     // <-- düzeltildi
+      company: document.getElementById('currentCompany')?.value || '',     // <-- düzeltildi
+      sectors: document.getElementById('sectors')?.value || '',
+      expertise_tags: document.getElementById('expertiseTags')?.value || '',
+      service_tags: document.getElementById('serviceTags')?.value || '',
+  
+      // Personal
+      closeness: document.getElementById('closeness')?.value || 5,
       category: getSelectedCategory(),
       traits: getSelectedTraits(),
       principles: getSelectedPrinciples(),
-      goals: document.getElementById('goals').value,
-      vision: document.getElementById('vision').value,
-      
-      // Social Tab
-      languages: document.getElementById('languages').value,
-      mentor_service: document.getElementById('isMentor').checked,
-      social_volunteer: document.getElementById('volunteering').value,
-      
-      // Experience Tab
-      life_experience: document.getElementById('lifeExperience').value,
-      challenges: document.getElementById('challenges').value,
-      lessons: document.getElementById('lessons').value,
-      
-      // Future Tab
-      future_goals: document.getElementById('goals5y').value,
-      investment_interest: document.getElementById('willingToInvest').checked,
-      collaboration_areas: document.getElementById('collaborationAreas').value
+      goals: document.getElementById('goals')?.value || '',
+      vision: document.getElementById('vision')?.value || '',
+  
+      // Social
+      languages: document.getElementById('languages')?.value || '',
+      mentor_service: document.getElementById('isMentor')?.checked || false,
+      social_volunteer: document.getElementById('volunteering')?.value || '',
+  
+      // Experience
+      life_experience: document.getElementById('turningPoints')?.value || '',  // <-- düzeltildi
+      challenges: document.getElementById('bigChallenges')?.value || '',       // <-- düzeltildi
+      lessons: document.getElementById('bigLessons')?.value || '',             // <-- düzeltildi
+  
+      // Future
+      future_goals: document.getElementById('goals5y')?.value || '',
+      investment_interest: document.getElementById('willingToInvest')?.checked || false,
+      collaboration_areas: document.getElementById('collaborationAreas')?.value || ''
     };
-    
-    console.log('📝 Form verileri toplandı:', formData);
+  
+    console.log('📝 Form verileri:', formData);
     return formData;
   }
+  
 
 // Get selected category
 function getSelectedCategory() {
@@ -464,15 +467,32 @@ function getSelectedPrinciples() {
 }
 
 // Validate form data
-function validateFormData(data) {
-    // Required fields
-    if (!data.first_name.trim() || !data.last_name.trim()) {
-        return false;
+function validateFormData(data){
+    // Görselde zorunlu alan: Ad Soyad (tek input)
+    if(!data.first_name || data.first_name.length < 2){
+      const el = document.getElementById('firstName');
+      if(el){
+        el.classList.add('input-error');
+        el.addEventListener('input',()=>el.classList.remove('input-error'), { once:true });
+      }
+      return false;
     }
-    
+  
+    // (Opsiyonel) E-posta/Telefon'dan en az biri doluysa uyarıyı yeşile çevirmek için
+    const email = document.getElementById('email');
+    const phone = document.getElementById('phone');
+    if(email && phone){
+      const hasOne = (email.value && email.value.trim()) || (phone.value && phone.value.trim());
+      if(!hasOne){
+        email.classList.add('input-warn');
+        phone.classList.add('input-warn');
+        setTimeout(()=>{ email.classList.remove('input-warn'); phone.classList.remove('input-warn'); }, 2500);
+      }
+    }
+  
     return true;
-}
-
+  }
+  
 // URL token extraction
 function getInviteToken() {
     const urlParams = new URLSearchParams(window.location.search);

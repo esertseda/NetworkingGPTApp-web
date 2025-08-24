@@ -1,4 +1,114 @@
 /* Reset and Base Styles */
+:root{
+    --bg-1:#0f0f23;
+    --bg-2:#1a1a2e;
+    --bg-3:#16213e;
+    --panel: rgba(17, 24, 39, 0.65);
+    --panel-2: rgba(31, 41, 55, 0.65);
+    --card-border: rgba(139,92,246,0.22);
+    --ring: #8b5cf6;
+    --ring-2:#a855f7;
+    --ink:#f8fafc;
+    --muted:#cbd5e1;
+    --warning:#f59e0b;
+    --danger:#ef4444;
+    --success:#10b981;
+    --radius:16px;
+  }
+  
+  /* arka plan derinlik */
+  body{
+    background:
+      radial-gradient(1200px 600px at 20% -10%, rgba(168,85,247,0.12), transparent 60%),
+      radial-gradient(900px 500px at 110% 10%, rgba(59,130,246,0.10), transparent 60%),
+      linear-gradient(135deg, var(--bg-1) 0%, var(--bg-2) 50%, var(--bg-3) 100%);
+  }
+  
+  /* ana panel cam efekti */
+  .main-content{
+    background: linear-gradient(180deg, rgba(17,24,39,0.75), rgba(17,24,39,0.55));
+    border:1px solid var(--card-border);
+    border-radius:24px;
+    backdrop-filter: blur(24px);
+  }
+  
+  /* kart iskeleti (büyük bölüm kutuları) */
+  .card{
+    background: linear-gradient(180deg, rgba(24, 31, 52, 0.78), rgba(24, 31, 52, 0.6));
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 12px 40px -10px rgba(0,0,0,0.55);
+  }
+  .card + .card{ margin-top: 22px; }
+  
+  .card-header{
+    display:flex; align-items:center; gap:10px;
+    padding-bottom: 12px; margin-bottom: 16px;
+    border-bottom: 1px solid rgba(139,92,246,0.25);
+  }
+  .card-header .chip{
+    width:36px; height:36px; border-radius:10px;
+    display:grid; place-items:center;
+    background: rgba(139,92,246,0.18);
+    color: var(--ring-2); font-size: 18px;
+  }
+  .card-title{
+    font-size:1.05rem; font-weight:700; color: var(--ink);
+  }
+  
+  /* form alanları—mor focus, iç gölge */
+  .form-group input,
+  .form-group select,
+  .form-group textarea{
+    background: linear-gradient(180deg, rgba(31,41,55,0.72), rgba(31,41,55,0.62));
+    border: 1.5px solid rgba(75,85,99,0.45);
+    border-radius: 14px;
+    padding: 14px 16px;
+    color: var(--ink);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+  }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus{
+    border-color: var(--ring);
+    box-shadow: 0 0 0 4px rgba(139,92,246,0.18), inset 0 1px 0 rgba(255,255,255,0.06);
+    background: rgba(31,41,55,0.85);
+  }
+  .form-group small.hint{
+    display:block; margin-top:8px; color:#a78bfa; font-size:.85rem;
+  }
+  .form-row{ gap:18px; }
+  
+  /* hata/uyarı sınırı */
+  .input-error{ border-color: var(--danger) !important; }
+  .input-warn{ border-color: var(--warning) !important; }
+  
+  /* sekmeler daha parlak */
+  .tab-btn{
+    background: linear-gradient(180deg, rgba(26,26,46,0.85), rgba(26,26,46,0.7));
+    border:1px solid rgba(139,92,246,0.28);
+  }
+  .tab-btn.active{
+    background: linear-gradient(180deg, rgba(139,92,246,0.25), rgba(139,92,246,0.18));
+    border-color: var(--ring);
+    box-shadow: 0 0 24px rgba(139,92,246,0.28);
+  }
+  
+  /* progress */
+  .progress-bar{ height:10px; background: rgba(26,26,46,0.7); }
+  .progress-fill{
+    background: linear-gradient(90deg, var(--ring) 0%, var(--ring-2) 100%);
+  }
+  
+  /* chip checkboxlar (özellik/prensip) */
+  .trait-item, .principle-item{
+    background: linear-gradient(180deg, rgba(31,41,55,0.78), rgba(31,41,55,0.62));
+  }
+  
+  /* buton blok aralığı */
+  .navigation-buttons{ margin-top:28px; }
+  
 * {
     margin: 0;
     padding: 0;
