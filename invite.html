@@ -919,7 +919,7 @@
         }
 
         let currentStep = 1;
-        const totalSteps = 6;
+        const totalSteps = 7;
         
         // Form verilerini saklamak için
         let formData = {
@@ -1030,6 +1030,17 @@
         function validateCurrentStep() {
             switch (currentStep) {
                 case 1:
+                    const firstName = document.getElementById('contactFirstName').value.trim();
+                    const lastName = document.getElementById('contactLastName').value.trim();
+                    const email = document.getElementById('contactEmail').value.trim();
+                    
+                    if (!firstName || !lastName || !email) {
+                        alert('Lütfen tüm alanları doldurunuz!');
+                        return false;
+                    }
+                    break;
+                    
+                case 2:
                     const fullName = document.getElementById('fullName').value.trim();
                     if (!fullName) {
                         alert('Ad Soyad alanı zorunludur!');
@@ -1043,7 +1054,7 @@
                     }
                     break;
                     
-                case 2:
+                case 3:
                     const position = document.getElementById('position').value.trim();
                     if (!position) {
                         alert('Pozisyon alanı zorunludur!');
@@ -1051,7 +1062,7 @@
                     }
                     break;
                     
-                case 3:
+                case 4:
                     // Kişisel özellikler için minimum seçim kontrolü
                     const selectedTraits = document.querySelectorAll('input[name="traits"]:checked');
                     if (selectedTraits.length < 3) {
@@ -1060,7 +1071,7 @@
                     }
                     break;
                     
-                case 4:
+                case 5:
                     // Dil seçimi kontrolü
                     const languages = document.getElementById('languages').value;
                     if (!languages) {
@@ -1069,7 +1080,7 @@
                     }
                     break;
                     
-                case 5:
+                case 6:
                     // Deneyim alanlarından en az birinin dolu olması
                     const lifeExp = document.getElementById('milestones').value.trim();
                     const challenges = document.getElementById('challenges').value.trim();
@@ -1087,6 +1098,10 @@
         function saveCurrentStepData() {
             switch (currentStep) {
                 case 1:
+                    // Contact bilgileri zaten verifyContact fonksiyonunda kaydediliyor
+                    break;
+                    
+                case 2:
                     const fullName = document.getElementById('fullName').value.trim();
                     const nameParts = fullName.split(' ');
                     formData.first_name = nameParts[0] || '';
@@ -1101,7 +1116,7 @@
                     formData.phone = document.getElementById('phone').value.trim();
                     break;
                     
-                case 2:
+                case 3:
                     formData.position = document.getElementById('position').value.trim();
                     formData.company = document.getElementById('company').value.trim();
                     const sectorsValue = document.getElementById('sectors').value;
@@ -1110,7 +1125,7 @@
                     formData.services = document.getElementById('services').value.trim();
                     break;
                     
-                case 3:
+                case 4:
                     // Kategori seçimi
                     const activeCategory = document.querySelector('.category-btn.active');
                     if (activeCategory) {
@@ -1132,19 +1147,19 @@
                         .map(input => input.value);
                     break;
                     
-                case 4:
+                case 5:
                     formData.languages = document.getElementById('languages').value;
                     formData.mentor_service = document.getElementById('mentor').checked;
                     formData.social_volunteer = document.getElementById('volunteer').value.trim();
                     break;
                     
-                case 5:
+                case 6:
                     formData.life_experience = document.getElementById('milestones').value.trim();
                     formData.challenges = document.getElementById('challenges').value.trim();
                     formData.lessons = document.getElementById('lessons').value.trim();
                     break;
                     
-                case 6:
+                case 7:
                     formData.future_goals = document.getElementById('futureGoals').value.trim();
                     formData.investment_interest = document.getElementById('investment').checked;
                     formData.collaboration_areas = document.getElementById('collaboration').value.trim();
