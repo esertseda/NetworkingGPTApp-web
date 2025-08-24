@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NetworkingGPT - Davet Bağlantısı</title>
+    <title>NetworkingGPT - Yeni Kişi Ekle</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <script type="module" crossorigin src="/assets/app.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/style.css">
+    <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
     <div class="container">
@@ -15,70 +14,15 @@
             <div class="logo">
                 <img src="assets/networkinggptlogo.jpeg" alt="NetworkingGPT Logo" class="logo-image">
             </div>
-            <div class="header-subtitle">
-                <p>Davete özel kişi ekleme platformu</p>
-                <p class="motto">✨ Mitolojik güçle ağınızı genişletin</p>
-            </div>
         </header>
 
-        <!-- Loading State -->
-        <div id="loading" class="loading-state">
-            <div class="spinner"></div>
-            <p>Davet bağlantısı doğrulanıyor...</p>
-        </div>
-
-        <!-- Error State -->
-        <div id="error" class="error-state" style="display: none;">
-            <div class="error-icon">⚠️</div>
-            <h2>Davet Bağlantısı Geçersiz</h2>
-            <p id="errorMessage">Bu davet bağlantısı bulunamadı veya süresi dolmuş.</p>
-            <button onclick="window.close()" class="btn btn-primary">Kapat</button>
-        </div>
-
         <!-- Main Content -->
-        <main id="mainContent" class="main-content" style="display: none;">
-            <!-- Step 1: Inviter Info -->
+        <main class="main-content">
+            <!-- Step 1: Basic Information -->
             <div id="step1" class="step active">
                 <div class="step-header">
-                    <div class="step-icon">👤</div>
-                    <h2>Adım 1: Davet Gönderen Bilgileri</h2>
-                    <p>Sizinle bağlantı kurmak isteyen kişinin bilgilerini girin</p>
-                </div>
-                
-                <form id="inviterForm" class="form">
-                    <div class="form-group">
-                        <label for="inviterFirstName">Ad *</label>
-                        <input type="text" id="inviterFirstName" name="inviterFirstName" placeholder="Adınız" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="inviterLastName">Soyad *</label>
-                        <input type="text" id="inviterLastName" name="inviterLastName" placeholder="Soyadınız" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="inviterEmail">E-posta</label>
-                        <input type="email" id="inviterEmail" name="inviterEmail" placeholder="e-posta@ornek.com">
-                    </div>
-                    
-                    <button type="submit" class="btn btn-primary">
-                        <span class="btn-icon">✓</span>
-                        Devam Et
-                    </button>
-                </form>
-            </div>
-
-            <!-- Step 2: New Contact Info -->
-            <div id="step2" class="step">
-                <div class="step-header">
-                    <div class="step-icon">👥</div>
-                    <h2>Adım 2: Ağınıza Katılın</h2>
-                    <p>Hermes'in rehberliğinde yeni bağlantınızı oluşturun</p>
-                </div>
-
-                <div class="action-section">
-                    <div class="action-icon">👤+</div>
-                    <h3>Yeni Kişi Ekle</h3>
+                    <div class="step-icon">👤+</div>
+                    <h2>Yeni Kişi Ekle</h2>
                     <p>Ağınıza yeni bir bağlantı ekleyin ✨</p>
                 </div>
 
@@ -91,166 +35,811 @@
                     <div class="progress-bar">
                         <div class="progress-fill" style="width: 17%"></div>
                         <div class="progress-markers">
-                            <div class="progress-marker active">1</div>
-                            <div class="progress-marker">2</div>
-                            <div class="progress-marker">3</div>
-                            <div class="progress-marker">4</div>
-                            <div class="progress-marker">5</div>
-                            <div class="progress-marker">6</div>
+                            <div class="progress-marker active">👤</div>
+                            <div class="progress-marker">💼</div>
+                            <div class="progress-marker">🎯</div>
+                            <div class="progress-marker">🌟</div>
+                            <div class="progress-marker">🏆</div>
+                            <div class="progress-marker">🚀</div>
                         </div>
                     </div>
                     <div class="progress-label">Temel Bilgiler</div>
                 </div>
 
-                <!-- Tab Navigation -->
-                <div class="tab-navigation">
-                    <button class="tab-btn active" data-tab="basic">
-                        <div class="tab-icon">👤</div>
-                        <span>Temel</span>
+                <!-- Navigation Buttons -->
+                <div class="navigation-buttons">
+                    <button class="btn btn-secondary" disabled>
+                        <span class="btn-icon">←</span>
+                        Önceki Adım
                     </button>
-                    <button class="tab-btn" data-tab="work">
-                        <div class="tab-icon">🏢</div>
-                        <span>İş</span>
-                    </button>
-                    <button class="tab-btn" data-tab="personal">
-                        <div class="tab-icon">🎯</div>
-                        <span>Kişisel</span>
-                    </button>
-                    <button class="tab-btn" data-tab="social">
-                        <div class="tab-icon">🌟</div>
-                        <span>Sosyal</span>
-                    </button>
-                    <button class="tab-btn" data-tab="experience">
-                        <div class="tab-icon">🏆</div>
-                        <span>Deneyim</span>
-                    </button>
-                    <button class="tab-btn" data-tab="future">
-                        <div class="tab-icon">🚀</div>
-                        <span>Gelecek</span>
+                    <button class="btn btn-primary" onclick="nextStep()">
+                        Sonraki Adım →
                     </button>
                 </div>
 
-                <!-- Tab Content -->
-                <div class="tab-content">
-                    <!-- Basic Tab -->
-                    <div class="tab-pane active" id="basic">
-                        <section class="card">
-                            <div class="card-header">
-                                <div class="chip">👤</div>
-                                <div class="card-title">Temel Bilgiler</div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="firstName">Ad Soyad <span class="required">*</span></label>
-                                    <input type="text" id="firstName" name="firstName" placeholder="Ad Soyad" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="age">Yaş</label>
-                                    <input type="number" id="age" name="age" placeholder="Yaş">
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="city">Nereli 🏠</label>
-                                    <input type="text" id="city" name="city" placeholder="Nereli">
-                                </div>
-                                <div class="form-group">
-                                    <label for="currentCity">Şu An Yaşadığı Şehir 📍</label>
-                                    <input type="text" id="currentCity" name="currentCity" placeholder="Şu An Yaşadığı Şehir">
-                                </div>
-                            </div>
-                        </section>
-                    </div>
+                <!-- Step Icons -->
+                <div class="step-icons">
+                    <div class="step-icon-item active">👤</div>
+                    <div class="step-icon-item">💼</div>
+                    <div class="step-icon-item">🎯</div>
+                    <div class="step-icon-item">🌟</div>
+                    <div class="step-icon-item">🚀</div>
+                </div>
 
-                    <!-- Work Tab -->
-                    <div id="work" class="tab-pane">
-                        <section class="card">
-                            <div class="card-header">
-                                <div class="chip">🏢</div>
-                                <div class="card-title">İş ve Profesyonel Bilgiler</div>
+                <!-- Form Content -->
+                <div class="form-card">
+                    <section class="form-section">
+                        <div class="section-header">
+                            <div class="section-icon">👤</div>
+                            <h3>Temel Bilgiler</h3>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="fullName">Ad Soyad <span class="required">*</span></label>
+                                <input type="text" id="fullName" name="fullName" placeholder="Ad Soyad" required>
                             </div>
-                            <!-- (tüm mevcut work tab form alanları buraya kalıyor) -->
-                            ... <!-- senin orijinal iş tabı alanların -->
-                        </section>
-                    </div>
+                            <div class="form-group">
+                                <label for="age">Yaş</label>
+                                <input type="number" id="age" name="age" value="25">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="birthplace">🏠 Nereli</label>
+                                <input type="text" id="birthplace" name="birthplace" value="İstanbul">
+                            </div>
+                            <div class="form-group">
+                                <label for="currentCity">📍 Şu An Yaşadığı Şehir</label>
+                                <input type="text" id="currentCity" name="currentCity" value="İstanbul">
+                            </div>
+                        </div>
+                    </section>
 
-                    <!-- Personal Tab -->
-                    <div id="personal" class="tab-pane">
-                        <section class="card">
-                            <div class="card-header">
-                                <div class="chip">🎯</div>
-                                <div class="card-title">Kişisel Özellikler</div>
+                    <section class="form-section">
+                        <div class="section-header">
+                            <div class="section-icon">🎓</div>
+                            <h3>Eğitim Geçmişi</h3>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="school">Okul/Üniversite</label>
+                                <input type="text" id="school" name="school" value="Boğaziçi Üniversitesi">
                             </div>
-                            <!-- (mevcut personal içeriğin buraya) -->
-                        </section>
-                    </div>
+                            <div class="form-group">
+                                <label for="department">Bölüm</label>
+                                <input type="text" id="department" name="department" value="Bilgisayar Mühendisliği">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="degree">Derece</label>
+                                <input type="text" id="degree" name="degree" value="Lisans">
+                            </div>
+                            <div class="form-group">
+                                <label for="graduationYear">Mezuniyet Yılı</label>
+                                <input type="number" id="graduationYear" name="graduationYear" value="2020">
+                            </div>
+                        </div>
+                    </section>
 
-                    <!-- Social Tab -->
-                    <div id="social" class="tab-pane">
-                        <section class="card">
-                            <div class="card-header">
-                                <div class="chip">🌟</div>
-                                <div class="card-title">Sosyal ve Networking</div>
+                    <section class="form-section">
+                        <div class="section-header">
+                            <div class="section-icon">📧</div>
+                            <h3>İletişim Bilgileri <span class="subtitle">(E-posta veya telefon gerekli)</span></h3>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="email">E-posta</label>
+                                <input type="email" id="email" name="email" value="ornek@email.com">
                             </div>
-                            <!-- (mevcut social içeriğin buraya) -->
-                        </section>
-                    </div>
+                            <div class="form-group">
+                                <label for="phone">Telefon</label>
+                                <input type="tel" id="phone" name="phone" value="+90 5XX XXX XX XX">
+                            </div>
+                        </div>
+                        <div class="warning-message">
+                            <span class="warning-icon">⚠️</span>
+                            E-posta veya telefon bilgilerinden en az biri girilmelidir.
+                        </div>
+                    </section>
 
-                    <!-- Experience Tab -->
-                    <div id="experience" class="tab-pane">
-                        <section class="card">
-                            <div class="card-header">
-                                <div class="chip">🏆</div>
-                                <div class="card-title">Kritik Yaşam Deneyimleri</div>
-                            </div>
-                            <!-- (mevcut experience içeriğin buraya) -->
-                        </section>
-                    </div>
+                    <section class="form-section">
+                        <div class="section-header">
+                            <div class="section-icon">📝</div>
+                            <h3>Genel Açıklama</h3>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="description" name="description" placeholder="Kişi hakkında genel notlar..." rows="4"></textarea>
+                        </div>
+                    </section>
+                </div>
+            </div>
 
-                    <!-- Future Tab -->
-                    <div id="future" class="tab-pane">
-                        <section class="card">
-                            <div class="card-header">
-                                <div class="chip">🚀</div>
-                                <div class="card-title">İleriye Dönük Planlar</div>
-                            </div>
-                            <!-- (mevcut future içeriğin buraya) -->
-                        </section>
+            <!-- Step 2: Job Information -->
+            <div id="step2" class="step">
+                <div class="step-header">
+                    <div class="step-icon">👤+</div>
+                    <h2>Yeni Kişi Ekle</h2>
+                    <p>Ağınıza yeni bir bağlantı ekleyin ✨</p>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="progress-container">
+                    <div class="progress-info">
+                        <span class="progress-step">Adım 2/6</span>
+                        <span class="progress-percentage">33% Tamamlandı</span>
                     </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 33%"></div>
+                        <div class="progress-markers">
+                            <div class="progress-marker active">👤</div>
+                            <div class="progress-marker active">💼</div>
+                            <div class="progress-marker">🎯</div>
+                            <div class="progress-marker">🌟</div>
+                            <div class="progress-marker">🏆</div>
+                            <div class="progress-marker">🚀</div>
+                        </div>
+                    </div>
+                    <div class="progress-label">İş Bilgileri</div>
                 </div>
 
                 <!-- Navigation Buttons -->
                 <div class="navigation-buttons">
-                    <button id="prevBtn" class="btn btn-secondary" style="display: none;">
-                        <span class="btn-icon">←</span>
-                        Önceki Adım
+                    <button class="btn btn-secondary" onclick="prevStep()">
+                        ← Önceki Adım
                     </button>
-                    <button id="nextBtn" class="btn btn-primary">
-                        <span class="btn-icon">→</span>
-                        Sonraki Adım
+                    <button class="btn btn-primary" onclick="nextStep()">
+                        Sonraki Adım →
                     </button>
-                    <button id="submitBtn" class="btn btn-success" style="display: none;">
-                        <span class="btn-icon">✓</span>
-                        Kişi Ekle
-                    </button>
+                </div>
+
+                <!-- Step Icons -->
+                <div class="step-icons">
+                    <div class="step-icon-item">👤</div>
+                    <div class="step-icon-item active">💼</div>
+                    <div class="step-icon-item">🎯</div>
+                    <div class="step-icon-item">🌟</div>
+                    <div class="step-icon-item">🚀</div>
+                </div>
+
+                <!-- Form Content -->
+                <div class="form-card">
+                    <section class="form-section">
+                        <div class="section-header">
+                            <div class="section-icon">💼</div>
+                            <h3>İş ve Profesyonel Bilgiler</h3>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="position">👤 Pozisyon <span class="required">*</span></label>
+                                <input type="text" id="position" name="position" value="Senior Frontend Developer">
+                            </div>
+                            <div class="form-group">
+                                <label for="company">🏢 Şirket</label>
+                                <input type="text" id="company" name="company" value="Google">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="sectors">🏢 Sektörler</label>
+                                <select id="sectors" name="sectors">
+                                    <option value="">Sektör seçin...</option>
+                                    <option value="tech">Teknoloji</option>
+                                    <option value="finance">Finans</option>
+                                    <option value="healthcare">Sağlık</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="expertise">🎯 Uzmanlık Alanları</label>
+                                <select id="expertise" name="expertise">
+                                    <option value="">Uzmanlık alanı seçin...</option>
+                                    <option value="frontend">Frontend Geliştirme</option>
+                                    <option value="backend">Backend Geliştirme</option>
+                                    <option value="ui-ux">UI/UX Tasarım</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="services">🔧 Verebileceği Hizmetler</label>
+                                <select id="services" name="services">
+                                    <option value="">Hizmet seçin...</option>
+                                    <option value="consulting">Danışmanlık</option>
+                                    <option value="development">Geliştirme</option>
+                                    <option value="training">Eğitim</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="workExperience">📝 İş Deneyimi (Kısa Notlar)</label>
+                            <textarea id="workExperience" name="workExperience" placeholder="Önceki iş deneyimleri, projeler, başarılar..." rows="4"></textarea>
+                        </div>
+                    </section>
                 </div>
             </div>
 
-            <!-- Success Step -->
-            <div id="success" class="step">
-                <div class="success-content">
-                    <div class="success-icon">✅</div>
-                    <h2>Başarılı!</h2>
-                    <p>Kişi ağınıza başarıyla eklendi.</p>
-                    <p>Teşekkür ederiz!</p>
+            <!-- Step 3: Personal Characteristics -->
+            <div id="step3" class="step">
+                <div class="step-header">
+                    <div class="step-icon">👤+</div>
+                    <h2>Yeni Kişi Ekle</h2>
+                    <p>Ağınıza yeni bir bağlantı ekleyin ✨</p>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="progress-container">
+                    <div class="progress-info">
+                        <span class="progress-step">Adım 3/6</span>
+                        <span class="progress-percentage">50% Tamamlandı</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 50%"></div>
+                        <div class="progress-markers">
+                            <div class="progress-marker active">👤</div>
+                            <div class="progress-marker active">💼</div>
+                            <div class="progress-marker active">🎯</div>
+                            <div class="progress-marker">🌟</div>
+                            <div class="progress-marker">🏆</div>
+                            <div class="progress-marker">🚀</div>
+                        </div>
+                    </div>
+                    <div class="progress-label">Kişisel Özellikler</div>
+                </div>
+
+                <!-- Navigation Buttons -->
+                <div class="navigation-buttons">
+                    <button class="btn btn-secondary" onclick="prevStep()">
+                        ← Önceki Adım
+                    </button>
+                    <button class="btn btn-primary" onclick="nextStep()">
+                        Sonraki Adım →
+                    </button>
+                </div>
+
+                <!-- Step Icons -->
+                <div class="step-icons">
+                    <div class="step-icon-item">👤</div>
+                    <div class="step-icon-item">💼</div>
+                    <div class="step-icon-item active">🎯</div>
+                    <div class="step-icon-item">🌟</div>
+                    <div class="step-icon-item">🚀</div>
+                </div>
+
+                <!-- Form Content -->
+                <div class="form-card">
+                    <section class="form-section">
+                        <div class="section-header">
+                            <div class="section-icon">❤️</div>
+                            <h3>Kişisel Özellikler</h3>
+                        </div>
+                        <div class="form-group">
+                            <label>💼 Kategori</label>
+                            <div class="category-buttons">
+                                <button type="button" class="category-btn active" data-category="work">
+                                    <span class="btn-icon">💼</span>
+                                    İş
+                                </button>
+                                <button type="button" class="category-btn" data-category="family">
+                                    <span class="btn-icon">🏠</span>
+                                    Aile
+                                </button>
+                                <button type="button" class="category-btn" data-category="friend">
+                                    <span class="btn-icon">❤️</span>
+                                    Arkadaş
+                                </button>
+                                <button type="button" class="category-btn" data-category="other">
+                                    <span class="btn-icon">✨</span>
+                                    Diğer
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>❤️ Yakınlık Seviyesi</label>
+                            <div class="closeness-section">
+                                <span class="closeness-label">Uzak (1)</span>
+                                <input type="range" class="closeness-slider" min="1" max="10" value="5">
+                                <span class="closeness-value">5/10</span>
+                                <span class="closeness-label">Yakın (10)</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="form-section">
+                        <div class="section-header">
+                            <div class="section-icon">⭐</div>
+                            <h3>Kişisel Özellikler</h3>
+                        </div>
+                        <div class="traits-grid">
+                            <div class="trait-item">
+                                <input type="checkbox" id="honesty" name="traits" value="honesty">
+                                <label for="honesty" class="trait-checkbox">
+                                    <span class="trait-icon">💎</span>
+                                    <span class="trait-text">Dürüstlük</span>
+                                </label>
+                            </div>
+                            <div class="trait-item">
+                                <input type="checkbox" id="discipline" name="traits" value="discipline">
+                                <label for="discipline" class="trait-checkbox">
+                                    <span class="trait-icon">🎯</span>
+                                    <span class="trait-text">Disiplin</span>
+                                </label>
+                            </div>
+                            <div class="trait-item">
+                                <input type="checkbox" id="patience" name="traits" value="patience">
+                                <label for="patience" class="trait-checkbox">
+                                    <span class="trait-icon">😊</span>
+                                    <span class="trait-text">Sabırlılık</span>
+                                </label>
+                            </div>
+                            <div class="trait-item">
+                                <input type="checkbox" id="teamwork" name="traits" value="teamwork">
+                                <label for="teamwork" class="trait-checkbox">
+                                    <span class="trait-icon">🤝</span>
+                                    <span class="trait-text">Takım Çalışması</span>
+                                </label>
+                            </div>
+                            <div class="trait-item">
+                                <input type="checkbox" id="creativity" name="traits" value="creativity">
+                                <label for="creativity" class="trait-checkbox">
+                                    <span class="trait-icon">💡</span>
+                                    <span class="trait-text">Yaratıcılık</span>
+                                </label>
+                            </div>
+                            <div class="trait-item">
+                                <input type="checkbox" id="reliability" name="traits" value="reliability" checked>
+                                <label for="reliability" class="trait-checkbox">
+                                    <span class="trait-icon">✅</span>
+                                    <span class="trait-text">Güvenilirlik</span>
+                                </label>
+                            </div>
+                            <div class="trait-item">
+                                <input type="checkbox" id="diligence" name="traits" value="diligence">
+                                <label for="diligence" class="trait-checkbox">
+                                    <span class="trait-icon">💪</span>
+                                    <span class="trait-text">Çalışkanlık</span>
+                                </label>
+                            </div>
+                            <div class="trait-item">
+                                <input type="checkbox" id="leadership" name="traits" value="leadership">
+                                <label for="leadership" class="trait-checkbox">
+                                    <span class="trait-icon">👑</span>
+                                    <span class="trait-text">Liderlik</span>
+                                </label>
+                            </div>
+                            <div class="trait-item">
+                                <input type="checkbox" id="communication" name="traits" value="communication">
+                                <label for="communication" class="trait-checkbox">
+                                    <span class="trait-icon">💬</span>
+                                    <span class="trait-text">İletişim Becerisi</span>
+                                </label>
+                            </div>
+                            <div class="trait-item">
+                                <input type="checkbox" id="adaptability" name="traits" value="adaptability">
+                                <label for="adaptability" class="trait-checkbox">
+                                    <span class="trait-icon">🧩</span>
+                                    <span class="trait-text">Uyum Yeteneği</span>
+                                </label>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="form-section">
+                        <div class="section-header">
+                            <div class="section-icon">💎</div>
+                            <h3>Değer Verdiği Prensipler</h3>
+                        </div>
+                        <div class="principles-grid">
+                            <div class="principle-item">
+                                <input type="checkbox" id="ethics" name="principles" value="ethics">
+                                <label for="ethics" class="principle-checkbox">
+                                    <span class="principle-icon">⚖️</span>
+                                    <span class="principle-text">Etik</span>
+                                </label>
+                            </div>
+                            <div class="principle-item">
+                                <input type="checkbox" id="sustainability" name="principles" value="sustainability">
+                                <label for="sustainability" class="principle-checkbox">
+                                    <span class="principle-icon">🌱</span>
+                                    <span class="principle-text">Sürdürülebilirlik</span>
+                                </label>
+                            </div>
+                            <div class="principle-item">
+                                <input type="checkbox" id="society" name="principles" value="society">
+                                <label for="society" class="principle-checkbox">
+                                    <span class="principle-icon">🤲</span>
+                                    <span class="principle-text">Topluma Fayda</span>
+                                </label>
+                            </div>
+                            <div class="principle-item">
+                                <input type="checkbox" id="innovation" name="principles" value="innovation">
+                                <label for="innovation" class="principle-checkbox">
+                                    <span class="principle-icon">💡</span>
+                                    <span class="principle-text">İnovasyon</span>
+                                </label>
+                            </div>
+                            <div class="principle-item">
+                                <input type="checkbox" id="quality" name="principles" value="quality">
+                                <label for="quality" class="principle-checkbox">
+                                    <span class="principle-icon">⭐</span>
+                                    <span class="principle-text">Kalite</span>
+                                </label>
+                            </div>
+                            <div class="principle-item">
+                                <input type="checkbox" id="customer" name="principles" value="customer">
+                                <label for="customer" class="principle-checkbox">
+                                    <span class="principle-icon">🎯</span>
+                                    <span class="principle-text">Müşteri Odaklılık</span>
+                                </label>
+                            </div>
+                            <div class="principle-item">
+                                <input type="checkbox" id="learning" name="principles" value="learning">
+                                <label for="learning" class="principle-checkbox">
+                                    <span class="principle-icon">🧠</span>
+                                    <span class="principle-text">Sürekli Öğrenme</span>
+                                </label>
+                            </div>
+                            <div class="principle-item">
+                                <input type="checkbox" id="transparency" name="principles" value="transparency">
+                                <label for="transparency" class="principle-checkbox">
+                                    <span class="principle-icon">👁️</span>
+                                    <span class="principle-text">Şeffaflık</span>
+                                </label>
+                            </div>
+                            <div class="principle-item">
+                                <input type="checkbox" id="justice" name="principles" value="justice">
+                                <label for="justice" class="principle-checkbox">
+                                    <span class="principle-icon">⚖️</span>
+                                    <span class="principle-text">Adalet</span>
+                                </label>
+                            </div>
+                            <div class="principle-item">
+                                <input type="checkbox" id="empathy" name="principles" value="empathy">
+                                <label for="empathy" class="principle-checkbox">
+                                    <span class="principle-icon">❤️</span>
+                                    <span class="principle-text">Empati</span>
+                                </label>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="form-section">
+                        <div class="section-header">
+                            <div class="section-icon">🎯</div>
+                            <h3>Hedefleri</h3>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="goals" name="goals" placeholder="Kısa ve uzun vadeli hedefleri..." rows="4"></textarea>
+                        </div>
+                    </section>
+
+                    <section class="form-section">
+                        <div class="section-header">
+                            <div class="section-icon">👁️</div>
+                            <h3>Vizyonu</h3>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="vision" name="vision" placeholder="Kişisel vizyonu ve misyonu..." rows="4"></textarea>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+            <!-- Step 4: Social -->
+            <div id="step4" class="step">
+                <div class="step-header">
+                    <div class="step-icon">👤+</div>
+                    <h2>Yeni Kişi Ekle</h2>
+                    <p>Ağınıza yeni bir bağlantı ekleyin ✨</p>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="progress-container">
+                    <div class="progress-info">
+                        <span class="progress-step">Adım 4/6</span>
+                        <span class="progress-percentage">67% Tamamlandı</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 67%"></div>
+                        <div class="progress-markers">
+                            <div class="progress-marker active">👤</div>
+                            <div class="progress-marker active">💼</div>
+                            <div class="progress-marker active">🎯</div>
+                            <div class="progress-marker active">🌟</div>
+                            <div class="progress-marker">🏆</div>
+                            <div class="progress-marker">🚀</div>
+                        </div>
+                    </div>
+                    <div class="progress-label">Sosyal</div>
+                </div>
+
+                <!-- Navigation Buttons -->
+                <div class="navigation-buttons">
+                    <button class="btn btn-secondary" onclick="prevStep()">
+                        ← Önceki Adım
+                    </button>
+                    <button class="btn btn-primary" onclick="nextStep()">
+                        Sonraki Adım →
+                    </button>
+                </div>
+
+                <!-- Step Icons -->
+                <div class="step-icons">
+                    <div class="step-icon-item">👤</div>
+                    <div class="step-icon-item">💼</div>
+                    <div class="step-icon-item">🎯</div>
+                    <div class="step-icon-item active">🌟</div>
+                    <div class="step-icon-item">🚀</div>
+                </div>
+
+                <!-- Form Content -->
+                <div class="form-card">
+                    <section class="form-section">
+                        <div class="section-header">
+                            <div class="section-icon">🌟</div>
+                            <h3>Sosyal ve Networking</h3>
+                        </div>
+                        <div class="form-group">
+                            <label>🌍 Konuştuğu Diller</label>
+                            <select id="languages" name="languages">
+                                <option value="">Dil seçin...</option>
+                                <option value="turkish">Türkçe</option>
+                                <option value="english">İngilizce</option>
+                                <option value="german">Almanca</option>
+                            </select>
+                        </div>
+                        <div class="checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="mentor" name="mentor">
+                                <span class="checkmark"></span>
+                                <div class="checkbox-content">
+                                    <span class="checkbox-icon">👨‍🏫</span>
+                                    <span>Mentor olarak hizmet veriyor</span>
+                                </div>
+                            </label>
+                        </div>
+                    </section>
+
+                    <section class="form-section">
+                        <div class="section-header">
+                            <div class="section-icon">⭐</div>
+                            <h3>Gönüllü İşler / Topluluk Deneyimleri</h3>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="volunteer" name="volunteer" placeholder="Gönüllü çalışmaları ve topluluk deneyimleri..." rows="4"></textarea>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+            <!-- Step 5: Experience -->
+            <div id="step5" class="step">
+                <div class="step-header">
+                    <div class="step-icon">👤+</div>
+                    <h2>Yeni Kişi Ekle</h2>
+                    <p>Ağınıza yeni bir bağlantı ekleyin ✨</p>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="progress-container">
+                    <div class="progress-info">
+                        <span class="progress-step">Adım 5/6</span>
+                        <span class="progress-percentage">83% Tamamlandı</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 83%"></div>
+                        <div class="progress-markers">
+                            <div class="progress-marker active">👤</div>
+                            <div class="progress-marker active">💼</div>
+                            <div class="progress-marker active">🎯</div>
+                            <div class="progress-marker active">🌟</div>
+                            <div class="progress-marker active">🏆</div>
+                            <div class="progress-marker">🚀</div>
+                        </div>
+                    </div>
+                    <div class="progress-label">Deneyim</div>
+                </div>
+
+                <!-- Navigation Buttons -->
+                <div class="navigation-buttons">
+                    <button class="btn btn-secondary" onclick="prevStep()">
+                        ← Önceki Adım
+                    </button>
+                    <button class="btn btn-primary" onclick="nextStep()">
+                        Sonraki Adım →
+                    </button>
+                </div>
+
+                <!-- Step Icons -->
+                <div class="step-icons">
+                    <div class="step-icon-item">👤</div>
+                    <div class="step-icon-item">💼</div>
+                    <div class="step-icon-item">🎯</div>
+                    <div class="step-icon-item">🌟</div>
+                    <div class="step-icon-item active">🏆</div>
+                    <div class="step-icon-item">🚀</div>
+                </div>
+
+                <!-- Form Content -->
+                <div class="form-card">
+                    <section class="form-section">
+                        <div class="section-header">
+                            <div class="section-icon">🏆</div>
+                            <h3>Kritik Yaşam Deneyimleri</h3>
+                        </div>
+                        <div class="form-group">
+                            <label>🕐 Hayatındaki Dönüm Noktaları</label>
+                            <p class="field-description">Şirket kurma, iş değiştirme, ülke değiştirme gibi dönüm noktaları...</p>
+                            <textarea id="milestones" name="milestones" placeholder="Hayatındaki dönüm noktaları..." rows="4"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>💪 Karşılaştığı Büyük Zorluklar</label>
+                            <p class="field-description">Karşılaştığı zorluklar ve nasıl aştığı...</p>
+                            <textarea id="challenges" name="challenges" placeholder="Karşılaştığı zorluklar..." rows="4"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>📚 Öğrendiği En Büyük Dersler</label>
+                            <p class="field-description">Hayattan öğrendiği en önemli dersler...</p>
+                            <textarea id="lessons" name="lessons" placeholder="Öğrendiği dersler..." rows="4"></textarea>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+            <!-- Step 6: Future -->
+            <div id="step6" class="step">
+                <div class="step-header">
+                    <div class="step-icon">👤+</div>
+                    <h2>Yeni Kişi Ekle</h2>
+                    <p>Ağınıza yeni bir bağlantı ekleyin ✨</p>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="progress-container">
+                    <div class="progress-info">
+                        <span class="progress-step">Adım 6/6</span>
+                        <span class="progress-percentage">100% Tamamlandı</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 100%"></div>
+                        <div class="progress-markers">
+                            <div class="progress-marker active">👤</div>
+                            <div class="progress-marker active">💼</div>
+                            <div class="progress-marker active">🎯</div>
+                            <div class="progress-marker active">🌟</div>
+                            <div class="progress-marker active">🏆</div>
+                            <div class="progress-marker active">🚀</div>
+                        </div>
+                    </div>
+                    <div class="progress-label">Gelecek</div>
+                </div>
+
+                <!-- Navigation Buttons -->
+                <div class="navigation-buttons">
+                    <button class="btn btn-secondary" onclick="prevStep()">
+                        ← Önceki Adım
+                    </button>
+                    <button class="btn btn-success" onclick="submitForm()">
+                        ✓ Kişi Ekle
+                    </button>
+                </div>
+
+                <!-- Step Icons -->
+                <div class="step-icons">
+                    <div class="step-icon-item">👤</div>
+                    <div class="step-icon-item">💼</div>
+                    <div class="step-icon-item">🎯</div>
+                    <div class="step-icon-item">🌟</div>
+                    <div class="step-icon-item">🏆</div>
+                    <div class="step-icon-item active">🚀</div>
+                </div>
+
+                <!-- Form Content -->
+                <div class="form-card">
+                    <section class="form-section">
+                        <div class="section-header">
+                            <div class="section-icon">🚀</div>
+                            <h3>İleriye Dönük Planlar</h3>
+                        </div>
+                        <div class="form-group">
+                            <label>🎯 5-10 Yıllık Hedefleri</label>
+                            <textarea id="futureGoals" name="futureGoals" placeholder="Gelecek planları ve hedefleri..." rows="4"></textarea>
+                        </div>
+                    </section>
+
+                    <section class="form-section">
+                        <div class="section-header">
+                            <div class="section-icon">💰</div>
+                            <h3>Yatırım yapma / ortaklık kurma isteği var</h3>
+                        </div>
+                        <div class="checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="investment" name="investment">
+                                <span class="checkmark"></span>
+                                <div class="checkbox-content">
+                                    <span class="checkbox-icon">💰</span>
+                                    <span>Yatırım yapma / ortaklık kurma isteği var</span>
+                                </div>
+                            </label>
+                        </div>
+                    </section>
+
+                    <section class="form-section">
+                        <div class="section-header">
+                            <div class="section-icon">🤝</div>
+                            <h3>İş Birliği Yapmak İstediği Alanlar</h3>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="collaboration" name="collaboration" placeholder="Hangi alanlarda iş birliği yapmak istediği..." rows="4"></textarea>
+                        </div>
+                    </section>
                 </div>
             </div>
         </main>
     </div>
 
-    <!-- Debug Info -->
-    <div class="debug-info">
-        Debug: Current Step: <span id="debugStep">0</span>, Total Steps: <span id="debugTotal">6</span>, Progress: <span id="debugProgress">0%</span>
-    </div>
+    <script>
+        let currentStep = 1;
+        const totalSteps = 6;
+
+        function showStep(stepNumber) {
+            // Hide all steps
+            document.querySelectorAll('.step').forEach(step => {
+                step.classList.remove('active');
+            });
+            
+            // Show current step
+            document.getElementById(`step${stepNumber}`).classList.add('active');
+            
+            // Update progress
+            updateProgress(stepNumber);
+            
+            // Update step icons
+            updateStepIcons(stepNumber);
+        }
+
+        function nextStep() {
+            if (currentStep < totalSteps) {
+                currentStep++;
+                showStep(currentStep);
+            }
+        }
+
+        function prevStep() {
+            if (currentStep > 1) {
+                currentStep--;
+                showStep(currentStep);
+            }
+        }
+
+        function updateProgress(stepNumber) {
+            const percentage = Math.round((stepNumber / totalSteps) * 100);
+            const progressFill = document.querySelector('.progress-fill');
+            const progressStep = document.querySelector('.progress-step');
+            const progressPercentage = document.querySelector('.progress-percentage');
+            
+            if (progressFill) progressFill.style.width = percentage + '%';
+            if (progressStep) progressStep.textContent = `Adım ${stepNumber}/${totalSteps}`;
+            if (progressPercentage) progressPercentage.textContent = `${percentage}% Tamamlandı`;
+        }
+
+        function updateStepIcons(stepNumber) {
+            document.querySelectorAll('.step-icon-item').forEach((icon, index) => {
+                icon.classList.remove('active');
+                if (index === stepNumber - 1) {
+                    icon.classList.add('active');
+                }
+            });
+        }
+
+        function submitForm() {
+            // Form submission logic here
+            alert('Kişi başarıyla eklendi!');
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            showStep(1);
+        });
+    </script>
 </body>
 </html>
