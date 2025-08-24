@@ -20,76 +20,35 @@
         <main class="main-content">
             <!-- Step 1: Contact Verification -->
             <div id="step1" class="step active">
-                <div class="step-header">
-                    <div class="step-icon">👤+</div>
-                    <h2>Yeni Kişi Ekle</h2>
-                    <p>Ağınıza yeni bir bağlantı ekleyin ✨</p>
-                </div>
-
-                <!-- Progress Bar -->
-                <div class="progress-container">
-                    <div class="progress-info">
-                        <span class="progress-step">Adım 1/2</span>
-                        <span class="progress-percentage">50% Tamamlandı</span>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: 50%"></div>
-                        <div class="progress-markers">
-                            <div class="progress-marker active">👤</div>
-                            <div class="progress-marker">💼</div>
-                        </div>
-                    </div>
-                    <div class="progress-label">Contact Doğrulama</div>
-                </div>
-
-                <!-- Navigation Buttons -->
-                <div class="navigation-buttons">
-                    <button class="btn btn-secondary" disabled>
-                        <span class="btn-icon">←</span>
-                        Önceki Adım
-                    </button>
-                    <button class="btn btn-primary" onclick="verifyContact()">
-                        Contact'ı Doğrula →
-                    </button>
-                </div>
-
-                <!-- Step Icons -->
-                <div class="step-icons">
-                    <div class="step-icon-item active">👤</div>
-                    <div class="step-icon-item">💼</div>
-                </div>
-
-                <!-- Form Content -->
                 <div class="form-card">
+                    <div class="step-header">
+                        <div class="step-icon">👥</div>
+                        <h2>Adım 1: Davet Gönderen Bilgileri</h2>
+                        <p>Sizinle bağlantı kurmak isteyen kişinin bilgilerini girin</p>
+                    </div>
+
                     <section class="form-section">
-                        <div class="section-header">
-                            <div class="section-icon">🔍</div>
-                            <h3>Contact Doğrulama</h3>
-                        </div>
-                        <p class="section-description">
-                            Ağına kişi eklemek istediğiniz contact'ın bilgilerini girin. 
-                            Eğer bu kişi veritabanında mevcutsa, adım 2'ye geçebilirsiniz.
-                        </p>
-                        
                         <div class="form-row">
                             <div class="form-group">
-                                <label for="contactFirstName">Ad <span class="required">*</span></label>
-                                <input type="text" id="contactFirstName" name="contactFirstName" placeholder="Ad" required>
+                                <label for="contactFirstName">Ad</label>
+                                <input type="text" id="contactFirstName" name="contactFirstName" placeholder="Adınız" required>
                             </div>
                             <div class="form-group">
-                                <label for="contactLastName">Soyad <span class="required">*</span></label>
-                                <input type="text" id="contactLastName" name="contactLastName" placeholder="Soyad" required>
+                                <label for="contactLastName">Soyad</label>
+                                <input type="text" id="contactLastName" name="contactLastName" placeholder="Soyadınız" required>
                             </div>
                         </div>
                         
                         <div class="form-group">
-                            <label for="contactEmail">E-posta <span class="required">*</span></label>
+                            <label for="contactEmail">E-posta Adresi</label>
                             <input type="email" id="contactEmail" name="contactEmail" placeholder="e-posta@ornek.com" required>
                         </div>
                         
-                        <div class="info-message">
-                            <span class="info-icon">ℹ️</span>
-                            Bu bilgiler ile veritabanında contact aranacaktır.
+                        <div class="form-actions">
+                            <button onclick="verifyContact()" class="btn btn-primary">
+                                <span class="btn-icon">✓</span>
+                                Devam Et
+                            </button>
                         </div>
                     </section>
                 </div>
