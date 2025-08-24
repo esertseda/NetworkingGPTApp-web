@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NetworkingGPT - Davet Bağlantısı</title>
+    <link rel="stylesheet" href="assets/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <h1>NetworkingGPT</h1>
+            </div>
+        </header>
+
+        <!-- Loading State -->
+        <div id="loading" class="loading-state">
+            <div class="spinner"></div>
+            <p>Davet bağlantısı doğrulanıyor...</p>
+        </div>
+
+        <!-- Error State -->
+        <div id="error" class="error-state" style="display: none;">
+            <div class="error-icon">⚠️</div>
+            <h2>Davet Bağlantısı Geçersiz</h2>
+            <p id="errorMessage">Bu davet bağlantısı bulunamadı veya süresi dolmuş.</p>
+            <button onclick="window.close()" class="btn btn-primary">Kapat</button>
+        </div>
+
+        <!-- Main Content -->
+        <main id="mainContent" class="main-content" style="display: none;">
+            <!-- Step 1: Inviter Info -->
+            <div id="step1" class="step active">
+                <div class="step-header">
+                    <h2>Adım 1: Sizin Bilgileriniz</h2>
+                    <p>Ağ'a ekleyen kişi olarak bilgilerinizi girin</p>
+                </div>
+                
+                <form id="inviterForm" class="form">
+                    <div class="form-group">
+                        <label for="inviterFirstName">Ad *</label>
+                        <input type="text" id="inviterFirstName" name="inviterFirstName" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="inviterLastName">Soyad *</label>
+                        <input type="text" id="inviterLastName" name="inviterLastName" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="inviterEmail">E-posta</label>
+                        <input type="email" id="inviterEmail" name="inviterEmail">
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Devam Et</button>
+                </form>
+            </div>
+
+            <!-- Step 2: New Contact Info -->
+            <div id="step2" class="step">
+                <div class="step-header">
+                    <h2>Adım 2: Yeni Kişi Bilgileri</h2>
+                    <p>Eklemek istediğiniz kişinin detaylı bilgilerini girin</p>
+                </div>
+
+                <!-- Tab Navigation -->
+                <div class="tab-navigation">
+                    <button class="tab-btn active" data-tab="basic">Temel</button>
+                    <button class="tab-btn" data-tab="work">İş</button>
+                    <button class="tab-btn" data-tab="personal">Kişisel</button>
+                    <button class="tab-btn" data-tab="social">Sosyal</button>
+                    <button class="tab-btn" data-tab="experience">Deneyim</button>
+                    <button class="tab-btn" data-tab="future">Gelecek</button>
+                </div>
+
+                <!-- Tab Content -->
+                <div class="tab-content">
+                    <!-- Basic Tab -->
+                    <div id="basic" class="tab-pane active">
+                        <h3>Temel Bilgiler</h3>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="firstName">Ad *</label>
+                                <input type="text" id="firstName" name="firstName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName">Soyad *</label>
+                                <input type="text" id="lastName" name="lastName" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="closeness">Yakınlık Seviyesi (1-10)</label>
+                            <div class="slider-container">
+                                <input type="range" id="closeness" name="closeness" min="1" max="10" value="5" class="slider">
+                                <span class="slider-value">5</span>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="age">Yaş</label>
+                                <input type="number" id="age" name="age" min="1" max="120">
+                            </div>
+                            <div class="form-group">
+                                <label for="hometown">Nereli</label>
+                                <input type="text" id="hometown" name="hometown">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="currentCity">Şu anki Şehir</label>
+                            <input type="text" id="currentCity" name="currentCity">
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="email">E-posta</label>
+                                <input type="email" id="email" name="email">
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Telefon</label>
+                                <input type="tel" id="phone" name="phone">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="summary">Kısa Açıklama</label>
+                            <textarea id="summary" name="summary" rows="3" placeholder="Bu kişi hakkında kısa bir açıklama..."></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Work Tab -->
+                    <div id="work" class="tab-pane">
+                        <h3>İş Bilgileri</h3>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="currentTitle">Pozisyon</label>
+                                <input type="text" id="currentTitle" name="currentTitle">
+                            </div>
+                            <div class="form-group">
+                                <label for="currentCompany">Şirket</label>
+                                <input type="text" id="currentCompany" name="currentCompany">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="university">Üniversite</label>
+                            <input type="text" id="university" name="university">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="education">Eğitim</label>
+                            <textarea id="education" name="education" rows="3" placeholder="Eğitim bilgileri..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="pastExperiences">Geçmiş Deneyimler</label>
+                            <textarea id="pastExperiences" name="pastExperiences" rows="3" placeholder="Önceki iş deneyimleri..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="expertiseTags">Uzmanlık Alanları</label>
+                            <input type="text" id="expertiseTags" name="expertiseTags" placeholder="Teknoloji, Finans, Pazarlama...">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="serviceTags">Sunduğu Hizmetler</label>
+                            <input type="text" id="serviceTags" name="serviceTags" placeholder="Danışmanlık, Eğitim, Mentorluk...">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="sectors">Sektörler</label>
+                            <input type="text" id="sectors" name="sectors" placeholder="Teknoloji, Sağlık, Eğitim...">
+                        </div>
+                    </div>
+
+                    <!-- Personal Tab -->
+                    <div id="personal" class="tab-pane">
+                        <h3>Kişisel Özellikler</h3>
+                        
+                        <div class="form-group">
+                            <label for="traits">Kişisel Özellikler</label>
+                            <textarea id="traits" name="traits" rows="3" placeholder="Liderlik, Yaratıcılık, Analitik düşünce..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="principles">Değerler</label>
+                            <textarea id="principles" name="principles" rows="3" placeholder="Kişisel değerleri..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="goals">Kısa Vadeli Hedefler</label>
+                            <textarea id="goals" name="goals" rows="3" placeholder="1-2 yıllık hedefler..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="vision">Uzun Vadeli Vizyon</label>
+                            <textarea id="vision" name="vision" rows="3" placeholder="5-10 yıllık vizyon..."></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Social Tab -->
+                    <div id="social" class="tab-pane">
+                        <h3>Sosyal ve İletişim</h3>
+                        
+                        <div class="form-group">
+                            <label for="hobbies">Hobiler ve İlgi Alanları</label>
+                            <textarea id="hobbies" name="hobbies" rows="3" placeholder="Hobiler, spor, sanat, müzik..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="languages">Konuştuğu Diller</label>
+                            <input type="text" id="languages" name="languages" placeholder="Türkçe, İngilizce, Almanca...">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="isMentor" name="isMentor">
+                                Mentor olarak hizmet verebilir
+                            </label>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="volunteering">Gönüllü Çalışmalar</label>
+                            <textarea id="volunteering" name="volunteering" rows="3" placeholder="Gönüllü olarak yaptığı işler..."></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Experience Tab -->
+                    <div id="experience" class="tab-pane">
+                        <h3>Deneyim ve Öğrenimler</h3>
+                        
+                        <div class="form-group">
+                            <label for="turningPoints">Hayatındaki Dönüm Noktaları</label>
+                            <textarea id="turningPoints" name="turningPoints" rows="3" placeholder="Kariyer, eğitim, kişisel hayat..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="bigChallenges">Karşılaştığı Büyük Zorluklar</label>
+                            <textarea id="bigChallenges" name="bigChallenges" rows="3" placeholder="Üstesinden geldiği zorluklar..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="bigLessons">Öğrendiği Büyük Dersler</label>
+                            <textarea id="bigLessons" name="bigLessons" rows="3" placeholder="Hayatından çıkardığı dersler..."></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Future Tab -->
+                    <div id="future" class="tab-pane">
+                        <h3>Gelecek ve İşbirliği</h3>
+                        
+                        <div class="form-group">
+                            <label for="goals5y">5 Yıllık Hedefler</label>
+                            <textarea id="goals5y" name="goals5y" rows="3" placeholder="5 yıl içinde ulaşmak istediği hedefler..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="goals10y">10 Yıllık Hedefler</label>
+                            <textarea id="goals10y" name="goals10y" rows="3" placeholder="10 yıl içinde ulaşmak istediği hedefler..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="approachNewIdeas">Yeni Fikirlere Yaklaşımı</label>
+                            <textarea id="approachNewIdeas" name="approachNewIdeas" rows="3" placeholder="Yeni fikirlere nasıl yaklaşır..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="willingToInvest" name="willingToInvest">
+                                Yatırım yapmaya istekli
+                            </label>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="willingToPartner" name="willingToPartner">
+                                Ortaklık kurmaya istekli
+                            </label>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="collaborationAreas">İşbirliği Alanları</label>
+                            <textarea id="collaborationAreas" name="collaborationAreas" rows="3" placeholder="Hangi alanlarda işbirliği yapabilir..."></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation Buttons -->
+                <div class="navigation-buttons">
+                    <button id="prevBtn" class="btn btn-secondary" style="display: none;">Önceki</button>
+                    <button id="nextBtn" class="btn btn-primary">Sonraki</button>
+                    <button id="submitBtn" class="btn btn-success" style="display: none;">Kişiyi Ekle</button>
+                </div>
+            </div>
+
+            <!-- Success Step -->
+            <div id="success" class="step">
+                <div class="success-content">
+                    <div class="success-icon">✅</div>
+                    <h2>Başarılı!</h2>
+                    <p>Kişi ağınıza başarıyla eklendi.</p>
+                    <p>Teşekkür ederiz!</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="assets/app.js"></script>
+</body>
+</html>
