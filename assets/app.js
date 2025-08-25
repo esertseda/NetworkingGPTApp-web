@@ -1,614 +1,189 @@
-// DOM Elements
-const step1 = document.getElementById('step1');
-const step2 = document.getElementById('step2');
-const success = document.getElementById('success');
-const inviterForm = document.getElementById('inviterForm');
-const prevBtn = document.getElementById('prevBtn');
-const nextBtn = document.getElementById('nextBtn');
-const submitBtn = document.getElementById('submitBtn');
+// NOTE: Bu dosya ESM module. HTML'de type="module" ile yükleniyor.
+// Env'leri Vite üzerinden enjekte edin:
+// VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY
 
-// Loading and Error States
-const loadingState = document.getElementById('loading');
-const errorState = document.getElementById('error');
-const mainContent = document.getElementById('mainContent');
-const errorMessage = document.getElementById('errorMessage');
-
-// Tab Elements
-const tabBtns = document.querySelectorAll('.tab-btn');
-const tabPanes = document.querySelectorAll('.tab-pane');
-
-// Progress Elements
-const progressStep = document.querySelector('.progress-step');
-const progressPercentage = document.querySelector('.progress-percentage');
-const progressFill = document.querySelector('.progress-fill');
-const progressLabel = document.querySelector('.progress-label');
-const progressMarkers = document.querySelectorAll('.progress-marker');
-
-// Debug Elements
-const debugStep = document.getElementById('debugStep');
-const debugTotal = document.getElementById('debugTotal');
-const debugProgress = document.getElementById('debugProgress');
-
-// Current step tracking
-let currentStep = 1;
-let currentTab = 'basic';
-let inviteData = null;
-
-// Step configuration
-const STEPS = [
-    { id: 1, name: 'basic', label: 'Temel Bilgiler', progress: 17 },
-    { id: 2, name: 'work', label: 'İş Bilgileri', progress: 33 },
-    { id: 3, name: 'personal', label: 'Kişisel Özellikler', progress: 50 },
-    { id: 4, name: 'social', label: 'Sosyal ve Networking', progress: 67 },
-    { id: 5, name: 'experience', label: 'Deneyim', progress: 83 },
-    { id: 6, name: 'future', label: 'Gelecek', progress: 100 }
-];
-
-// Supabase configuration
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
 const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-// Initialize the page
-document.addEventListener('DOMContentLoaded', function() {
-    initializeEventListeners();
-    updateSliderValue();
-    updateDebugInfo();
-    
-    // Sayfa yüklendiğinde token doğrulaması yap
-    validateInviteToken();
-});
-
-// Token doğrulama
-async function validateInviteToken() {
-    try {
-        const token = getInviteToken();
-        if (!token) {
-            showError('Davet token bulunamadı');
-            return;
-        }
-
-        console.log('🔍 Davet token doğrulanıyor:', token);
-
-        // Token'ı doğrula - public endpoint
-        const response = await fetch(`${SUPABASE_URL}/functions/v1/invite-verify`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'apikey': SUPABASE_ANON_KEY,
-                'authorization': `Bearer ${SUPABASE_ANON_KEY}`
-            },
-            body: JSON.stringify({
-                token: token
-            })
-        });
-
-        if (response.ok) {
-            const result = await response.json();
-            if (result.ok !== false) {
-                // Token geçerli, ana içeriği göster
-                showMainContent();
-                console.log('✅ Davet token doğrulandı');
-            } else {
-                showError(result.reason === 'not_found' ? 'Davet bağlantısı bulunamadı' : 'Davet bağlantısı geçersiz');
-            }
-        } else {
-            const errorData = await response.json();
-            showError(errorData.error || 'Token doğrulanamadı');
-        }
-
-    } catch (error) {
-        console.error('Token doğrulama hatası:', error);
-        showError('Davet bağlantısı doğrulanamadı: ' + error.message);
-    }
+if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+  console.error('Supabase env bulunamadı. VITE_SUPABASE_URL ve VITE_SUPABASE_ANON_KEY tanımlayın.');
 }
 
-// Ana içeriği göster
-function showMainContent() {
-    loadingState.style.display = 'none';
-    errorState.style.display = 'none';
-    mainContent.style.display = 'block';
-}
+// --- DOM ---
+const step1 = document.getElementById('step1');
+const step2 = document.getElementById('step2');
 
-// Hata göster
-function showError(message) {
-    loadingState.style.display = 'none';
-    errorState.style.display = 'block';
-    mainContent.style.display = 'none';
-    errorMessage.textContent = message;
-}
+const inviterForm = document.getElementById('inviterForm');
+const backBtn = document.getElementById('backBtn');
+const saveBtn = document.getElementById('saveBtn');
 
-// Event Listeners
-function initializeEventListeners() {
-    // Inviter form submission
-    inviterForm.addEventListener('submit', handleInviterSubmit);
-    
-    // Navigation buttons
-    if (prevBtn) prevBtn.addEventListener('click', goToPreviousStep);
-    if (nextBtn) nextBtn.addEventListener('click', goToNextStep);
-    if (submitBtn) submitBtn.addEventListener('click', handleSubmit);
-    
-    // Tab navigation
-    tabBtns.forEach(btn => {
-        btn.addEventListener('click', () => switchTab(btn.dataset.tab));
-    });
-    
-    // Slider value update
-    const closenessSlider = document.getElementById('closeness');
-    if (closenessSlider) {
-        closenessSlider.addEventListener('input', updateSliderValue);
-    }
+let currentStep = 1;
 
-    // Category buttons
-    const categoryBtns = document.querySelectorAll('.category-btn');
-    categoryBtns.forEach(btn => {
-        btn.addEventListener('click', () => selectCategory(btn.dataset.category));
-    });
-}
-
-// Handle inviter form submission
-function handleInviterSubmit(e) {
-    e.preventDefault();
-    
-    const formData = new FormData(inviterForm);
-    const inviterData = {
-        first_name: formData.get('inviterFirstName'),
-        last_name: formData.get('inviterLastName'),
-        email: formData.get('inviterEmail')
-    };
-    
-    // Validate inviter exists in the network
-    validateInviter(inviterData);
-}
-
-// Navigation functions
-function goToStep(step) {
-    // Hide all steps
-    step1.classList.remove('active');
-    step2.classList.remove('active');
-    success.classList.remove('active');
-    
-    // Show current step
-    if (step === 1) {
-        step1.classList.add('active');
-        currentStep = 1;
-    } else if (step === 2) {
-        step2.classList.add('active');
-        currentStep = 2;
-        updateNavigationButtons();
-        updateProgress(2);
-    } else if (step === 'success') {
-        success.classList.add('active');
-        currentStep = 'success';
-        updateProgress(6);
-    }
-}
-
-function goToPreviousStep() {
-    if (currentStep === 2) {
-        goToStep(1);
-        updateProgress(1);
-    }
-}
-
-function goToNextStep() {
-    if (currentTab === 'basic') {
-        switchTab('work');
-    } else if (currentTab === 'work') {
-        switchTab('personal');
-    } else if (currentTab === 'personal') {
-        switchTab('social');
-    } else if (currentTab === 'social') {
-        switchTab('experience');
-    } else if (currentTab === 'experience') {
-        switchTab('future');
-        showSubmitButton();
-    }
-}
-
-// Tab switching
-function switchTab(tabName) {
-    // Update active tab button
-    tabBtns.forEach(btn => {
-        btn.classList.remove('active');
-        if (btn.dataset.tab === tabName) {
-            btn.classList.add('active');
-        }
-    });
-    
-    // Update active tab pane
-    tabPanes.forEach(pane => {
-        pane.classList.remove('active');
-        if (pane.id === tabName) {
-            pane.classList.add('active');
-        }
-    });
-    
-    currentTab = tabName;
-    updateNavigationButtons();
-    updateProgressByTab(tabName);
-}
-
-// Update navigation buttons
-function updateNavigationButtons() {
-    if (currentTab === 'basic') {
-        prevBtn.style.display = 'block';
-        nextBtn.style.display = 'block';
-        submitBtn.style.display = 'none';
-    } else if (currentTab === 'future') {
-        prevBtn.style.display = 'block';
-        nextBtn.style.display = 'none';
-        submitBtn.style.display = 'block';
-    } else {
-        prevBtn.style.display = 'block';
-        nextBtn.style.display = 'block';
-        submitBtn.style.display = 'none';
-    }
-}
-
-// Show submit button
-function showSubmitButton() {
-    submitBtn.style.display = 'block';
-    nextBtn.style.display = 'none';
-}
-
-// Update slider value display
-function updateSliderValue() {
-    const closenessSlider = document.getElementById('closeness');
-    const sliderValue = document.querySelector('.closeness-value');
-    
-    if (sliderValue && closenessSlider) {
-        sliderValue.textContent = closenessSlider.value;
-    }
-}
-
-// Select category
-function selectCategory(category) {
-    const categoryBtns = document.querySelectorAll('.category-btn');
-    categoryBtns.forEach(btn => {
-        btn.classList.remove('active');
-        if (btn.dataset.category === category) {
-            btn.classList.add('active');
-        }
-    });
-}
-
-// Update progress
-function updateProgress(stepNumber) {
-    const step = STEPS.find(s => s.id === stepNumber);
-    if (!step) return;
-
-    // Update progress elements
-    if (progressStep) progressStep.textContent = `Adım ${stepNumber}/6`;
-    if (progressPercentage) progressPercentage.textContent = `${step.progress}% Tamamlandı`;
-    if (progressFill) progressFill.style.width = `${step.progress}%`;
-    if (progressLabel) progressLabel.textContent = step.label;
-
-    // Update progress markers
-    progressMarkers.forEach((marker, index) => {
-        if (index < stepNumber) {
-            marker.classList.add('active');
-        } else {
-            marker.classList.remove('active');
-        }
-    });
-
-    // Update debug info
-    updateDebugInfo();
-}
-
-// Update progress by tab
-function updateProgressByTab(tabName) {
-    const stepMap = {
-        'basic': 1,
-        'work': 2,
-        'personal': 3,
-        'social': 4,
-        'experience': 5,
-        'future': 6
-    };
-
-    const stepNumber = stepMap[tabName];
-    if (stepNumber) {
-        updateProgress(stepNumber);
-    }
-}
-
-// Update debug info
-function updateDebugInfo() {
-    if (debugStep) debugStep.textContent = currentStep;
-    if (debugTotal) debugTotal.textContent = 6;
-    
-    const currentStepData = STEPS.find(s => s.id === currentStep);
-    if (debugProgress && currentStepData) {
-        debugProgress.textContent = `${currentStepData.progress}%`;
-    }
-}
-
-// Handle final form submission
-async function handleSubmit() {
-    try {
-        // Collect all form data
-        const formData = collectFormData();
-        
-        // Validate required fields
-        if (!validateFormData(formData)) {
-            alert('Lütfen zorunlu alanları doldurun.');
-            return;
-        }
-        
-        // Show loading state
-        const submitBtn = document.getElementById('submitBtn');
-        const originalText = submitBtn.textContent;
-        submitBtn.textContent = 'Gönderiliyor...';
-        submitBtn.disabled = true;
-        
-        // Get invite data from step 1
-        const inviteData = window.inviteData;
-        if (!inviteData) {
-            throw new Error('Davet bilgileri bulunamadı');
-        }
-        
-        // Get invite token from URL
-        const token = getInviteToken();
-        
-        // Send data to Supabase Edge Function
-        const response = await fetch(`${SUPABASE_URL}/functions/v1/invite-submit`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                token: token,
-                inviter_contact_id: inviteData.inviter_contact_id,
-                contact: formData
-            })
-        });
-        
-        if (response.ok) {
-            const result = await response.json();
-            if (result.ok) {
-                // Show success message
-                showSuccessMessage('Kişi başarıyla eklendi!');
-                setTimeout(() => {
-                    goToStep('success');
-                }, 1500);
-            } else {
-                throw new Error(result.error || 'Kişi eklenemedi');
-            }
-        } else {
-            const errorData = await response.json();
-            throw new Error(errorData.error || 'API error');
-        }
-        
-    } catch (error) {
-        console.error('Submit error:', error);
-        showErrorMessage('Gönderim sırasında hata oluştu: ' + error.message);
-    } finally {
-        // Reset button state
-        const submitBtn = document.getElementById('submitBtn');
-        submitBtn.textContent = originalText;
-        submitBtn.disabled = false;
-    }
-}
-
-// Collect all form data
-function collectFormData() {
-    const formData = {
-      // Basic
-      first_name: document.getElementById('firstName')?.value?.trim() || '',
-      last_name: document.getElementById('lastName')?.value?.trim() || '',
-
-      age: document.getElementById('age')?.value || '',
-      city: document.getElementById('city')?.value || '',
-      current_city: document.getElementById('currentCity')?.value || '',
-  
-      // Work / Education
-      university: document.getElementById('university')?.value || '',
-      department: document.getElementById('department')?.value || '',
-      degree: document.getElementById('degree')?.value || '',
-      graduation_year: document.getElementById('graduationYear')?.value || '',
-      position: document.getElementById('currentTitle')?.value || '',     // <-- düzeltildi
-      company: document.getElementById('currentCompany')?.value || '',     // <-- düzeltildi
-      sectors: document.getElementById('sectors')?.value || '',
-      expertise_tags: document.getElementById('expertiseTags')?.value || '',
-      service_tags: document.getElementById('serviceTags')?.value || '',
-  
-      // Personal
-      closeness: document.getElementById('closeness')?.value || 5,
-      category: getSelectedCategory(),
-      traits: getSelectedTraits(),
-      principles: getSelectedPrinciples(),
-      goals: document.getElementById('goals')?.value || '',
-      vision: document.getElementById('vision')?.value || '',
-  
-      // Social
-      languages: document.getElementById('languages')?.value || '',
-      mentor_service: document.getElementById('isMentor')?.checked || false,
-      social_volunteer: document.getElementById('volunteering')?.value || '',
-  
-      // Experience
-      life_experience: document.getElementById('turningPoints')?.value || '',  // <-- düzeltildi
-      challenges: document.getElementById('bigChallenges')?.value || '',       // <-- düzeltildi
-      lessons: document.getElementById('bigLessons')?.value || '',             // <-- düzeltildi
-  
-      // Future
-      future_goals: document.getElementById('goals5y')?.value || '',
-      investment_interest: document.getElementById('willingToInvest')?.checked || false,
-      collaboration_areas: document.getElementById('collaborationAreas')?.value || ''
-    };
-  
-    console.log('📝 Form verileri:', formData);
-    return formData;
-  }
-  
-
-// Get selected category
-function getSelectedCategory() {
-    const activeCategory = document.querySelector('.category-btn.active');
-    return activeCategory ? activeCategory.dataset.category : '';
-}
-
-// Get selected traits
-function getSelectedTraits() {
-    const selectedTraits = [];
-    document.querySelectorAll('input[name="traits"]:checked').forEach(checkbox => {
-        selectedTraits.push(checkbox.value);
-    });
-    return selectedTraits;
-}
-
-// Get selected principles
-function getSelectedPrinciples() {
-    const selectedPrinciples = [];
-    document.querySelectorAll('input[name="principles"]:checked').forEach(checkbox => {
-        selectedPrinciples.push(checkbox.value);
-    });
-    return selectedPrinciples;
-}
-
-// Validate form data
-function validateFormData(data){
-    // Görselde zorunlu alan: Ad Soyad (tek input)
-    if(!data.first_name || data.first_name.length < 2){
-      const el = document.getElementById('firstName');
-      if(el){
-        el.classList.add('input-error');
-        el.addEventListener('input',()=>el.classList.remove('input-error'), { once:true });
-      }
-      return false;
-    }
-  
-    // (Opsiyonel) E-posta/Telefon'dan en az biri doluysa uyarıyı yeşile çevirmek için
-    const email = document.getElementById('email');
-    const phone = document.getElementById('phone');
-    if(email && phone){
-      const hasOne = (email.value && email.value.trim()) || (phone.value && phone.value.trim());
-      if(!hasOne){
-        email.classList.add('input-warn');
-        phone.classList.add('input-warn');
-        setTimeout(()=>{ email.classList.remove('input-warn'); phone.classList.remove('input-warn'); }, 2500);
-      }
-    }
-  
-    return true;
-  }
-  
-// URL token extraction
+// --- Yardımcılar ---
 function getInviteToken() {
-    const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get('t');
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get('t');
 }
 
-// Validate inviter exists in the network
-async function validateInviter(inviterData) {
-    try {
-        // Show loading state
-        const submitBtn = document.querySelector('#inviterForm button[type="submit"]');
-        const originalText = submitBtn.textContent;
-        submitBtn.textContent = 'Doğrulanıyor...';
-        submitBtn.disabled = true;
-        
-        // Get invite token from URL
-        const token = getInviteToken();
-        
-        // Call Supabase Edge Function to validate inviter
-        const response = await fetch(`${SUPABASE_URL}/functions/v1/invite-verify`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'apikey': SUPABASE_ANON_KEY,
-                'authorization': `Bearer ${SUPABASE_ANON_KEY}`
-            },
-            body: JSON.stringify({
-                token: token,
-                inviter: inviterData
-            })
-        });
-        
-        if (response.ok) {
-            const result = await response.json();
-            if (result.ok) {
-                // Store invite data for step 2
-                window.inviteData = result;
-                
-                // Inviter exists, proceed to step 2
-                showSuccessMessage('Doğrulama başarılı! İkinci adıma geçiliyor...');
-                setTimeout(() => {
-                    goToStep(2);
-                }, 1500);
-            } else {
-                // Handle different error reasons
-                let errorMessage = 'Bu bilgilerle ağ listesinde kişi bulunamadı.';
-                if (result.reason === 'ambiguous') {
-                    errorMessage = 'Birden fazla eşleşen kişi bulundu. Lütfen e-posta adresinizi de girin.';
-                }
-                showErrorMessage(errorMessage);
-            }
-        } else {
-            const errorData = await response.json();
-            throw new Error(errorData.error || 'API error');
-        }
-    } catch (error) {
-        console.error('Validation error:', error);
-        showErrorMessage('Doğrulama sırasında hata oluştu: ' + error.message);
-    } finally {
-        // Reset button state
-        const submitBtn = document.querySelector('#inviterForm button[type="submit"]');
-        submitBtn.textContent = originalText;
-        submitBtn.disabled = false;
-    }
+function showStep(n) {
+  [step1, step2].forEach(el => el && el.classList.remove('active'));
+  if (n === 1) step1.classList.add('active');
+  else step2.classList.add('active');
+  currentStep = n;
 }
 
-// Show success message
-function showSuccessMessage(message) {
-    const messageDiv = document.createElement('div');
-    messageDiv.className = 'message success-message';
-    messageDiv.textContent = message;
-    
-    const form = document.getElementById('inviterForm');
-    form.insertBefore(messageDiv, form.firstChild);
-    
-    // Remove message after 3 seconds
-    setTimeout(() => {
-        messageDiv.remove();
-    }, 3000);
+function showMessage(targetForm, message, type = 'success') {
+  const old = targetForm.querySelector('.message'); if (old) old.remove();
+  const div = document.createElement('div');
+  div.className = `message ${type === 'success' ? 'success-message' : 'error-message'}`;
+  div.textContent = message;
+  targetForm.prepend(div);
+  setTimeout(() => div.remove(), type === 'success' ? 3000 : 5000);
 }
 
-// Show error message
-function showErrorMessage(message) {
-    const messageDiv = document.createElement('div');
-    messageDiv.className = 'message error-message';
-    messageDiv.textContent = message;
-    
-    const form = document.getElementById('inviterForm');
-    form.insertBefore(messageDiv, form.firstChild);
-    
-    // Remove message after 5 seconds
-    setTimeout(() => {
-        messageDiv.remove();
-    }, 5000);
+// --- Token doğrulama (Edge Function) ---
+async function validateInviteToken() {
+  const token = getInviteToken();
+  if (!token) {
+    showMessage(inviterForm, 'Davet token bulunamadı.', 'error');
+    return;
+  }
+  try {
+    const resp = await fetch(`${SUPABASE_URL}/functions/v1/invite-verify`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        apikey: SUPABASE_ANON_KEY,
+        authorization: `Bearer ${SUPABASE_ANON_KEY}`
+      },
+      body: JSON.stringify({ token })
+    });
+    const result = await resp.json();
+    if (!resp.ok || result.ok === false) {
+      throw new Error(result?.error || result?.reason || 'Geçersiz davet bağlantısı');
+    }
+    // Geçerli ise form gösterimde kalsın
+    console.log('✅ token ok');
+  } catch (e) {
+    console.error(e);
+    showMessage(inviterForm, `Davet bağlantısı doğrulanamadı: ${e.message}`, 'error');
+  }
 }
 
-// Add message styles
-const style = document.createElement('style');
-style.textContent = `
-    .message {
-        padding: 12px 16px;
-        border-radius: 8px;
-        margin-bottom: 16px;
-        font-weight: 500;
+// --- Adım 1: Davet eden doğrula ---
+async function handleInviterSubmit(e) {
+  e.preventDefault();
+  const data = new FormData(inviterForm);
+  const inviter = {
+    first_name: data.get('inviterFirstName')?.toString().trim(),
+    last_name: data.get('inviterLastName')?.toString().trim(),
+    email: data.get('inviterEmail')?.toString().trim(),
+  };
+
+  if (!inviter.first_name || !inviter.last_name || !inviter.email) {
+    showMessage(inviterForm, 'Lütfen tüm alanları doldurun.', 'error');
+    return;
+  }
+
+  const btn = document.getElementById('continueBtn');
+  const original = btn.textContent;
+  btn.textContent = 'Doğrulanıyor...';
+  btn.disabled = true;
+
+  try {
+    const token = getInviteToken();
+    const resp = await fetch(`${SUPABASE_URL}/functions/v1/invite-verify`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        apikey: SUPABASE_ANON_KEY,
+        authorization: `Bearer ${SUPABASE_ANON_KEY}`
+      },
+      body: JSON.stringify({ token, inviter })
+    });
+    const result = await resp.json();
+
+    if (resp.ok && result.ok) {
+      window.inviteData = result; // step2 için sakla
+      showMessage(inviterForm, 'Doğrulama başarılı! İkinci adıma geçiliyor...', 'success');
+      setTimeout(() => showStep(2), 800);
+    } else {
+      let msg = 'Bu bilgilerle ağ listesinde kişi bulunamadı.';
+      if (result.reason === 'ambiguous') msg = 'Birden fazla eşleşme var. Lütfen e-postayı doğru girin.';
+      showMessage(inviterForm, msg, 'error');
     }
-    
-    .success-message {
-        background: #d1fae5;
-        color: #065f46;
-        border: 1px solid #a7f3d0;
+  } catch (err) {
+    console.error(err);
+    showMessage(inviterForm, `Doğrulama sırasında hata: ${err.message}`, 'error');
+  } finally {
+    btn.textContent = original;
+    btn.disabled = false;
+  }
+}
+
+// --- Adım 2: Kişi ekle ---
+async function handleSave() {
+  const fullName = document.getElementById('fullName').value.trim();
+  const parts = fullName.split(' ');
+  if (parts.length < 2) {
+    alert('Lütfen ad ve soyad giriniz.');
+    return;
+  }
+
+  const contact = {
+    first_name: parts[0],
+    last_name: parts.slice(1).join(' '),
+    age: parseInt(document.getElementById('age').value) || null,
+    city: document.getElementById('birthplace').value.trim(),
+    current_city: document.getElementById('currentCity').value.trim(),
+    university: document.getElementById('school').value.trim(),
+    degree: document.getElementById('degree').value.trim(),
+    graduation_year: parseInt(document.getElementById('graduationYear').value) || null,
+    email: document.getElementById('email').value.trim(),
+    phone: document.getElementById('phone').value.trim(),
+  };
+
+  const btn = saveBtn;
+  const original = btn.textContent;
+  btn.textContent = 'Gönderiliyor...';
+  btn.disabled = true;
+
+  try {
+    const token = getInviteToken();
+    const inviteData = window.inviteData;
+    if (!inviteData) throw new Error('Davet bilgileri yok');
+
+    const resp = await fetch(`${SUPABASE_URL}/functions/v1/invite-submit`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        token,
+        inviter_contact_id: inviteData.inviter_contact_id,
+        contact
+      })
+    });
+    const result = await resp.json();
+
+    if (!resp.ok || !result.ok) {
+      throw new Error(result?.error || 'Kişi eklenemedi');
     }
-    
-    .error-message {
-        background: #fee2e2;
-        color: #991b1b;
-        border: 1px solid #fecaca;
-    }
-`;
-document.head.appendChild(style);
+
+    alert('Kişi başarıyla eklendi!');
+    // İstersen success ekranına yönlendir
+    // location.href = '/invite/success';
+  } catch (err) {
+    console.error(err);
+    alert(`Gönderim hatası: ${err.message}`);
+  } finally {
+    btn.textContent = original;
+    btn.disabled = false;
+  }
+}
+
+// --- Event binding ---
+document.addEventListener('DOMContentLoaded', () => {
+  validateInviteToken();
+  inviterForm.addEventListener('submit', handleInviterSubmit);
+  backBtn.addEventListener('click', () => showStep(1));
+  saveBtn.addEventListener('click', handleSave);
+});

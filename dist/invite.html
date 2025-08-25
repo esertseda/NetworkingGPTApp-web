@@ -1,452 +1,174 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NetworkingGPT - Yeni Kişi Ekle</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NetworkingGPT - Yeni Kişi Ekle</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script type="module" crossorigin src="/assets/invite-uD5CgRn2.js"></script>
   <link rel="stylesheet" crossorigin href="/assets/style-C0jW_lz-.css">
 </head>
 <body>
-    <div class="container">
-        <!-- Header -->
-        <header class="header">
-            <div class="logo">
-                <img src="/assets/networkinggptlogo-DAodjIgS.jpeg" alt="NetworkingGPT Logo" class="logo-image">
-            </div>
-        </header>
+  <div class="container">
+    <header class="header">
+      <div class="logo">
+        <img src="/assets/networkinggptlogo-DAodjIgS.jpeg" alt="NetworkingGPT Logo" class="logo-image">
+      </div>
+    </header>
 
-        <!-- Main Content -->
-        <main class="main-content">
-            <!-- Step 1: Contact Verification -->
-            <div id="step1" class="step active">
-                <div class="form-card">
-                    <div class="step-header">
-                        <div class="step-icon">👥</div>
-                        <h2>Adım 1: Davet Gönderen Bilgileri</h2>
-                        <p>Sizinle bağlantı kurmak isteyen kişinin bilgilerini girin</p>
-                    </div>
+    <main class="main-content" id="mainContent">
+      <!-- Step 1 -->
+      <div id="step1" class="step active">
+        <div class="form-card">
+          <div class="step-header">
+            <div class="step-icon">👥</div>
+            <h2>Adım 1: Davet Gönderen Bilgileri</h2>
+            <p>Sizinle bağlantı kurmak isteyen kişinin bilgilerini girin</p>
+          </div>
 
-                    <section class="form-section">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="contactFirstName">Ad</label>
-                                <input type="text" id="contactFirstName" name="contactFirstName" placeholder="Adınız" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="contactLastName">Soyad</label>
-                                <input type="text" id="contactLastName" name="contactLastName" placeholder="Soyadınız" required>
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="contactEmail">E-posta Adresi</label>
-                            <input type="email" id="contactEmail" name="contactEmail" placeholder="e-posta@ornek.com" required>
-                        </div>
-                        
-                        <div class="form-actions">
-                            <button onclick="verifyContact()" class="btn btn-primary">
-                                <span class="btn-icon">✓</span>
-                                Devam Et
-                            </button>
-                        </div>
-                    </section>
-                </div>
+          <form id="inviterForm" class="form-section">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="contactFirstName">Ad</label>
+                <input type="text" id="contactFirstName" name="inviterFirstName" placeholder="Adınız" required>
+              </div>
+              <div class="form-group">
+                <label for="contactLastName">Soyad</label>
+                <input type="text" id="contactLastName" name="inviterLastName" placeholder="Soyadınız" required>
+              </div>
             </div>
 
-            <!-- Step 2: New Person Information -->
-            <div id="step2" class="step">
-                <div class="step-header">
-                    <div class="step-icon">👤+</div>
-                    <h2>Yeni Kişi Ekle</h2>
-                    <p>Ağınıza yeni bir bağlantı ekleyin ✨</p>
-                </div>
-
-                <!-- Progress Bar -->
-                <div class="progress-container">
-                    <div class="progress-info">
-                        <span class="progress-step">Adım 2/2</span>
-                        <span class="progress-percentage">100% Tamamlandı</span>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: 100%"></div>
-                        <div class="progress-markers">
-                            <div class="progress-marker active">👤</div>
-                            <div class="progress-marker active">💼</div>
-                        </div>
-                    </div>
-                    <div class="progress-label">Yeni Kişi Bilgileri</div>
-                </div>
-
-                <!-- Navigation Buttons -->
-                <div class="navigation-buttons">
-                    <button class="btn btn-secondary" onclick="prevStep()">
-                        ← Önceki Adım
-                    </button>
-                    <button class="btn btn-success" onclick="submitForm()">
-                        ✓ Kişi Ekle
-                    </button>
-                </div>
-
-                <!-- Step Icons -->
-                <div class="step-icons">
-                    <div class="step-icon-item">👤</div>
-                    <div class="step-icon-item active">💼</div>
-                </div>
-
-                <!-- Form Content -->
-                <div class="form-card">
-                    <section class="form-section">
-                        <div class="section-header">
-                            <div class="section-icon">👤</div>
-                            <h3>Temel Bilgiler</h3>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="fullName">Ad Soyad <span class="required">*</span></label>
-                                <input type="text" id="fullName" name="fullName" placeholder="Ad Soyad" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="age">Yaş</label>
-                                <input type="number" id="age" name="age" value="25">
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="birthplace">🏠 Nereli</label>
-                                <input type="text" id="birthplace" name="birthplace" value="İstanbul">
-                            </div>
-                            <div class="form-group">
-                                <label for="currentCity">📍 Şu An Yaşadığı Şehir</label>
-                                <input type="text" id="currentCity" name="currentCity" value="İstanbul">
-                            </div>
-                        </div>
-                    </section>
-
-                    <section class="form-section">
-                        <div class="section-header">
-                            <div class="section-icon">🎓</div>
-                            <h3>Eğitim Geçmişi</h3>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="school">Okul/Üniversite</label>
-                                <input type="text" id="school" name="school" value="Boğaziçi Üniversitesi">
-                            </div>
-                            <div class="form-group">
-                                <label for="department">Bölüm</label>
-                                <input type="text" id="department" name="department" value="Bilgisayar Mühendisliği">
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="degree">Derece</label>
-                                <input type="text" id="degree" name="degree" value="Lisans">
-                            </div>
-                            <div class="form-group">
-                                <label for="graduationYear">Mezuniyet Yılı</label>
-                                <input type="number" id="graduationYear" name="graduationYear" value="2020">
-                            </div>
-                        </div>
-                    </section>
-
-                    <section class="form-section">
-                        <div class="section-header">
-                            <div class="section-icon">📧</div>
-                            <h3>İletişim Bilgileri <span class="subtitle">(E-posta veya telefon gerekli)</span></h3>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="email">E-posta</label>
-                                <input type="email" id="email" name="email" value="ornek@email.com">
-                            </div>
-                            <div class="form-group">
-                                <label for="phone">Telefon</label>
-                                <input type="tel" id="phone" name="phone" value="+90 5XX XXX XX XX">
-                            </div>
-                        </div>
-                        <div class="warning-message">
-                            <span class="warning-icon">⚠️</span>
-                            E-posta veya telefon bilgilerinden en az biri girilmelidir.
-                        </div>
-                    </section>
-                </div>
+            <div class="form-group">
+              <label for="contactEmail">E-posta Adresi</label>
+              <input type="email" id="contactEmail" name="inviterEmail" placeholder="e-posta@ornek.com" required>
             </div>
-        </main>
-    </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script>
-        // Supabase client - Browser için güvenli yaklaşım
-        let supabase = null;
-        let currentStep = 1;
-        const totalSteps = 2;
-        
-        // Form verilerini saklamak için
-        let formData = {
-            // Contact bilgileri (Adım 1)
-            contact_first_name: '',
-            contact_last_name: '',
-            contact_email: '',
-            
-            // Yeni kişi bilgileri (Adım 2)
-            first_name: '',
-            last_name: '',
-            age: null,
-            city: '',
-            current_city: '',
-            university: '',
-            degree: '',
-            graduation_year: null,
-            email: '',
-            phone: ''
-        };
+            <div class="form-actions">
+              <button id="continueBtn" class="btn btn-primary" type="submit">
+                <span class="btn-icon">✓</span>
+                Devam Et
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
 
-        // Environment variables'dan oku (Vite build sonrası)
-        // Development için fallback değerler
-        const supabaseUrl = import.meta.env?.VITE_SUPABASE_URL || '';
-        const supabaseKey = import.meta.env?.VITE_SUPABASE_ANON_KEY || '';
+      <!-- Step 2 -->
+      <div id="step2" class="step">
+        <div class="step-header">
+          <div class="step-icon">👤+</div>
+          <h2>Yeni Kişi Ekle</h2>
+          <p>Ağınıza yeni bir bağlantı ekleyin ✨</p>
+        </div>
 
-        function initializeSupabase() {
-            if (supabaseUrl && supabaseKey) {
-                supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
-                console.log('Supabase başarıyla başlatıldı.');
-                return true;
-            } else {
-                console.error('Supabase bilgileri bulunamadı.');
-                showConfigError();
-                return false;
-            }
-        }
+        <div class="progress-container">
+          <div class="progress-info">
+            <span class="progress-step">Adım 2/2</span>
+            <span class="progress-percentage">100% Tamamlandı</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: 100%"></div>
+            <div class="progress-markers">
+              <div class="progress-marker active">👤</div>
+              <div class="progress-marker active">💼</div>
+            </div>
+          </div>
+          <div class="progress-label">Yeni Kişi Bilgileri</div>
+        </div>
 
-        function showConfigError() {
-            const mainContent = document.querySelector('.main-content');
-            mainContent.innerHTML = `
-                <div class="form-card">
-                    <div class="step-header">
-                        <div class="step-icon">⚠️</div>
-                        <h2>Konfigürasyon Hatası</h2>
-                        <p>Supabase bilgileri yapılandırılmamış</p>
-                    </div>
-                    <section class="form-section">
-                        <div class="info-message">
-                            <span class="info-icon">ℹ️</span>
-                            Bu uygulama Supabase veritabanı gerektirir. Lütfen environment variables'ları yapılandırın.
-                        </div>
-                        <div class="form-actions">
-                            <a href="https://github.com/your-username/your-repo#setup" target="_blank" class="btn btn-primary">
-                                <span class="btn-icon">📖</span>
-                                Kurulum Talimatları
-                            </a>
-                        </div>
-                    </section>
-                </div>
-            `;
-        }
+        <div class="navigation-buttons">
+          <button class="btn btn-secondary" id="backBtn" type="button">← Önceki Adım</button>
+          <button class="btn btn-success" id="saveBtn" type="button">✓ Kişi Ekle</button>
+        </div>
 
-        function showStep(stepNumber) {
-            // Hide all steps
-            document.querySelectorAll('.step').forEach(step => {
-                step.classList.remove('active');
-            });
-            
-            // Show current step
-            document.getElementById(`step${stepNumber}`).classList.add('active');
-            
-            // Update progress
-            updateProgress(stepNumber);
-            
-            // Update step icons
-            updateStepIcons(stepNumber);
-        }
+        <div class="step-icons">
+          <div class="step-icon-item">👤</div>
+          <div class="step-icon-item active">💼</div>
+        </div>
 
-        function nextStep() {
-            if (currentStep < totalSteps) {
-                currentStep++;
-                showStep(currentStep);
-            }
-        }
+        <div class="form-card">
+          <section class="form-section">
+            <div class="section-header">
+              <div class="section-icon">👤</div>
+              <h3>Temel Bilgiler</h3>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="fullName">Ad Soyad <span class="required">*</span></label>
+                <input type="text" id="fullName" name="fullName" placeholder="Ad Soyad" required>
+              </div>
+              <div class="form-group">
+                <label for="age">Yaş</label>
+                <input type="number" id="age" name="age" value="25">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="birthplace">🏠 Nereli</label>
+                <input type="text" id="birthplace" name="birthplace" value="İstanbul">
+              </div>
+              <div class="form-group">
+                <label for="currentCity">📍 Şu An Yaşadığı Şehir</label>
+                <input type="text" id="currentCity" name="currentCity" value="İstanbul">
+              </div>
+            </div>
+          </section>
 
-        function prevStep() {
-            if (currentStep > 1) {
-                currentStep--;
-                showStep(currentStep);
-            }
-        }
+          <section class="form-section">
+            <div class="section-header">
+              <div class="section-icon">🎓</div>
+              <h3>Eğitim Geçmişi</h3>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="school">Okul/Üniversite</label>
+                <input type="text" id="school" name="school" value="Boğaziçi Üniversitesi">
+              </div>
+              <div class="form-group">
+                <label for="department">Bölüm</label>
+                <input type="text" id="department" name="department" value="Bilgisayar Mühendisliği">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="degree">Derece</label>
+                <input type="text" id="degree" name="degree" value="Lisans">
+              </div>
+              <div class="form-group">
+                <label for="graduationYear">Mezuniyet Yılı</label>
+                <input type="number" id="graduationYear" name="graduationYear" value="2020">
+              </div>
+            </div>
+          </section>
 
-        function updateProgress(stepNumber) {
-            const percentage = Math.round((stepNumber / totalSteps) * 100);
-            const progressFill = document.querySelector('.progress-fill');
-            const progressStep = document.querySelector('.progress-step');
-            const progressPercentage = document.querySelector('.progress-percentage');
-            
-            if (progressFill) progressFill.style.width = percentage + '%';
-            if (progressStep) progressStep.textContent = `Adım ${stepNumber}/${totalSteps}`;
-            if (progressPercentage) progressPercentage.textContent = `${percentage}% Tamamlandı`;
-        }
+          <section class="form-section">
+            <div class="section-header">
+              <div class="section-icon">📧</div>
+              <h3>İletişim Bilgileri <span class="subtitle">(E-posta veya telefon gerekli)</span></h3>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="email">E-posta</label>
+                <input type="email" id="email" name="email" value="ornek@email.com">
+              </div>
+              <div class="form-group">
+                <label for="phone">Telefon</label>
+                <input type="tel" id="phone" name="phone" value="+90 5XX XXX XX XX">
+              </div>
+            </div>
+            <div class="warning-message">
+              <span class="warning-icon">⚠️</span>
+              E-posta veya telefon bilgilerinden en az biri girilmelidir.
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
+  </div>
 
-        function updateStepIcons(stepNumber) {
-            document.querySelectorAll('.step-icon-item').forEach((icon, index) => {
-                icon.classList.remove('active');
-                if (index === stepNumber - 1) {
-                    icon.classList.add('active');
-                }
-            });
-        }
+  <!-- Supabase client -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-        // Contact doğrulama fonksiyonu
-        async function verifyContact() {
-            try {
-                const firstName = document.getElementById('contactFirstName').value.trim();
-                const lastName = document.getElementById('contactLastName').value.trim();
-                const email = document.getElementById('contactEmail').value.trim();
-
-                if (!firstName || !lastName || !email) {
-                    alert('Lütfen tüm alanları doldurunuz!');
-                    return;
-                }
-
-                // Contact bilgilerini kaydet
-                formData.contact_first_name = firstName;
-                formData.contact_last_name = lastName;
-                formData.contact_email = email;
-
-                // Supabase'de contact'ı ara
-                const { data, error } = await supabase
-                    .from('contacts')
-                    .select('*')
-                    .eq('first_name', firstName)
-                    .eq('last_name', lastName)
-                    .eq('email', email)
-                    .single();
-
-                if (error) {
-                    if (error.code === 'PGRST116') {
-                        // Contact bulunamadı
-                        alert('Bu bilgilerle eşleşen bir contact bulunamadı. Lütfen bilgileri kontrol ediniz.');
-                        return;
-                    } else {
-                        console.error('Supabase error:', error);
-                        alert('Contact aranırken bir hata oluştu: ' + error.message);
-                        return;
-                    }
-                }
-
-                // Contact bulundu
-                console.log('Contact bulundu:', data);
-                alert('Contact başarıyla doğrulandı! Adım 2\'ye geçebilirsiniz.');
-                
-                // Adım 2'ye geç
-                currentStep = 2;
-                showStep(2);
-                
-            } catch (error) {
-                console.error('Contact doğrulama hatası:', error);
-                alert('Beklenmeyen bir hata oluştu!');
-            }
-        }
-
-        async function submitForm() {
-            try {
-                // Form verilerini topla
-                const fullName = document.getElementById('fullName').value.trim();
-                const nameParts = fullName.split(' ');
-                
-                if (nameParts.length < 2) {
-                    alert('Lütfen hem ad hem de soyad giriniz!');
-                    return;
-                }
-
-                // Yeni kişi verilerini hazırla
-                const contactData = {
-                    first_name: nameParts[0] || '',
-                    last_name: nameParts.slice(1).join(' ') || '',
-                    age: parseInt(document.getElementById('age').value) || null,
-                    city: document.getElementById('birthplace').value.trim(),
-                    current_city: document.getElementById('currentCity').value.trim(),
-                    university: document.getElementById('school').value.trim(),
-                    degree: document.getElementById('degree').value.trim(),
-                    graduation_year: parseInt(document.getElementById('graduationYear').value) || null,
-                    email: document.getElementById('email').value.trim(),
-                    phone: document.getElementById('phone').value.trim()
-                };
-
-                // Supabase'e gönder
-                const { data, error } = await supabase
-                    .from('contacts')
-                    .insert([contactData])
-                    .select()
-                    .single();
-
-                if (error) {
-                    console.error('Supabase error:', error);
-                    alert('Kişi eklenirken bir hata oluştu: ' + error.message);
-                    return;
-                }
-
-                console.log('Yeni kişi eklendi:', data);
-                showSuccessMessage('Kişi başarıyla eklendi! Mobil uygulamada ağ listesinde görünecektir.');
-                
-                // Form verilerini temizle
-                resetForm();
-                
-            } catch (error) {
-                console.error('Form gönderimi hatası:', error);
-                alert('Beklenmeyen bir hata oluştu!');
-            }
-        }
-
-        function showSuccessMessage(message) {
-            // Başarı mesajı göster
-            const successDiv = document.createElement('div');
-            successDiv.className = 'success-message';
-            successDiv.innerHTML = `
-                <div class="success-content">
-                    <div class="success-icon">✅</div>
-                    <h2>Başarılı!</h2>
-                    <p>${message}</p>
-                    <p>Kişi mobil uygulamada ağ listesinde görünecektir.</p>
-                    <button onclick="resetForm()" class="btn btn-primary">Yeni Kişi Ekle</button>
-                </div>
-            `;
-            
-            // Mevcut içeriği değiştir
-            const mainContent = document.querySelector('.main-content');
-            mainContent.innerHTML = '';
-            mainContent.appendChild(successDiv);
-        }
-
-        function resetForm() {
-            // Form verilerini sıfırla
-            formData = {
-                contact_first_name: '', contact_last_name: '', contact_email: '',
-                first_name: '', last_name: '', age: null, city: '', current_city: '',
-                university: '', degree: '', graduation_year: null, email: '', phone: ''
-            };
-            
-            // İlk adıma dön
-            currentStep = 1;
-            showStep(1);
-            
-            // Form alanlarını temizle
-            document.querySelectorAll('input, select, textarea').forEach(input => {
-                if (input.type === 'number') {
-                    input.value = input.defaultValue || '';
-                } else {
-                    input.value = '';
-                }
-            });
-        }
-
-        // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
-            // Supabase'i başlat
-            if (!initializeSupabase()) {
-                // Supabase başlatılamadıysa, kullanıcıya bilgi ver
-                return;
-            }
-            showStep(1);
-        });
-    </script>
+  <!-- Uygulama kodu: Vite ile derlenmiş module -->
 </body>
 </html>
