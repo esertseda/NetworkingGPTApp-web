@@ -177,10 +177,50 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        // Supabase client - .env dosyasından oku
-        const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://your-project.supabase.co';
-        const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'your_supabase_anon_key';
-        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+        // Supabase client - GitHub public repo için güvenli yaklaşım
+        // Environment variables kullanılacak
+        let supabase = null;
+
+        // Environment variables'dan oku (build sırasında değiştirilecek)
+        const supabaseUrl = process.env.VITE_SUPABASE_URL || '';
+        const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY || '';
+
+        function initializeSupabase() {
+            if (supabaseUrl && supabaseKey) {
+                supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+                console.log('Supabase başarıyla başlatıldı.');
+                return true;
+            } else {
+                console.error('Supabase bilgileri bulunamadı.');
+                showConfigError();
+                return false;
+            }
+        }
+
+        function showConfigError() {
+            const mainContent = document.querySelector('.main-content');
+            mainContent.innerHTML = `
+                <div class="form-card">
+                    <div class="step-header">
+                        <div class="step-icon">⚠️</div>
+                        <h2>Konfigürasyon Hatası</h2>
+                        <p>Supabase bilgileri yapılandırılmamış</p>
+                    </div>
+                    <section class="form-section">
+                        <div class="info-message">
+                            <span class="info-icon">ℹ️</span>
+                            Bu uygulama Supabase veritabanı gerektirir. Lütfen environment variables'ları yapılandırın.
+                        </div>
+                        <div class="form-actions">
+                            <a href="https://github.com/your-username/your-repo#setup" target="_blank" class="btn btn-primary">
+                                <span class="btn-icon">📖</span>
+                                Kurulum Talimatları
+                            </a>
+                        </div>
+                    </section>
+                </div>
+            `;
+        }
 
         let currentStep = 1;
         const totalSteps = 2;
@@ -401,6 +441,11 @@
 
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
+            // Supabase'i başlat
+            if (!initializeSupabase()) {
+                // Supabase başlatılamadıysa, kullanıcıya bilgi ver
+                return;
+            }
             showStep(1);
         });
     </script>
