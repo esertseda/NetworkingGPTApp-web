@@ -3,10 +3,11 @@ import { supabase } from '../lib/supabase'
 import './InviteForm.css'
 
 interface FormData {
-  // Adım 1: Davet gönderen kişi
+  // Adım 0: Davet gönderen kişi
   inviter_first_name: string
   inviter_last_name: string
   inviter_email: string
+  send_email_notification: boolean
   
   // Adım 2-7: Yeni kişi bilgileri
   // 1. Temel Bilgiler
@@ -59,10 +60,11 @@ interface FormData {
 const InviteForm: React.FC = () => {
   const [currentStep, setCurrentStep] = useState(1)
   const [formData, setFormData] = useState<FormData>({
-    // Adım 1: Davet gönderen kişi
+    // Adım 0: Davet gönderen kişi
     inviter_first_name: '',
     inviter_last_name: '',
     inviter_email: '',
+    send_email_notification: false,
     
     // 1. Temel Bilgiler
     new_person_first_name: '',
@@ -228,11 +230,21 @@ const InviteForm: React.FC = () => {
         return
       }
 
+      // Parent'ın mevcut degree'ini bul
+      const { data: parentRelationship, error: parentRelError } = await supabase
+        .from('relationships')
+        .select('degree')
+        .eq('child_contact_id', parentContact.id)
+        .single()
+
+      // Yeni kişinin degree'ini hesapla
+      const newDegree = parentRelationship ? parentRelationship.degree + 1 : 1
+
       // Parent-child ilişkisini kur (relationships tablosu)
       const relationshipData = {
         parent_contact_id: parentContact.id,
         child_contact_id: newContact.id,
-        degree: 1, // Direct connection
+        degree: newDegree,
         relationship_type: 'invite'
       }
 
@@ -249,14 +261,26 @@ const InviteForm: React.FC = () => {
       }
 
       console.log('Yeni kişi eklendi:', newContact)
+      
+      // E-posta gönderme işlemi
+      if (formData.send_email_notification && formData.new_person_email) {
+        try {
+          await sendEmailNotification(formData.new_person_email, formData.inviter_first_name, formData.inviter_last_name)
+          console.log('Bilgilendirme e-postası gönderildi')
+        } catch (error) {
+          console.error('E-posta gönderme hatası:', error)
+        }
+      }
+      
       alert('Kişi başarıyla eklendi! Mobil uygulamada ağ listesinde görünecektir.')
       
       // Formu sıfırla
       setFormData({
-        // Adım 1: Davet gönderen kişi
+        // Adım 0: Davet gönderen kişi
         inviter_first_name: '',
         inviter_last_name: '',
         inviter_email: '',
+        send_email_notification: false,
         
         // 1. Temel Bilgiler
         new_person_first_name: '',
@@ -314,6 +338,28 @@ const InviteForm: React.FC = () => {
 
   const updateFormData = (field: keyof FormData, value: string | number | null | boolean | string[]) => {
     setFormData(prev => ({ ...prev, [field]: value }))
+  }
+
+  const sendEmailNotification = async (recipientEmail: string, inviterFirstName: string, inviterLastName: string) => {
+    try {
+      const { error } = await supabase.functions.invoke('send-email-notification', {
+        body: {
+          recipient_email: recipientEmail,
+          inviter_first_name: inviterFirstName,
+          inviter_last_name: inviterLastName,
+          invite_link: window.location.origin + '/invite'
+        }
+      })
+      
+      if (error) {
+        throw error
+      }
+      
+      return true
+    } catch (error) {
+      console.error('E-posta gönderme hatası:', error)
+      throw error
+    }
   }
 
   return (
@@ -374,6 +420,8 @@ const InviteForm: React.FC = () => {
                 placeholder="e-posta@ornek.com"
               />
             </div>
+            
+
             
             <div className="form-actions">
               <button type="submit" className="btn btn-primary">
@@ -598,6 +646,27 @@ const InviteForm: React.FC = () => {
                     placeholder="Kişi hakkında genel notlar..."
                     rows={3}
                   />
+                </div>
+              </section>
+
+              <section className="form-section">
+                <div className="section-header">
+                  <div className="section-icon">📧</div>
+                  <h3>Bilgilendirme E-postası</h3>
+                </div>
+                <div className="form-group">
+                  <div className="checkbox-item">
+                    <input
+                      type="checkbox"
+                      id="sendEmailNotification"
+                      checked={formData.send_email_notification}
+                      onChange={(e) => updateFormData('send_email_notification', e.target.checked)}
+                    />
+                    <label htmlFor="sendEmailNotification">Kişiye e-posta göndermek ister misiniz?</label>
+                  </div>
+                  <p style={{ fontSize: '0.9rem', color: '#9CA3AF', marginTop: '8px' }}>
+                    E-posta gönderilirse, kişi NetworkingGPT ağına eklendiği konusunda bilgilendirilecek ve kendi ağına kişi ekleyebilmesi için davet bağlantısı alacaktır.
+                  </p>
                 </div>
               </section>
             </div>
@@ -1045,6 +1114,8 @@ const InviteForm: React.FC = () => {
                   />
                 </div>
               </section>
+
+
             </div>
           )}
         </div>
