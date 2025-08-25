@@ -231,7 +231,7 @@ export default function InviteForm() {
       const { data: newContact, error: insertError } = await supabase
         .from('contacts')
         .insert([newContactData])
-        .select('*')
+        .select()
         .single();
 
       if (insertError) {
