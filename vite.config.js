@@ -15,5 +15,7 @@ export default defineConfig({
     'import.meta.env.VITE_SUPABASE_ANON_KEY': JSON.stringify(process.env.VITE_SUPABASE_ANON_KEY)
   },
   // Development için .env dosyasını yükle
-  envDir: '.'
+  envDir: '.',
+  // Assets'leri kopyala
+  assetsInclude: ['**/*.js']
 })
