@@ -52,7 +52,6 @@ interface FormData {
   
   // 6. Gelecek
   new_person_future_goals: string
-  new_person_business_approach: string
   new_person_investment_interest: boolean
   new_person_collaboration_areas: string
 }
@@ -108,7 +107,6 @@ const InviteForm: React.FC = () => {
     
     // 6. Gelecek
     new_person_future_goals: '',
-    new_person_business_approach: '',
     new_person_investment_interest: false,
     new_person_collaboration_areas: ''
   })
@@ -210,7 +208,6 @@ const InviteForm: React.FC = () => {
         challenges: formData.new_person_challenges,
         lessons: formData.new_person_lessons,
         future_goals: formData.new_person_future_goals,
-        business_approach: formData.new_person_business_approach,
         investment_interest: formData.new_person_investment_interest,
         collaboration_areas: formData.new_person_collaboration_areas,
         relationship_level: formData.new_person_relationship_level,
@@ -324,7 +321,6 @@ const InviteForm: React.FC = () => {
         
         // 6. Gelecek
         new_person_future_goals: '',
-        new_person_business_approach: '',
         new_person_investment_interest: false,
         new_person_collaboration_areas: ''
       })
@@ -1134,9 +1130,9 @@ const InviteForm: React.FC = () => {
                   <label htmlFor="investmentInterest">💰 Yatırım yapma / ortaklık kurma isteği var</label>
                   <textarea
                     id="investmentInterest"
-                    value={formData.new_person_business_approach}
-                    onChange={(e) => updateFormData('new_person_business_approach', e.target.value)}
-                    placeholder=""
+                    value=""
+                    onChange={(e) => {}}
+                    placeholder="Yatırım ve ortaklık istekleri..."
                     rows={3}
                   />
                 </div>
