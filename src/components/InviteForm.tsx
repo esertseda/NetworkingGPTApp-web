@@ -318,6 +318,18 @@ const InviteForm: React.FC = () => {
 
   return (
     <div className="invite-form">
+      {/* Header */}
+      <div className="header">
+        <div className="logo-container">
+          <img src="/networkinggptlogo.jpeg" alt="NetworkingGPT Logo" className="logo-image" />
+        </div>
+        <div className="tagline">Davete özel kişi ekleme platformu</div>
+        <div className="motto">
+          <span className="sparkle">✨</span>
+          Mitolojik güçle ağınızı genişletin
+        </div>
+      </div>
+
       {currentStep === 1 ? (
         <div className="step-container">
           <div className="step-header">
@@ -375,8 +387,14 @@ const InviteForm: React.FC = () => {
         <div className="step-container">
           <div className="step-header">
             <div className="step-icon">👤+</div>
-            <h2>Yeni Kişi Ekle</h2>
-            <p>Ağınıza yeni bir bağlantı ekleyin ✨</p>
+            <h2>Adım 2: Ağınıza Katılın</h2>
+            <p>Hermes'in rehberliğinde yeni bağlantınızı oluşturun</p>
+          </div>
+
+          <div className="add-person-section">
+            <div className="add-person-icon">👤+</div>
+            <div className="add-person-title">Yeni Kişi Ekle</div>
+            <div className="add-person-subtitle">Ağınıza yeni bir bağlantı ekleyin ✨</div>
           </div>
 
           <div className="progress-container">
@@ -396,12 +414,12 @@ const InviteForm: React.FC = () => {
               </div>
             </div>
             <div className="progress-label">
-              {currentStep === 1 && 'Temel Bilgiler'}
-              {currentStep === 2 && 'İş Bilgileri'}
-              {currentStep === 3 && 'Kişisel Özellikler'}
-              {currentStep === 4 && 'Sosyal Bilgiler'}
-              {currentStep === 5 && 'Deneyim'}
-              {currentStep === 6 && 'Gelecek'}
+              {currentStep === 1 && '👤 Temel Bilgiler'}
+              {currentStep === 2 && '💼 İş Bilgileri'}
+              {currentStep === 3 && '🎯 Kişisel Özellikler'}
+              {currentStep === 4 && '🌐 Sosyal Bilgiler'}
+              {currentStep === 5 && '📚 Deneyim'}
+              {currentStep === 6 && '🚀 Gelecek'}
             </div>
           </div>
 
@@ -436,7 +454,7 @@ const InviteForm: React.FC = () => {
               <section className="form-section">
                 <div className="section-header">
                   <div className="section-icon">👤</div>
-                  <h3>1. Temel Bilgiler</h3>
+                  <h3>Temel Bilgiler</h3>
                 </div>
                 <div className="form-row">
                   <div className="form-group">
@@ -455,20 +473,6 @@ const InviteForm: React.FC = () => {
                     />
                   </div>
                   <div className="form-group">
-                    <label htmlFor="relationshipLevel">Yakınlık Seviyesi (1-10)</label>
-                    <input
-                      type="range"
-                      id="relationshipLevel"
-                      min="1"
-                      max="10"
-                      value={formData.new_person_relationship_level}
-                      onChange={(e) => updateFormData('new_person_relationship_level', parseInt(e.target.value))}
-                    />
-                    <span className="range-value">{formData.new_person_relationship_level}</span>
-                  </div>
-                </div>
-                <div className="form-row">
-                  <div className="form-group">
                     <label htmlFor="age">Yaş</label>
                     <input
                       type="number"
@@ -478,6 +482,8 @@ const InviteForm: React.FC = () => {
                       placeholder="25"
                     />
                   </div>
+                </div>
+                <div className="form-row">
                   <div className="form-group">
                     <label htmlFor="birthplace">🏠 Nereli</label>
                     <input
@@ -488,8 +494,6 @@ const InviteForm: React.FC = () => {
                       placeholder="İstanbul"
                     />
                   </div>
-                </div>
-                <div className="form-row">
                   <div className="form-group">
                     <label htmlFor="currentCity">📍 Şu An Yaşadığı Şehir</label>
                     <input
@@ -557,7 +561,7 @@ const InviteForm: React.FC = () => {
               <section className="form-section">
                 <div className="section-header">
                   <div className="section-icon">📧</div>
-                  <h3>İletişim Bilgileri</h3>
+                  <h3>İletişim Bilgileri (E-posta veya telefon gerekli)</h3>
                 </div>
                 <div className="form-row">
                   <div className="form-group">
@@ -581,13 +585,17 @@ const InviteForm: React.FC = () => {
                     />
                   </div>
                 </div>
+                <div className="warning-message">
+                  <span className="warning-icon">⚠️</span>
+                  E-posta veya telefon bilgilerinden en az biri girilmelidir.
+                </div>
                 <div className="form-group">
-                  <label htmlFor="description">Kişi Hakkında Genel Açıklama</label>
+                  <label htmlFor="description">Genel Açıklama</label>
                   <textarea
                     id="description"
                     value={formData.new_person_description}
                     onChange={(e) => updateFormData('new_person_description', e.target.value)}
-                    placeholder="Kişi hakkında kısa bir açıklama..."
+                    placeholder="Kişi hakkında genel notlar..."
                     rows={3}
                   />
                 </div>
@@ -601,21 +609,21 @@ const InviteForm: React.FC = () => {
               <section className="form-section">
                 <div className="section-header">
                   <div className="section-icon">💼</div>
-                  <h3>2. İş Bilgileri</h3>
+                  <h3>İş ve Profesyonel Bilgiler</h3>
                 </div>
                 <div className="form-row">
                   <div className="form-group">
-                    <label htmlFor="position">Şu Anki Pozisyonu</label>
+                    <label htmlFor="position">Pozisyon <span className="required">*</span></label>
                     <input
                       type="text"
                       id="position"
                       value={formData.new_person_position}
                       onChange={(e) => updateFormData('new_person_position', e.target.value)}
-                      placeholder="Yazılım Geliştirici"
+                      placeholder="Senior Frontend Developer"
                     />
                   </div>
                   <div className="form-group">
-                    <label htmlFor="company">Şirketi</label>
+                    <label htmlFor="company">Şirket</label>
                     <input
                       type="text"
                       id="company"
@@ -625,88 +633,83 @@ const InviteForm: React.FC = () => {
                     />
                   </div>
                 </div>
+                <div className="form-row">
+                  <div className="form-group">
+                    <label htmlFor="sectors">🏢 Sektörler</label>
+                    <select
+                      id="sectors"
+                      value=""
+                      onChange={(e) => {
+                        if (e.target.value) {
+                          updateFormData('new_person_expertise', [...formData.new_person_expertise, e.target.value])
+                          e.target.value = ''
+                        }
+                      }}
+                    >
+                      <option value="">Sektör seçin...</option>
+                      <option value="Teknoloji">Teknoloji</option>
+                      <option value="Finans">Finans</option>
+                      <option value="Sağlık">Sağlık</option>
+                      <option value="Eğitim">Eğitim</option>
+                      <option value="Pazarlama">Pazarlama</option>
+                      <option value="Üretim">Üretim</option>
+                      <option value="Hizmet">Hizmet</option>
+                      <option value="E-ticaret">E-ticaret</option>
+                    </select>
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="expertise">🎯 Uzmanlık Alanları</label>
+                    <select
+                      id="expertise"
+                      value=""
+                      onChange={(e) => {
+                        if (e.target.value) {
+                          updateFormData('new_person_expertise', [...formData.new_person_expertise, e.target.value])
+                          e.target.value = ''
+                        }
+                      }}
+                    >
+                      <option value="">Uzmanlık alanı seçin...</option>
+                      <option value="Frontend">Frontend</option>
+                      <option value="Backend">Backend</option>
+                      <option value="Mobile">Mobile</option>
+                      <option value="DevOps">DevOps</option>
+                      <option value="UI/UX">UI/UX</option>
+                      <option value="Data Science">Data Science</option>
+                      <option value="AI/ML">AI/ML</option>
+                    </select>
+                  </div>
+                </div>
+                <div className="form-row">
+                  <div className="form-group">
+                    <label htmlFor="services">🛠️ Verebileceği Hizmetler</label>
+                    <select
+                      id="services"
+                      value=""
+                      onChange={(e) => {
+                        if (e.target.value) {
+                          updateFormData('new_person_services', [...formData.new_person_services, e.target.value])
+                          e.target.value = ''
+                        }
+                      }}
+                    >
+                      <option value="">Hizmet seçin...</option>
+                      <option value="Web Geliştirme">Web Geliştirme</option>
+                      <option value="Mobil Uygulama">Mobil Uygulama</option>
+                      <option value="UI/UX Tasarım">UI/UX Tasarım</option>
+                      <option value="Danışmanlık">Danışmanlık</option>
+                      <option value="Eğitim">Eğitim</option>
+                      <option value="Mentorluk">Mentorluk</option>
+                    </select>
+                  </div>
+                </div>
                 <div className="form-group">
-                  <label htmlFor="workExperience">Daha Önceki İş Tecrübeleri</label>
+                  <label htmlFor="workExperience">📝 İş Deneyimi (Kısa Notlar)</label>
                   <textarea
                     id="workExperience"
                     value={formData.new_person_work_experience}
                     onChange={(e) => updateFormData('new_person_work_experience', e.target.value)}
-                    placeholder="Önceki iş deneyimleri..."
-                    rows={3}
-                  />
-                </div>
-              </section>
-
-              <section className="form-section">
-                <div className="section-header">
-                  <div className="section-icon">🎯</div>
-                  <h3>Uzmanlık Alanları</h3>
-                </div>
-                <div className="form-group">
-                  <label>Uzmanlık Alanları (Birden fazla seçebilirsiniz)</label>
-                  <div className="checkbox-group">
-                    {['Yazılım Geliştirme', 'Finans', 'Pazarlama', 'Tasarım', 'Satış', 'İnsan Kaynakları', 'Müşteri Hizmetleri', 'Üretim', 'Lojistik', 'Eğitim', 'Sağlık', 'Hukuk', 'Mimarlık', 'Mühendislik', 'Bilim', 'Sanat', 'Spor', 'Medya', 'Turizm', 'Tarım'].map((expertise) => (
-                      <div key={expertise} className="checkbox-item">
-                        <input
-                          type="checkbox"
-                          id={`expertise-${expertise}`}
-                          checked={formData.new_person_expertise.includes(expertise)}
-                          onChange={(e) => {
-                            if (e.target.checked) {
-                              updateFormData('new_person_expertise', [...formData.new_person_expertise, expertise])
-                            } else {
-                              updateFormData('new_person_expertise', formData.new_person_expertise.filter(item => item !== expertise))
-                            }
-                          }}
-                        />
-                        <label htmlFor={`expertise-${expertise}`}>{expertise}</label>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </section>
-
-              <section className="form-section">
-                <div className="section-header">
-                  <div className="section-icon">🛠️</div>
-                  <h3>Verebileceği Hizmetler</h3>
-                </div>
-                <div className="form-group">
-                  <label>Hizmetler (Birden fazla seçebilirsiniz)</label>
-                  <div className="checkbox-group">
-                    {['Tasarım', 'Yazılım Geliştirme', 'Pazarlama', 'Danışmanlık', 'Eğitim', 'Çeviri', 'Muhasebe', 'Hukuki Danışmanlık', 'Sağlık Hizmetleri', 'Teknik Destek', 'İçerik Yazarlığı', 'Sosyal Medya Yönetimi', 'SEO', 'Grafik Tasarım', 'Web Tasarım', 'Mobil Uygulama', 'Veri Analizi', 'Proje Yönetimi', 'Satış', 'Müşteri Hizmetleri'].map((service) => (
-                      <div key={service} className="checkbox-item">
-                        <input
-                          type="checkbox"
-                          id={`service-${service}`}
-                          checked={formData.new_person_services.includes(service)}
-                          onChange={(e) => {
-                            if (e.target.checked) {
-                              updateFormData('new_person_services', [...formData.new_person_services, service])
-                            } else {
-                              updateFormData('new_person_services', formData.new_person_services.filter(item => item !== service))
-                            }
-                          }}
-                        />
-                        <label htmlFor={`service-${service}`}>{service}</label>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </section>
-
-              <section className="form-section">
-                <div className="section-header">
-                  <div className="section-icon">💰</div>
-                  <h3>Yatırım ve Destek</h3>
-                </div>
-                <div className="form-group">
-                  <label htmlFor="investments">Yatırım Yaptığı veya Destek Verdiği Projeler</label>
-                  <textarea
-                    id="investments"
-                    value={formData.new_person_investments}
-                    onChange={(e) => updateFormData('new_person_investments', e.target.value)}
-                    placeholder="Desteklediği projeler, yatırımlar..."
+                    placeholder="Önceki iş deneyimleri, projeler, başarılar..."
                     rows={3}
                   />
                 </div>
@@ -720,28 +723,91 @@ const InviteForm: React.FC = () => {
               <section className="form-section">
                 <div className="section-header">
                   <div className="section-icon">🎯</div>
-                  <h3>3. Kişisel Özellikler</h3>
+                  <h3>Kişisel Özellikler</h3>
                 </div>
+                
                 <div className="form-group">
-                  <label>Kişisel Özellikler (Birden fazla seçebilirsiniz)</label>
+                  <label>Kategori</label>
                   <div className="checkbox-group">
-                    {['Dürüstlük', 'Güvenilirlik', 'Disiplin', 'Çalışkanlık', 'Sabırlı Olmak', 'Liderlik', 'Takım Çalışması', 'İletişim Becerisi', 'Problem Çözme', 'Yaratıcılık', 'Analitik Düşünme', 'Esneklik', 'Sorumluluk', 'Merak', 'Öğrenmeye Açık', 'Detaycı', 'Organize', 'Motivasyon', 'Empati', 'Kararlılık'].map((trait) => (
-                      <div key={trait} className="checkbox-item">
-                        <input
-                          type="checkbox"
-                          id={`trait-${trait}`}
-                          checked={formData.new_person_personal_traits.includes(trait)}
-                          onChange={(e) => {
-                            if (e.target.checked) {
-                              updateFormData('new_person_personal_traits', [...formData.new_person_personal_traits, trait])
-                            } else {
-                              updateFormData('new_person_personal_traits', formData.new_person_personal_traits.filter(item => item !== trait))
-                            }
-                          }}
-                        />
-                        <label htmlFor={`trait-${trait}`}>{trait}</label>
-                      </div>
-                    ))}
+                    <div className="checkbox-item">
+                      <input type="radio" name="category" id="category-work" />
+                      <label htmlFor="category-work">💼 İş</label>
+                    </div>
+                    <div className="checkbox-item">
+                      <input type="radio" name="category" id="category-family" />
+                      <label htmlFor="category-family">🏠 Aile</label>
+                    </div>
+                    <div className="checkbox-item">
+                      <input type="radio" name="category" id="category-friend" />
+                      <label htmlFor="category-friend">❤️ Arkadaş</label>
+                    </div>
+                    <div className="checkbox-item">
+                      <input type="radio" name="category" id="category-other" />
+                      <label htmlFor="category-other">⋯ Diğer</label>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="relationshipLevel">❤️ Yakınlık Seviyesi</label>
+                  <input
+                    type="range"
+                    id="relationshipLevel"
+                    min="1"
+                    max="10"
+                    value={formData.new_person_relationship_level}
+                    onChange={(e) => updateFormData('new_person_relationship_level', parseInt(e.target.value))}
+                  />
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '5px' }}>
+                    <span style={{ fontSize: '0.8rem', color: '#9CA3AF' }}>Uzak (1)</span>
+                    <span style={{ fontSize: '0.9rem', color: '#8B5CF6', fontWeight: '600' }}>{formData.new_person_relationship_level}/10</span>
+                    <span style={{ fontSize: '0.8rem', color: '#9CA3AF' }}>Yakın (10)</span>
+                  </div>
+                </div>
+
+                <div className="form-group">
+                  <label>Kişisel Özellikler</label>
+                  <div className="checkbox-group">
+                    <div className="checkbox-item">
+                      <input type="checkbox" id="trait-honesty" />
+                      <label htmlFor="trait-honesty">🛡️ Dürüstlük</label>
+                    </div>
+                    <div className="checkbox-item">
+                      <input type="checkbox" id="trait-discipline" />
+                      <label htmlFor="trait-discipline">❤️ Disiplin</label>
+                    </div>
+                    <div className="checkbox-item">
+                      <input type="checkbox" id="trait-patience" />
+                      <label htmlFor="trait-patience">⏳ Sabırlılık</label>
+                    </div>
+                    <div className="checkbox-item">
+                      <input type="checkbox" id="trait-teamwork" />
+                      <label htmlFor="trait-teamwork">🤝 Takım Çalışması</label>
+                    </div>
+                    <div className="checkbox-item">
+                      <input type="checkbox" id="trait-creativity" />
+                      <label htmlFor="trait-creativity">💡 Yaratıcılık</label>
+                    </div>
+                    <div className="checkbox-item">
+                      <input type="checkbox" id="trait-reliability" />
+                      <label htmlFor="trait-reliability">✅ Güvenilirlik</label>
+                    </div>
+                    <div className="checkbox-item">
+                      <input type="checkbox" id="trait-hardworking" />
+                      <label htmlFor="trait-hardworking">💪 Çalışkanlık</label>
+                    </div>
+                    <div className="checkbox-item">
+                      <input type="checkbox" id="trait-leadership" />
+                      <label htmlFor="trait-leadership">👑 Liderlik</label>
+                    </div>
+                    <div className="checkbox-item">
+                      <input type="checkbox" id="trait-communication" />
+                      <label htmlFor="trait-communication">💬 İletişim Becerisi</label>
+                    </div>
+                    <div className="checkbox-item">
+                      <input type="checkbox" id="trait-adaptability" />
+                      <label htmlFor="trait-adaptability">🌍 Uyum Yeteneği</label>
+                    </div>
                   </div>
                 </div>
               </section>
@@ -752,25 +818,48 @@ const InviteForm: React.FC = () => {
                   <h3>Değer Verdiği Prensipler</h3>
                 </div>
                 <div className="form-group">
-                  <label>Değerler (Birden fazla seçebilirsiniz)</label>
+                  <label>Değerler</label>
                   <div className="checkbox-group">
-                    {['Etik', 'Sürdürülebilirlik', 'Topluma Fayda', 'İnovasyon', 'Kalite', 'Müşteri Memnuniyeti', 'Çevre Bilinci', 'Sosyal Sorumluluk', 'Şeffaflık', 'Adalet', 'Eşitlik', 'Çeşitlilik', 'Kapsayıcılık', 'Güven', 'Saygı', 'İşbirliği', 'Sürekli Gelişim', 'Mükemmellik', 'Yaratıcılık', 'Cesaret'].map((value) => (
-                      <div key={value} className="checkbox-item">
-                        <input
-                          type="checkbox"
-                          id={`value-${value}`}
-                          checked={formData.new_person_values.includes(value)}
-                          onChange={(e) => {
-                            if (e.target.checked) {
-                              updateFormData('new_person_values', [...formData.new_person_values, value])
-                            } else {
-                              updateFormData('new_person_values', formData.new_person_values.filter(item => item !== value))
-                            }
-                          }}
-                        />
-                        <label htmlFor={`value-${value}`}>{value}</label>
-                      </div>
-                    ))}
+                    <div className="checkbox-item">
+                      <input type="checkbox" id="value-ethics" />
+                      <label htmlFor="value-ethics">⚖️ Etik</label>
+                    </div>
+                    <div className="checkbox-item">
+                      <input type="checkbox" id="value-sustainability" />
+                      <label htmlFor="value-sustainability">🌱 Sürdürülebilirlik</label>
+                    </div>
+                    <div className="checkbox-item">
+                      <input type="checkbox" id="value-community" />
+                      <label htmlFor="value-community">❤️ Topluma Fayda</label>
+                    </div>
+                    <div className="checkbox-item">
+                      <input type="checkbox" id="value-innovation" />
+                      <label htmlFor="value-innovation">💡 İnovasyon</label>
+                    </div>
+                    <div className="checkbox-item">
+                      <input type="checkbox" id="value-quality" />
+                      <label htmlFor="value-quality">⭐ Kalite</label>
+                    </div>
+                    <div className="checkbox-item">
+                      <input type="checkbox" id="value-customer" />
+                      <label htmlFor="value-customer">🎯 Müşteri Odaklılık</label>
+                    </div>
+                    <div className="checkbox-item">
+                      <input type="checkbox" id="value-learning" />
+                      <label htmlFor="value-learning">📚 Sürekli Öğrenme</label>
+                    </div>
+                    <div className="checkbox-item">
+                      <input type="checkbox" id="value-transparency" />
+                      <label htmlFor="value-transparency">👁️ Şeffaflık</label>
+                    </div>
+                    <div className="checkbox-item">
+                      <input type="checkbox" id="value-justice" />
+                      <label htmlFor="value-justice">⚖️ Adalet</label>
+                    </div>
+                    <div className="checkbox-item">
+                      <input type="checkbox" id="value-empathy" />
+                      <label htmlFor="value-empathy">❤️ Empati</label>
+                    </div>
                   </div>
                 </div>
               </section>
@@ -778,10 +867,10 @@ const InviteForm: React.FC = () => {
               <section className="form-section">
                 <div className="section-header">
                   <div className="section-icon">🎯</div>
-                  <h3>Hedefler ve Vizyon</h3>
+                  <h3>Hedefleri</h3>
                 </div>
                 <div className="form-group">
-                  <label htmlFor="goals">Hedefleri</label>
+                  <label htmlFor="goals">Kısa ve uzun vadeli hedefleri...</label>
                   <textarea
                     id="goals"
                     value={formData.new_person_goals}
@@ -790,13 +879,20 @@ const InviteForm: React.FC = () => {
                     rows={3}
                   />
                 </div>
+              </section>
+
+              <section className="form-section">
+                <div className="section-header">
+                  <div className="section-icon">👁️</div>
+                  <h3>Vizyonu</h3>
+                </div>
                 <div className="form-group">
-                  <label htmlFor="vision">Vizyonu</label>
+                  <label htmlFor="vision">Kişisel vizyonu ve misyonu...</label>
                   <textarea
                     id="vision"
                     value={formData.new_person_vision}
                     onChange={(e) => updateFormData('new_person_vision', e.target.value)}
-                    placeholder="Gelecek vizyonu, hayalleri..."
+                    placeholder="Kişisel vizyonu ve misyonu..."
                     rows={3}
                   />
                 </div>
@@ -810,67 +906,57 @@ const InviteForm: React.FC = () => {
               <section className="form-section">
                 <div className="section-header">
                   <div className="section-icon">🌐</div>
-                  <h3>4. Sosyal Bilgiler</h3>
+                  <h3>Sosyal ve Networking</h3>
                 </div>
                 <div className="form-group">
-                  <label htmlFor="hobbies">Hobiler ve İlgi Alanları</label>
-                  <textarea
-                    id="hobbies"
-                    value={formData.new_person_hobbies}
-                    onChange={(e) => updateFormData('new_person_hobbies', e.target.value)}
-                    placeholder="Hobiler, ilgi alanları, aktiviteler..."
-                    rows={3}
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="languages">Konuştuğu Diller</label>
-                  <input
-                    type="text"
+                  <label htmlFor="languages">🌍 Konuştuğu Diller</label>
+                  <select
                     id="languages"
-                    value={formData.new_person_languages}
-                    onChange={(e) => updateFormData('new_person_languages', e.target.value)}
-                    placeholder="Türkçe, İngilizce, Almanca..."
-                  />
+                    value=""
+                    onChange={(e) => {
+                      if (e.target.value) {
+                        updateFormData('new_person_languages', e.target.value)
+                      }
+                    }}
+                  >
+                    <option value="">Dil seçin...</option>
+                    <option value="Türkçe">Türkçe</option>
+                    <option value="İngilizce">İngilizce</option>
+                    <option value="Almanca">Almanca</option>
+                    <option value="Fransızca">Fransızca</option>
+                    <option value="İspanyolca">İspanyolca</option>
+                    <option value="İtalyanca">İtalyanca</option>
+                    <option value="Rusça">Rusça</option>
+                    <option value="Arapça">Arapça</option>
+                    <option value="Çince">Çince</option>
+                    <option value="Japonca">Japonca</option>
+                  </select>
+                </div>
+                <div className="form-group">
+                  <div className="checkbox-item">
+                    <input
+                      type="checkbox"
+                      id="mentor"
+                      checked={formData.new_person_mentor}
+                      onChange={(e) => updateFormData('new_person_mentor', e.target.checked)}
+                    />
+                    <label htmlFor="mentor">Mentor olarak hizmet veriyor</label>
+                  </div>
                 </div>
               </section>
 
               <section className="form-section">
                 <div className="section-header">
                   <div className="section-icon">👨‍🏫</div>
-                  <h3>Mentorluk ve Gönüllülük</h3>
+                  <h3>Gönüllü İşler / Topluluk Deneyimleri</h3>
                 </div>
                 <div className="form-group">
-                  <label>Mentor Olma Durumu</label>
-                  <div className="radio-group">
-                    <div className="radio-item">
-                      <input
-                        type="radio"
-                        id="mentor-yes"
-                        name="mentor"
-                        checked={formData.new_person_mentor === true}
-                        onChange={() => updateFormData('new_person_mentor', true)}
-                      />
-                      <label htmlFor="mentor-yes">Evet, mentor oluyor</label>
-                    </div>
-                    <div className="radio-item">
-                      <input
-                        type="radio"
-                        id="mentor-no"
-                        name="mentor"
-                        checked={formData.new_person_mentor === false}
-                        onChange={() => updateFormData('new_person_mentor', false)}
-                      />
-                      <label htmlFor="mentor-no">Hayır, mentor değil</label>
-                    </div>
-                  </div>
-                </div>
-                <div className="form-group">
-                  <label htmlFor="volunteerExperience">Gönüllü İşler / Topluluk Deneyimleri</label>
+                  <label htmlFor="volunteerExperience">Gönüllü çalışmaları ve topluluk deneyimleri...</label>
                   <textarea
                     id="volunteerExperience"
                     value={formData.new_person_volunteer_experience}
                     onChange={(e) => updateFormData('new_person_volunteer_experience', e.target.value)}
-                    placeholder="Gönüllü çalışmalar, topluluk deneyimleri..."
+                    placeholder="Gönüllü çalışmalar ve topluluk deneyimleri..."
                     rows={3}
                   />
                 </div>
@@ -883,36 +969,36 @@ const InviteForm: React.FC = () => {
             <div className="form-card">
               <section className="form-section">
                 <div className="section-header">
-                  <div className="section-icon">📚</div>
-                  <h3>5. Deneyim</h3>
+                  <div className="section-icon">🏆</div>
+                  <h3>Kritik Yaşam Deneyimleri</h3>
                 </div>
                 <div className="form-group">
-                  <label htmlFor="turningPoints">Hayatındaki Dönüm Noktaları</label>
+                  <label htmlFor="turningPoints">📄 Hayatındaki Dönüm Noktaları</label>
                   <textarea
                     id="turningPoints"
                     value={formData.new_person_turning_points}
                     onChange={(e) => updateFormData('new_person_turning_points', e.target.value)}
-                    placeholder="Kariyer veya hayatındaki önemli dönüm noktaları..."
+                    placeholder="Şirket kurma, iş değiştirme, ülke değiştirme gibi dönüm noktaları..."
                     rows={3}
                   />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="challenges">Karşılaştığı Büyük Zorluklar</label>
+                  <label htmlFor="challenges">💪 Karşılaştığı Büyük Zorluklar</label>
                   <textarea
                     id="challenges"
                     value={formData.new_person_challenges}
                     onChange={(e) => updateFormData('new_person_challenges', e.target.value)}
-                    placeholder="Hayatında karşılaştığı büyük zorluklar..."
+                    placeholder="Karşılaştığı zorluklar ve nasıl aştığı..."
                     rows={3}
                   />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="lessons">Öğrendiği Büyük Dersler</label>
+                  <label htmlFor="lessons">📚 Öğrendiği En Büyük Dersler</label>
                   <textarea
                     id="lessons"
                     value={formData.new_person_lessons}
                     onChange={(e) => updateFormData('new_person_lessons', e.target.value)}
-                    placeholder="Hayatından öğrendiği önemli dersler..."
+                    placeholder="Hayattan öğrendiği en önemli dersler..."
                     rows={3}
                   />
                 </div>
@@ -926,67 +1012,35 @@ const InviteForm: React.FC = () => {
               <section className="form-section">
                 <div className="section-header">
                   <div className="section-icon">🚀</div>
-                  <h3>6. Gelecek</h3>
+                  <h3>İleriye Dönük Planlar</h3>
                 </div>
                 <div className="form-group">
-                  <label htmlFor="futureGoals">5/10 Yıllık Hedefleri</label>
+                  <label htmlFor="futureGoals">❤️ 5-10 Yıllık Hedefleri</label>
                   <textarea
                     id="futureGoals"
                     value={formData.new_person_future_goals}
                     onChange={(e) => updateFormData('new_person_future_goals', e.target.value)}
-                    placeholder="5-10 yıl içindeki hedefleri..."
+                    placeholder="Gelecek planları ve hedefleri..."
                     rows={3}
                   />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="businessApproach">Yeni İş Fikirlerine Yaklaşımı</label>
+                  <label htmlFor="investmentInterest">💰 Yatırım yapma / ortaklık kurma isteği var</label>
                   <textarea
-                    id="businessApproach"
+                    id="investmentInterest"
                     value={formData.new_person_business_approach}
                     onChange={(e) => updateFormData('new_person_business_approach', e.target.value)}
-                    placeholder="Yeni iş fikirlerine nasıl yaklaşıyor..."
+                    placeholder=""
                     rows={3}
                   />
                 </div>
-              </section>
-
-              <section className="form-section">
-                <div className="section-header">
-                  <div className="section-icon">💼</div>
-                  <h3>Yatırım ve İşbirliği</h3>
-                </div>
                 <div className="form-group">
-                  <label>Yatırım Yapma / Ortaklık Kurma İsteği</label>
-                  <div className="radio-group">
-                    <div className="radio-item">
-                      <input
-                        type="radio"
-                        id="investment-yes"
-                        name="investment"
-                        checked={formData.new_person_investment_interest === true}
-                        onChange={() => updateFormData('new_person_investment_interest', true)}
-                      />
-                      <label htmlFor="investment-yes">Evet, ilgileniyor</label>
-                    </div>
-                    <div className="radio-item">
-                      <input
-                        type="radio"
-                        id="investment-no"
-                        name="investment"
-                        checked={formData.new_person_investment_interest === false}
-                        onChange={() => updateFormData('new_person_investment_interest', false)}
-                      />
-                      <label htmlFor="investment-no">Hayır, ilgilenmiyor</label>
-                    </div>
-                  </div>
-                </div>
-                <div className="form-group">
-                  <label htmlFor="collaborationAreas">İşbirliği Yapmak İstediği Alanlar</label>
+                  <label htmlFor="collaborationAreas">🤝 İş Birliği Yapmak İstediği Alanlar</label>
                   <textarea
                     id="collaborationAreas"
                     value={formData.new_person_collaboration_areas}
                     onChange={(e) => updateFormData('new_person_collaboration_areas', e.target.value)}
-                    placeholder="Hangi alanlarda işbirliği yapmak istiyor..."
+                    placeholder="Hangi alanlarda iş birliği yapmak istediği..."
                     rows={3}
                   />
                 </div>
@@ -995,6 +1049,11 @@ const InviteForm: React.FC = () => {
           )}
         </div>
       )}
+      
+      {/* Debug bilgisi */}
+      <div className="debug-info">
+        Debug: Current Step: {currentStep}, Total Steps: 6, Progress: {Math.round((currentStep / 6) * 100)}%
+      </div>
     </div>
   )
 }
