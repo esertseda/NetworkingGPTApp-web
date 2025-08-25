@@ -231,7 +231,7 @@ const InviteForm: React.FC = () => {
       }
 
       // Parent'ın mevcut degree'ini bul
-      const { data: parentRelationship, error: parentRelError } = await supabase
+      const { data: parentRelationship } = await supabase
         .from('relationships')
         .select('degree')
         .eq('child_contact_id', parentContact.id)
