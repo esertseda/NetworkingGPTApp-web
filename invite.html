@@ -202,8 +202,9 @@
             phone: ''
         };
 
-        // Environment variables'dan oku (Vite build sonrası)
-        // Development için fallback değerler
+        // Supabase bilgileri - Environment variables'dan oku
+        // Development: .env dosyasından
+        // Production: Deploy platformundan
         const supabaseUrl = import.meta.env?.VITE_SUPABASE_URL || '';
         const supabaseKey = import.meta.env?.VITE_SUPABASE_ANON_KEY || '';
 
@@ -213,7 +214,7 @@
                 console.log('Supabase başarıyla başlatıldı.');
                 return true;
             } else {
-                console.error('Supabase bilgileri bulunamadı.');
+                console.error('Supabase bilgileri yapılandırılmamış.');
                 showConfigError();
                 return false;
             }
