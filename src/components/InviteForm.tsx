@@ -146,8 +146,8 @@ const InviteForm: React.FC = () => {
 
       // Kişi bulundu
       console.log('Ağ listesinde kişi bulundu:', data)
-      alert('Kişi başarıyla doğrulandı! Adım 1\'e geçebilirsiniz.')
-      setCurrentStep(1)
+      alert('Kişi başarıyla doğrulandı! Adım 2\'ye geçebilirsiniz.')
+      setCurrentStep(2)
       
     } catch (error) {
       console.error('Kişi doğrulama hatası:', error)
@@ -328,7 +328,7 @@ const InviteForm: React.FC = () => {
         new_person_investment_interest: false,
         new_person_collaboration_areas: ''
       })
-      setCurrentStep(0)
+      setCurrentStep(1)
       
     } catch (error) {
       console.error('Form gönderimi hatası:', error)
@@ -376,12 +376,12 @@ const InviteForm: React.FC = () => {
         </div>
       </div>
 
-      {currentStep === 0 ? (
+      {currentStep === 1 ? (
         <div className="step-container">
           <div className="step-header">
             <div className="step-icon">👥</div>
-            <h2>Adım 0: Davet Gönderen Bilgileri</h2>
-            <p>Sizinle bağlantı kurmak isteyen kişinin bilgilerini girin</p>
+            <h2>Adım 1: Kendi Bilgileriniz</h2>
+            <p>Ağ listesinde kayıtlı olup olmadığınızı kontrol edelim</p>
           </div>
 
           <form onSubmit={handleInviterSubmit} className="form-section">
@@ -435,7 +435,7 @@ const InviteForm: React.FC = () => {
         <div className="step-container">
           <div className="step-header">
             <div className="step-icon">👤+</div>
-            <h2>Adım 1: Ağınıza Katılın</h2>
+            <h2>Adım 2: Ağınıza Katılın</h2>
             <p>Hermes'in rehberliğinde yeni bağlantınızı oluşturun</p>
           </div>
 
@@ -447,46 +447,48 @@ const InviteForm: React.FC = () => {
 
           <div className="progress-container">
             <div className="progress-info">
-              <span className="progress-step">Adım {currentStep}/6</span>
-              <span className="progress-percentage">{Math.round((currentStep / 6) * 100)}% Tamamlandı</span>
+              <span className="progress-step">Adım {currentStep}/7</span>
+              <span className="progress-percentage">{Math.round((currentStep / 7) * 100)}% Tamamlandı</span>
             </div>
             <div className="progress-bar">
-              <div className="progress-fill" style={{ width: `${(currentStep / 6) * 100}%` }}></div>
+              <div className="progress-fill" style={{ width: `${(currentStep / 7) * 100}%` }}></div>
               <div className="progress-markers">
-                <div className={`progress-marker ${currentStep >= 1 ? 'active' : ''}`}>👤</div>
-                <div className={`progress-marker ${currentStep >= 2 ? 'active' : ''}`}>💼</div>
-                <div className={`progress-marker ${currentStep >= 3 ? 'active' : ''}`}>🎯</div>
-                <div className={`progress-marker ${currentStep >= 4 ? 'active' : ''}`}>🌐</div>
-                <div className={`progress-marker ${currentStep >= 5 ? 'active' : ''}`}>📚</div>
-                <div className={`progress-marker ${currentStep >= 6 ? 'active' : ''}`}>🚀</div>
+                <div className={`progress-marker ${currentStep >= 1 ? 'active' : ''}`}>👥</div>
+                <div className={`progress-marker ${currentStep >= 2 ? 'active' : ''}`}>👤</div>
+                <div className={`progress-marker ${currentStep >= 3 ? 'active' : ''}`}>💼</div>
+                <div className={`progress-marker ${currentStep >= 4 ? 'active' : ''}`}>🎯</div>
+                <div className={`progress-marker ${currentStep >= 5 ? 'active' : ''}`}>🌐</div>
+                <div className={`progress-marker ${currentStep >= 6 ? 'active' : ''}`}>📚</div>
+                <div className={`progress-marker ${currentStep >= 7 ? 'active' : ''}`}>🚀</div>
               </div>
             </div>
             <div className="progress-label">
-              {currentStep === 1 && '👤 Temel Bilgiler'}
-              {currentStep === 2 && '💼 İş Bilgileri'}
-              {currentStep === 3 && '🎯 Kişisel Özellikler'}
-              {currentStep === 4 && '🌐 Sosyal Bilgiler'}
-              {currentStep === 5 && '📚 Deneyim'}
-              {currentStep === 6 && '🚀 Gelecek'}
+              {currentStep === 1 && '👥 Kendi Bilgileriniz'}
+              {currentStep === 2 && '👤 Temel Bilgiler'}
+              {currentStep === 3 && '💼 İş Bilgileri'}
+              {currentStep === 4 && '🎯 Kişisel Özellikler'}
+              {currentStep === 5 && '🌐 Sosyal Bilgiler'}
+              {currentStep === 6 && '📚 Deneyim'}
+              {currentStep === 7 && '🚀 Gelecek'}
             </div>
           </div>
 
           <div className="navigation-buttons">
             <button 
               className="btn btn-secondary" 
-              onClick={() => setCurrentStep(currentStep > 1 ? currentStep - 1 : 0)}
+              onClick={() => setCurrentStep(currentStep > 2 ? currentStep - 1 : 1)}
               disabled={currentStep === 1}
             >
               ← Önceki Adım
             </button>
             <button 
               className="btn btn-primary" 
-              onClick={() => setCurrentStep(currentStep < 6 ? currentStep + 1 : 6)}
-              disabled={currentStep === 6}
+              onClick={() => setCurrentStep(currentStep < 7 ? currentStep + 1 : 7)}
+              disabled={currentStep === 7}
             >
               Sonraki Adım →
             </button>
-            {currentStep === 6 && (
+            {currentStep === 7 && (
               <button 
                 className="btn btn-success" 
                 onClick={handleSave}
@@ -496,8 +498,8 @@ const InviteForm: React.FC = () => {
             )}
           </div>
 
-          {/* Adım 1: Temel Bilgiler */}
-          {currentStep === 1 && (
+          {/* Adım 2: Temel Bilgiler */}
+          {currentStep === 2 && (
             <div className="form-card">
               <section className="form-section">
                 <div className="section-header">
@@ -551,6 +553,22 @@ const InviteForm: React.FC = () => {
                       onChange={(e) => updateFormData('new_person_current_city', e.target.value)}
                       placeholder="İstanbul"
                     />
+                  </div>
+                </div>
+                <div className="form-group">
+                  <label htmlFor="relationshipLevel">❤️ Yakınlık Seviyesi</label>
+                  <input
+                    type="range"
+                    id="relationshipLevel"
+                    min="1"
+                    max="10"
+                    value={formData.new_person_relationship_level}
+                    onChange={(e) => updateFormData('new_person_relationship_level', parseInt(e.target.value))}
+                  />
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '5px' }}>
+                    <span style={{ fontSize: '0.8rem', color: '#9CA3AF' }}>Uzak (1)</span>
+                    <span style={{ fontSize: '0.9rem', color: '#8B5CF6', fontWeight: '600' }}>{formData.new_person_relationship_level}/10</span>
+                    <span style={{ fontSize: '0.8rem', color: '#9CA3AF' }}>Yakın (10)</span>
                   </div>
                 </div>
               </section>
@@ -672,8 +690,8 @@ const InviteForm: React.FC = () => {
             </div>
           )}
 
-          {/* Adım 2: İş Bilgileri */}
-          {currentStep === 2 && (
+          {/* Adım 3: İş Bilgileri */}
+          {currentStep === 3 && (
             <div className="form-card">
               <section className="form-section">
                 <div className="section-header">
@@ -786,8 +804,8 @@ const InviteForm: React.FC = () => {
             </div>
           )}
 
-          {/* Adım 3: Kişisel Özellikler */}
-          {currentStep === 3 && (
+          {/* Adım 4: Kişisel Özellikler */}
+          {currentStep === 4 && (
             <div className="form-card">
               <section className="form-section">
                 <div className="section-header">
@@ -969,8 +987,8 @@ const InviteForm: React.FC = () => {
             </div>
           )}
 
-          {/* Adım 4: Sosyal Bilgiler */}
-          {currentStep === 4 && (
+          {/* Adım 5: Sosyal Bilgiler */}
+          {currentStep === 5 && (
             <div className="form-card">
               <section className="form-section">
                 <div className="section-header">
@@ -1033,8 +1051,8 @@ const InviteForm: React.FC = () => {
             </div>
           )}
 
-          {/* Adım 5: Deneyim */}
-          {currentStep === 5 && (
+          {/* Adım 6: Deneyim */}
+          {currentStep === 6 && (
             <div className="form-card">
               <section className="form-section">
                 <div className="section-header">
@@ -1075,8 +1093,8 @@ const InviteForm: React.FC = () => {
             </div>
           )}
 
-          {/* Adım 6: Gelecek */}
-          {currentStep === 6 && (
+          {/* Adım 7: Gelecek */}
+          {currentStep === 7 && (
             <div className="form-card">
               <section className="form-section">
                 <div className="section-header">
