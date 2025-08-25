@@ -508,20 +508,29 @@ const InviteForm: React.FC = () => {
                 </div>
                 <div className="form-row">
                   <div className="form-group">
-                    <label htmlFor="fullName">Ad Soyad <span className="required">*</span></label>
+                    <label htmlFor="firstName">Ad <span className="required">*</span></label>
                     <input
                       type="text"
-                      id="fullName"
-                      value={`${formData.new_person_first_name} ${formData.new_person_last_name}`.trim()}
-                      onChange={(e) => {
-                        const nameParts = e.target.value.split(' ')
-                        updateFormData('new_person_first_name', nameParts[0] || '')
-                        updateFormData('new_person_last_name', nameParts.slice(1).join(' ') || '')
-                      }}
-                      placeholder="Ad Soyad"
+                      id="firstName"
+                      value={formData.new_person_first_name}
+                      onChange={(e) => updateFormData('new_person_first_name', e.target.value)}
+                      placeholder="Ad"
                       required
                     />
                   </div>
+                  <div className="form-group">
+                    <label htmlFor="lastName">Soyad <span className="required">*</span></label>
+                    <input
+                      type="text"
+                      id="lastName"
+                      value={formData.new_person_last_name}
+                      onChange={(e) => updateFormData('new_person_last_name', e.target.value)}
+                      placeholder="Soyad"
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="form-row">
                   <div className="form-group">
                     <label htmlFor="age">Yaş</label>
                     <input
@@ -532,8 +541,6 @@ const InviteForm: React.FC = () => {
                       placeholder="25"
                     />
                   </div>
-                </div>
-                <div className="form-row">
                   <div className="form-group">
                     <label htmlFor="birthplace">🏠 Nereli</label>
                     <input
@@ -544,6 +551,8 @@ const InviteForm: React.FC = () => {
                       placeholder="İstanbul"
                     />
                   </div>
+                </div>
+                <div className="form-row">
                   <div className="form-group">
                     <label htmlFor="currentCity">📍 Şu An Yaşadığı Şehir</label>
                     <input
@@ -551,6 +560,16 @@ const InviteForm: React.FC = () => {
                       id="currentCity"
                       value={formData.new_person_current_city}
                       onChange={(e) => updateFormData('new_person_current_city', e.target.value)}
+                      placeholder="İstanbul"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="birthplace">🏠 Nereli</label>
+                    <input
+                      type="text"
+                      id="birthplace"
+                      value={formData.new_person_birthplace}
+                      onChange={(e) => updateFormData('new_person_birthplace', e.target.value)}
                       placeholder="İstanbul"
                     />
                   </div>
