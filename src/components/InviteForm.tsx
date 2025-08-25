@@ -1131,7 +1131,7 @@ const InviteForm: React.FC = () => {
                   <textarea
                     id="investmentInterest"
                     value=""
-                    onChange={(e) => {}}
+                    onChange={() => {}}
                     placeholder="Yatırım ve ortaklık istekleri..."
                     rows={3}
                   />
