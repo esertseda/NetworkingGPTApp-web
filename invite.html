@@ -177,9 +177,9 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        // Supabase client - Bu bilgileri kendi projenizle değiştirin
-        const supabaseUrl = import.meta.env.VITE_SUPABASE_URL ;
-        const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY ;
+        // Supabase client - .env dosyasından oku
+        const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://your-project.supabase.co';
+        const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'your_supabase_anon_key';
         const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
         let currentStep = 1;
