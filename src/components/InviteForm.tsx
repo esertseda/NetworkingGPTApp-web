@@ -144,8 +144,8 @@ const InviteForm: React.FC = () => {
 
       // Kişi bulundu
       console.log('Ağ listesinde kişi bulundu:', data)
-      alert('Kişi başarıyla doğrulandı! Adım 2\'ye geçebilirsiniz.')
-      setCurrentStep(2)
+      alert('Kişi başarıyla doğrulandı! Adım 1\'e geçebilirsiniz.')
+      setCurrentStep(1)
       
     } catch (error) {
       console.error('Kişi doğrulama hatası:', error)
@@ -304,7 +304,7 @@ const InviteForm: React.FC = () => {
         new_person_investment_interest: false,
         new_person_collaboration_areas: ''
       })
-      setCurrentStep(1)
+      setCurrentStep(0)
       
     } catch (error) {
       console.error('Form gönderimi hatası:', error)
@@ -330,11 +330,11 @@ const InviteForm: React.FC = () => {
         </div>
       </div>
 
-      {currentStep === 1 ? (
+      {currentStep === 0 ? (
         <div className="step-container">
           <div className="step-header">
             <div className="step-icon">👥</div>
-            <h2>Adım 1: Davet Gönderen Bilgileri</h2>
+            <h2>Adım 0: Davet Gönderen Bilgileri</h2>
             <p>Sizinle bağlantı kurmak isteyen kişinin bilgilerini girin</p>
           </div>
 
@@ -387,7 +387,7 @@ const InviteForm: React.FC = () => {
         <div className="step-container">
           <div className="step-header">
             <div className="step-icon">👤+</div>
-            <h2>Adım 2: Ağınıza Katılın</h2>
+            <h2>Adım 1: Ağınıza Katılın</h2>
             <p>Hermes'in rehberliğinde yeni bağlantınızı oluşturun</p>
           </div>
 
@@ -426,7 +426,7 @@ const InviteForm: React.FC = () => {
           <div className="navigation-buttons">
             <button 
               className="btn btn-secondary" 
-              onClick={() => setCurrentStep(currentStep > 1 ? currentStep - 1 : 1)}
+              onClick={() => setCurrentStep(currentStep > 1 ? currentStep - 1 : 0)}
               disabled={currentStep === 1}
             >
               ← Önceki Adım
