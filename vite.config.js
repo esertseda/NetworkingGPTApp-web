@@ -16,6 +16,6 @@ export default defineConfig({
   },
   // Development için .env dosyasını yükle
   envDir: '.',
-  // Assets'leri kopyala
-  assetsInclude: ['**/*.js']
+  // Public klasörü tanımla
+  publicDir: 'assets'
 })
