@@ -177,13 +177,35 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        // Supabase client - GitHub public repo için güvenli yaklaşım
-        // Environment variables kullanılacak
+        // Supabase client - Browser için güvenli yaklaşım
         let supabase = null;
+        let currentStep = 1;
+        const totalSteps = 2;
+        
+        // Form verilerini saklamak için
+        let formData = {
+            // Contact bilgileri (Adım 1)
+            contact_first_name: '',
+            contact_last_name: '',
+            contact_email: '',
+            
+            // Yeni kişi bilgileri (Adım 2)
+            first_name: '',
+            last_name: '',
+            age: null,
+            city: '',
+            current_city: '',
+            university: '',
+            degree: '',
+            graduation_year: null,
+            email: '',
+            phone: ''
+        };
 
-        // Environment variables'dan oku (build sırasında değiştirilecek)
-        const supabaseUrl = process.env.VITE_SUPABASE_URL || '';
-        const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY || '';
+        // Environment variables'dan oku (Vite build sonrası)
+        // Development için fallback değerler
+        const supabaseUrl = import.meta.env?.VITE_SUPABASE_URL || '';
+        const supabaseKey = import.meta.env?.VITE_SUPABASE_ANON_KEY || '';
 
         function initializeSupabase() {
             if (supabaseUrl && supabaseKey) {
@@ -221,29 +243,6 @@
                 </div>
             `;
         }
-
-        let currentStep = 1;
-        const totalSteps = 2;
-        
-        // Form verilerini saklamak için
-        let formData = {
-            // Contact bilgileri (Adım 1)
-            contact_first_name: '',
-            contact_last_name: '',
-            contact_email: '',
-            
-            // Yeni kişi bilgileri (Adım 2)
-            first_name: '',
-            last_name: '',
-            age: null,
-            city: '',
-            current_city: '',
-            university: '',
-            degree: '',
-            graduation_year: null,
-            email: '',
-            phone: ''
-        };
 
         function showStep(stepNumber) {
             // Hide all steps
