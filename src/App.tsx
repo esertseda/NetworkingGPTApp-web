@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
 import './App.css'
-import InviteForm from './components/InviteForm'
+import InviteForm from './components/InviteForm.tsx'
 
 function App() {
   return (
