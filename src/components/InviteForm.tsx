@@ -167,12 +167,17 @@ export default function InviteForm() {
     }
 
     try {
+      // Değerleri temizle (boşlukları kaldır)
+      const cleanFirstName = inviter_first_name.trim();
+      const cleanLastName = inviter_last_name.trim();
+      const cleanEmail = inviter_email.trim();
+
       const { data, error } = await supabase
         .from('contacts')
         .select('id')
-        .eq('first_name', inviter_first_name)
-        .eq('last_name', inviter_last_name)
-        .eq('email', inviter_email)
+        .eq('first_name', cleanFirstName)
+        .eq('last_name', cleanLastName)
+        .eq('email', cleanEmail)
         .single();
 
       if (error) {
@@ -226,9 +231,9 @@ export default function InviteForm() {
       const { data: parentContact, error: parentError } = await supabase
         .from('contacts')
         .select('id')
-        .eq('first_name', formData.inviter_first_name)
-        .eq('last_name', formData.inviter_last_name)
-        .eq('email', formData.inviter_email)
+        .eq('first_name', formData.inviter_first_name.trim())
+        .eq('last_name', formData.inviter_last_name.trim())
+        .eq('email', formData.inviter_email.trim())
         .single();
 
       if (parentError) {
