@@ -59,7 +59,6 @@ interface FormData {
 
 export default function InviteForm() {
   const [currentStep, setCurrentStep] = useState(0);
-  const [inviterVerified, setInviterVerified] = useState(false);
   const [loading, setLoading] = useState(false);
   
   const [formData, setFormData] = useState<FormData>({
@@ -184,7 +183,6 @@ export default function InviteForm() {
 
       if (data) {
         console.log('Ağ listesinde kişi bulundu:', data);
-        setInviterVerified(true);
         setCurrentStep(1); // Yeni kişi bilgilerine geç
       }
     } catch (error) {
@@ -375,7 +373,6 @@ export default function InviteForm() {
       });
       
       setCurrentStep(0);
-      setInviterVerified(false);
 
     } catch (error) {
       console.error('Genel hata:', error);
