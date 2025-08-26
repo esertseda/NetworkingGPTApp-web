@@ -27,20 +27,20 @@ interface FormData {
   new_person_position: string;
   new_person_company: string;
   new_person_work_experience: string;
-  new_person_expertise: string;
-  new_person_services: string;
+  new_person_expertise: string[];
+  new_person_services: string[];
   new_person_investments: string;
   
   // Kişisel özellikler
-  new_person_personal_traits: string;
-  new_person_values: string;
+  new_person_personal_traits: string[];
+  new_person_values: string[];
   new_person_goals: string;
   new_person_vision: string;
   
   // Sosyal
-  new_person_hobbies: string;
-  new_person_languages: string;
-  new_person_mentor: string;
+  new_person_hobbies: string[];
+  new_person_languages: string[];
+  new_person_mentor: boolean;
   new_person_volunteer_experience: string;
   
   // Deneyim
@@ -50,7 +50,7 @@ interface FormData {
   
   // Gelecek
   new_person_future_goals: string;
-  new_person_investment_interest: string;
+  new_person_investment_interest: boolean;
   new_person_collaboration_areas: string;
   
   // E-posta bildirimi
@@ -86,20 +86,20 @@ export default function InviteForm() {
     new_person_position: '',
     new_person_company: '',
     new_person_work_experience: '',
-    new_person_expertise: '',
-    new_person_services: '',
+    new_person_expertise: [],
+    new_person_services: [],
     new_person_investments: '',
     
     // Kişisel özellikler
-    new_person_personal_traits: '',
-    new_person_values: '',
+    new_person_personal_traits: [],
+    new_person_values: [],
     new_person_goals: '',
     new_person_vision: '',
     
     // Sosyal
-    new_person_hobbies: '',
-    new_person_languages: '',
-    new_person_mentor: '',
+    new_person_hobbies: [],
+    new_person_languages: [],
+    new_person_mentor: false,
     new_person_volunteer_experience: '',
     
     // Deneyim
@@ -109,7 +109,7 @@ export default function InviteForm() {
     
     // Gelecek
     new_person_future_goals: '',
-    new_person_investment_interest: '',
+    new_person_investment_interest: false,
     new_person_collaboration_areas: '',
     
     // E-posta bildirimi
@@ -259,8 +259,8 @@ export default function InviteForm() {
         expertise: formData.new_person_expertise,
         services: formData.new_person_services,
         languages: formData.new_person_languages,
-        mentor_service: formData.new_person_mentor === 'true',
-        investment_interest: formData.new_person_investment_interest === 'true',
+        mentor_service: formData.new_person_mentor,
+        investment_interest: formData.new_person_investment_interest,
         social_volunteer: formData.new_person_volunteer_experience,
         life_experience: formData.new_person_turning_points,
         challenges: formData.new_person_challenges,
@@ -351,22 +351,22 @@ export default function InviteForm() {
         new_person_position: '',
         new_person_company: '',
         new_person_work_experience: '',
-        new_person_expertise: '',
-        new_person_services: '',
+        new_person_expertise: [],
+        new_person_services: [],
         new_person_investments: '',
-        new_person_personal_traits: '',
-        new_person_values: '',
+        new_person_personal_traits: [],
+        new_person_values: [],
         new_person_goals: '',
         new_person_vision: '',
-        new_person_hobbies: '',
-        new_person_languages: '',
-        new_person_mentor: '',
+        new_person_hobbies: [],
+        new_person_languages: [],
+        new_person_mentor: false,
         new_person_volunteer_experience: '',
         new_person_turning_points: '',
         new_person_challenges: '',
         new_person_lessons: '',
         new_person_future_goals: '',
-        new_person_investment_interest: '',
+        new_person_investment_interest: false,
         new_person_collaboration_areas: '',
         send_email_notification: false
       });
@@ -747,13 +747,14 @@ export default function InviteForm() {
               </div>
 
               <div className="form-group">
-                <label>Mentor Olup Olmadığı</label>
-                <textarea
-                  value={formData.new_person_mentor}
-                  onChange={(e) => updateFormData('new_person_mentor', e.target.value)}
-                  placeholder="Mentorluk deneyimlerini açıklayın..."
-                  rows={3}
-                />
+                <label className="checkbox-label">
+                  <input
+                    type="checkbox"
+                    checked={formData.new_person_mentor}
+                    onChange={(e) => updateFormData('new_person_mentor', e.target.checked)}
+                  />
+                  Mentor Hizmeti Veriyor
+                </label>
               </div>
 
               <div className="form-group">
@@ -825,13 +826,14 @@ export default function InviteForm() {
               </div>
 
               <div className="form-group">
-                <label>Yeni İş Fikirlerine Yaklaşımı</label>
-                <textarea
-                  value={formData.new_person_investment_interest}
-                  onChange={(e) => updateFormData('new_person_investment_interest', e.target.value)}
-                  placeholder="Yeni iş fikirlerine nasıl yaklaştığını açıklayın..."
-                  rows={3}
-                />
+                <label className="checkbox-label">
+                  <input
+                    type="checkbox"
+                    checked={formData.new_person_investment_interest}
+                    onChange={(e) => updateFormData('new_person_investment_interest', e.target.checked)}
+                  />
+                  Yatırım Yapma İsteği Var
+                </label>
               </div>
 
               <div className="form-group">
