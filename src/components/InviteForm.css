@@ -5,12 +5,18 @@
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   color: #FFFFFF;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
 }
 
 /* Header */
 .header {
   text-align: center;
   margin-bottom: 30px;
+  width: 100%;
+  max-width: 1000px;
 }
 
 .logo-container {
@@ -64,13 +70,14 @@
 
 /* Ana container */
 .main-container {
-  max-width: 800px;
-  margin: 0 auto;
+  width: 100%;
+  max-width: 1000px;
   background: #2C2C4A;
   border-radius: 20px;
   padding: 30px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   border: 1px solid rgba(124, 58, 237, 0.2);
+  margin: 0 auto;
 }
 
 /* Step Header */
@@ -694,13 +701,40 @@
 }
 
 /* Responsive Design */
+@media (max-width: 1200px) {
+  .header {
+    max-width: 900px;
+  }
+  
+  .main-container {
+    max-width: 900px;
+  }
+}
+
+@media (max-width: 992px) {
+  .header {
+    max-width: 800px;
+  }
+  
+  .main-container {
+    max-width: 800px;
+  }
+}
+
 @media (max-width: 768px) {
   .invite-form {
     padding: 15px;
+    align-items: center;
+  }
+  
+  .header {
+    max-width: 100%;
   }
   
   .main-container {
     padding: 20px;
+    width: 100%;
+    max-width: 100%;
   }
   
   .networking {
@@ -750,8 +784,18 @@
 }
 
 @media (max-width: 480px) {
+  .invite-form {
+    padding: 10px;
+  }
+  
+  .header {
+    margin-bottom: 20px;
+  }
+  
   .main-container {
     padding: 15px;
+    width: 100%;
+    max-width: 100%;
   }
   
   .form-content {
