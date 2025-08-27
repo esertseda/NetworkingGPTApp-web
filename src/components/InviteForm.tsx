@@ -394,13 +394,13 @@ export default function InviteForm() {
       const cleanLastName = inviter_last_name.trim();
       const cleanEmail = inviter_email.trim();
 
-      const { data, error } = await supabase
-        .from('contacts')
-        .select('id')
-        .eq('first_name', cleanFirstName)
-        .eq('last_name', cleanLastName)
-        .eq('email', cleanEmail)
-        .single();
+      const { data, error } = await supabase.functions.invoke('invite-verify', {
+        body: {
+          first_name: cleanFirstName,
+          last_name: cleanLastName,
+          email: cleanEmail
+        }
+      });
 
       if (error) {
         console.error('Kişi bulunamadı:', error);
@@ -408,9 +408,11 @@ export default function InviteForm() {
         return;
       }
 
-      if (data) {
+      if (data && data.success) {
         console.log('Ağ listesinde kişi bulundu:', data);
         setCurrentStep(1); // Yeni kişi bilgilerine geç
+      } else {
+        alert('Bu bilgilerle kayıtlı kişi bulunamadı. Lütfen bilgilerinizi kontrol ediniz.');
       }
     } catch (error) {
       console.error('Hata:', error);
