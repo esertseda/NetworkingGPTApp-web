@@ -192,33 +192,11 @@ const InviteForm: React.FC = () => {
   const checkPersonExists = async () => {
     setLoading(true);
     try {
-      // Supabase Edge Function URL'i
-      const supabaseUrl = `${SUPABASE_URL}/functions/v1/invite-verify`;
-      
-      const response = await fetch(supabaseUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-        },
-        body: JSON.stringify({
-          inviteId: inviteId
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const result = await response.json();
-      
-      if (result.exists) {
-        alert('Bu e-posta adresi zaten kayıtlı!');
-      } else {
-        handleNext();
-      }
+      // Adım 0'da sadece validasyon yap, davet doğrulama yapma
+      console.log('Adım 0 - Davet gönderen bilgileri validasyonu başarılı');
+      handleNext();
     } catch (error) {
-      console.error('Error checking person:', error);
+      console.error('Error in step 0:', error);
       alert('Bir hata oluştu. Lütfen tekrar deneyin.');
     } finally {
       setLoading(false);
