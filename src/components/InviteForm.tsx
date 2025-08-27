@@ -81,8 +81,6 @@ const InviteForm: React.FC = () => {
     'Bağlantı'
   ];
 
-  const progress = ((currentStep + 1) / totalSteps) * 100;
-
   // Step animasyonları için useEffect
   useEffect(() => {
     setStepAnimations(prev => ({
@@ -117,9 +115,48 @@ const InviteForm: React.FC = () => {
     }));
   };
 
+  const validateCurrentStep = () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    
+    switch (currentStep) {
+      case 0: // Davet gönderen bilgileri
+        if (!formData.inviter_first_name.trim() || !formData.inviter_last_name.trim() || !formData.inviter_email.trim()) {
+          alert('Lütfen tüm alanları doldurun!');
+          return false;
+        }
+        // Email format kontrolü
+        if (!emailRegex.test(formData.inviter_email)) {
+          alert('Lütfen geçerli bir e-posta adresi girin!');
+          return false;
+        }
+        return true;
+      
+      case 1: // Temel Bilgiler
+        if (!formData.new_person_first_name.trim() || !formData.new_person_last_name.trim()) {
+          alert('Ad ve soyad alanları zorunludur!');
+          return false;
+        }
+        if (!formData.new_person_email.trim()) {
+          alert('E-posta adresi zorunludur!');
+          return false;
+        }
+        // Email format kontrolü
+        if (!emailRegex.test(formData.new_person_email)) {
+          alert('Lütfen geçerli bir e-posta adresi girin!');
+          return false;
+        }
+        return true;
+      
+      default:
+        return true;
+    }
+  };
+
   const handleNext = () => {
-    if (currentStep < totalSteps - 1) {
-      setCurrentStep(prev => prev + 1);
+    if (validateCurrentStep()) {
+      if (currentStep < totalSteps - 1) {
+        setCurrentStep(prev => prev + 1);
+      }
     }
   };
 
@@ -945,27 +982,7 @@ const InviteForm: React.FC = () => {
           </div>
         </div>
 
-        {/* Progress Bar */}
-        <div className="progress-section">
-          <div className="progress-info">
-            <span></span>
-            <span></span>
-          </div>
-          <div className="progress-bar">
-            <div className="progress-fill" style={{ width: `${progress}%` }}></div>
-          </div>
-          <div className="step-indicators">
-            {Array.from({ length: totalSteps }, (_, i) => (
-              <div 
-                key={i} 
-                className={`step-dot ${i <= currentStep ? 'active' : ''} ${i === currentStep ? 'current' : ''}`}
-                onClick={() => setCurrentStep(i)}
-              >
-                {i === currentStep && <span className="step-label">{stepTitles[i]}</span>}
-              </div>
-            ))}
-          </div>
-        </div>
+
 
         {/* Navigation */}
         <div className="navigation-section">
@@ -995,10 +1012,7 @@ const InviteForm: React.FC = () => {
           {renderStepContent()}
         </div>
 
-        {/* Debug Info */}
-        <div className="debug-info">
-          Debug: Current Step: {currentStep}, Total Steps: {totalSteps}, Progress: {Math.round(progress)}%
-        </div>
+
       </div>
     </div>
   );
