@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import './InviteForm.css';
-import logoImage from '/networkinggptlogo.jpeg';
 
 interface FormData {
   // Davet gönderen kişi bilgileri
@@ -930,7 +929,7 @@ const InviteForm: React.FC = () => {
       {/* Header */}
       <div className="header">
         <div className="logo-container">
-          <img src={logoImage} alt="NetworkingGPT Logo" className="logo-image" />
+          <img src="/networkinggptlogo.jpeg" alt="NetworkingGPT Logo" className="logo-image" />
         </div>
       </div>
 
