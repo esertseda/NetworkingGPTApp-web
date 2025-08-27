@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './InviteForm.css';
 
+// Supabase URL'ini environment variable'dan al
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://kprqdwwjywxtkariwjyd.supabase.co';
+
 interface FormData {
   // Davet gönderen kişi bilgileri
   inviter_first_name: string;
@@ -67,8 +70,7 @@ const InviteForm: React.FC = () => {
   const [inviteId, setInviteId] = useState<string>('');
   const [stepAnimations, setStepAnimations] = useState<{[key: number]: boolean}>({});
 
-  // Debug için inviteId'yi kullanıyoruz
-  console.log('Current inviteId:', inviteId);
+
 
   const totalSteps = 7;
   const stepTitles = [
@@ -152,8 +154,16 @@ const InviteForm: React.FC = () => {
     }
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (validateCurrentStep()) {
+      // Adım 1'de (Temel Bilgiler) kişi kontrolü yap
+      if (currentStep === 1) {
+        const personExists = await checkNewPersonExists();
+        if (!personExists) {
+          return; // Kişi zaten varsa diğer adıma geçme
+        }
+      }
+      
       if (currentStep < totalSteps - 1) {
         setCurrentStep(prev => prev + 1);
       }
@@ -169,7 +179,10 @@ const InviteForm: React.FC = () => {
   const checkPersonExists = async () => {
     setLoading(true);
     try {
-      const response = await fetch('/.netlify/functions/invite-verify', {
+      // Supabase Edge Function URL'i
+      const supabaseUrl = `${SUPABASE_URL}/functions/v1/invite-verify`;
+      
+      const response = await fetch(supabaseUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -179,6 +192,10 @@ const InviteForm: React.FC = () => {
           email: formData.inviter_email
         }),
       });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
 
       const result = await response.json();
       
@@ -195,10 +212,52 @@ const InviteForm: React.FC = () => {
     }
   };
 
+  const checkNewPersonExists = async () => {
+    setLoading(true);
+    try {
+      // Güncellenmiş invite-verify fonksiyonunu kullan
+      const supabaseUrl = `${SUPABASE_URL}/functions/v1/invite-verify`;
+      
+      const response = await fetch(supabaseUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          first_name: formData.new_person_first_name.trim(),
+          last_name: formData.new_person_last_name.trim(),
+          email: formData.new_person_email.trim()
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.json();
+      
+      if (result.exists) {
+        alert('Bu kişi (ad, soyad, e-posta) zaten contacts tablosunda mevcut!');
+        return false;
+      } else {
+        return true;
+      }
+    } catch (error) {
+      console.error('Error checking new person:', error);
+      alert('Kişi kontrolü sırasında bir hata oluştu. Lütfen tekrar deneyin.');
+      return false;
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleSave = async () => {
     setLoading(true);
     try {
-      const response = await fetch('/.netlify/functions/invite-submit', {
+      // Supabase Edge Function URL'i
+      const supabaseUrl = `${SUPABASE_URL}/functions/v1/invite-submit`;
+      
+      const response = await fetch(supabaseUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -208,6 +267,10 @@ const InviteForm: React.FC = () => {
           formData: formData
         }),
       });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
 
       const result = await response.json();
       
@@ -992,8 +1055,12 @@ const InviteForm: React.FC = () => {
             </button>
           )}
           {currentStep < totalSteps - 1 && currentStep > 0 && (
-            <button className="nav-btn next-btn" onClick={handleNext}>
-              Sonraki Adım →
+            <button 
+              className="nav-btn next-btn" 
+              onClick={handleNext}
+              disabled={loading}
+            >
+              {loading ? 'Kontrol Ediliyor...' : 'Sonraki Adım →'}
             </button>
           )}
           {currentStep === totalSteps - 1 && (
