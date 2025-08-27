@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import './InviteForm.css';
 
-// Supabase URL'ini environment variable'dan al
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://kprqdwwjywxtkariwjyd.supabase.co';
-const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtwcnFkd3dqeXd4dGthcml3anlkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU4MDYxMjYsImV4cCI6MjA3MTM4MjEyNn0.fuxy0dHa0D-DqyCopteghMn_HMrFagPm1NDMQF-29Uk';
+const SUPABASE_ANON_KEY =
+  import.meta.env.VITE_SUPABASE_ANON_KEY ||
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtwcnFkd3dqeXd4dGthcml3anlkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU4MDYxMjYsImV4cCI6MjA3MTM4MjEyNn0.fuxy0dHa0D-DqyCopteghMn_HMrFagPm1NDMQF-29Uk';
 
 interface FormData {
-  // Davet gönderen kişi bilgileri
   inviter_first_name: string;
   inviter_last_name: string;
   inviter_email: string;
-  
-  // Yeni kişi bilgileri - Temel
+
   new_person_first_name: string;
   new_person_last_name: string;
   new_person_age: string;
@@ -25,34 +24,29 @@ interface FormData {
   new_person_degree: string;
   new_person_graduation_year: string;
   new_person_description: string;
-  
-  // İş bilgileri
+
   new_person_position: string;
   new_person_company: string;
   new_person_work_experience: string;
   new_person_expertise: string[];
   new_person_services: string[];
   new_person_investments: string;
-  
-  // Kişisel özellikler
+
   new_person_personal_traits: string[];
   new_person_values: string[];
   new_person_goals: string;
   new_person_vision: string;
-  
-  // Sosyal
+
   new_person_hobbies: string[];
   new_person_languages: string[];
   new_person_mentor: boolean;
   new_person_volunteer_experience: string;
-  
-  // Deneyim
+
   new_person_turning_points: string;
   new_person_challenges: string;
   new_person_achievements: string;
   new_person_lessons_learned: string;
-  
-  // Bağlantı
+
   new_person_connection_strength: number;
   new_person_meeting_frequency: string;
   new_person_communication_preference: string;
@@ -65,138 +59,130 @@ interface DropdownOption {
   emoji: string;
 }
 
+const stepIcons = ['👤', '🧩', '💼', '🎭', '🌍', '📈', '🤝'];
+const stepTitles = [
+  'Davet Gönderen Bilgileri',
+  'Temel Bilgiler',
+  'İş Bilgileri',
+  'Kişisel Özellikler',
+  'Sosyal Bilgiler',
+  'Deneyim',
+  'Bağlantı',
+];
+
+const totalSteps = stepTitles.length;
+
 const InviteForm: React.FC = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [loading, setLoading] = useState(false);
-  // inviteId artık kullanılmıyor, kaldırıldı
-  const [stepAnimations, setStepAnimations] = useState<{[key: number]: boolean}>({});
+  const [stepAnimations, setStepAnimations] = useState<{ [key: number]: boolean }>({});
 
+  const progressPercent = Math.round(((currentStep + 1) / totalSteps) * 100);
 
-
-  const totalSteps = 7;
-  const stepTitles = [
-    'Davet Gönderen Bilgileri',
-    'Temel Bilgiler',
-    'İş Bilgileri',
-    'Kişisel Özellikler',
-    'Sosyal Bilgiler',
-    'Deneyim',
-    'Bağlantı'
-  ];
-
-  // Step animasyonları için useEffect
   useEffect(() => {
-    setStepAnimations(prev => ({
-      ...prev,
-      [currentStep]: true
-    }));
-
-    // Animasyon süresi sonrası state'i temizle
-    const timer = setTimeout(() => {
-      setStepAnimations(prev => ({
-        ...prev,
-        [currentStep]: false
-      }));
-    }, 1000);
-
-    return () => clearTimeout(timer);
+    setStepAnimations((prev) => ({ ...prev, [currentStep]: true }));
+    const t = setTimeout(() => setStepAnimations((p) => ({ ...p, [currentStep]: false })), 800);
+    return () => clearTimeout(t);
   }, [currentStep]);
 
   useEffect(() => {
-    // URL'den inviteId'yi çıkar
     const urlParams = new URLSearchParams(window.location.search);
-    const id = urlParams.get('t');
-    if (id) {
-      // inviteId artık kullanılmıyor
-    }
+    urlParams.get('t'); // invite token (şimdilik görselde kullanılmıyor)
   }, []);
 
-  const updateFormData = (field: keyof FormData, value: any) => {
-    setFormData(prev => ({
-      ...prev,
-      [field]: value
-    }));
-  };
+  const [formData, setFormData] = useState<FormData>({
+    inviter_first_name: '',
+    inviter_last_name: '',
+    inviter_email: '',
+
+    new_person_first_name: '',
+    new_person_last_name: '',
+    new_person_age: '',
+    new_person_birthplace: '',
+    new_person_current_city: '',
+    new_person_proximity_level: 5,
+    new_person_email: '',
+    new_person_phone: '',
+    new_person_university: '',
+    new_person_department: '',
+    new_person_degree: '',
+    new_person_graduation_year: '',
+    new_person_description: '',
+
+    new_person_position: '',
+    new_person_company: '',
+    new_person_work_experience: '',
+    new_person_expertise: [],
+    new_person_services: [],
+    new_person_investments: '',
+
+    new_person_personal_traits: [],
+    new_person_values: [],
+    new_person_goals: '',
+    new_person_vision: '',
+
+    new_person_hobbies: [],
+    new_person_languages: [],
+    new_person_mentor: false,
+    new_person_volunteer_experience: '',
+
+    new_person_turning_points: '',
+    new_person_challenges: '',
+    new_person_achievements: '',
+    new_person_lessons_learned: '',
+
+    new_person_connection_strength: 5,
+    new_person_meeting_frequency: '',
+    new_person_communication_preference: '',
+    new_person_collaboration_areas: '',
+  });
+
+  const updateFormData = (field: keyof FormData, value: any) =>
+    setFormData((prev) => ({ ...prev, [field]: value }));
 
   const validateCurrentStep = () => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    
-    switch (currentStep) {
-      case 0: // Davet gönderen bilgileri
-        if (!formData.inviter_first_name.trim() || !formData.inviter_last_name.trim() || !formData.inviter_email.trim()) {
-          alert('Lütfen tüm alanları doldurun!');
-          return false;
-        }
-        // Email format kontrolü
-        if (!emailRegex.test(formData.inviter_email)) {
-          alert('Lütfen geçerli bir e-posta adresi girin!');
-          return false;
-        }
-        return true;
-      
-      case 1: // Temel Bilgiler
-        if (!formData.new_person_first_name.trim() || !formData.new_person_last_name.trim()) {
-          alert('Ad ve soyad alanları zorunludur!');
-          return false;
-        }
-        if (!formData.new_person_email.trim()) {
-          alert('E-posta adresi zorunludur!');
-          return false;
-        }
-        // Email format kontrolü
-        if (!emailRegex.test(formData.new_person_email)) {
-          alert('Lütfen geçerli bir e-posta adresi girin!');
-          return false;
-        }
-        return true;
-      
-      default:
-        return true;
+    const emailRx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (currentStep === 0) {
+      if (!formData.inviter_first_name.trim() || !formData.inviter_last_name.trim() || !formData.inviter_email.trim()) {
+        alert('Lütfen tüm alanları doldurun!');
+        return false;
+      }
+      if (!emailRx.test(formData.inviter_email)) {
+        alert('Lütfen geçerli bir e-posta adresi girin!');
+        return false;
+      }
     }
+    if (currentStep === 1) {
+      if (!formData.new_person_first_name.trim() || !formData.new_person_last_name.trim()) {
+        alert('Ad ve soyad alanları zorunludur!');
+        return false;
+      }
+      if (!formData.new_person_email.trim() || !emailRx.test(formData.new_person_email)) {
+        alert('Lütfen geçerli bir e-posta adresi girin!');
+        return false;
+      }
+    }
+    return true;
   };
 
   const handleNext = async () => {
-    console.log('🚀 handleNext çağrıldı, currentStep:', currentStep);
-    
-    if (validateCurrentStep()) {
-      console.log('✅ Validasyon başarılı');
-      
-      // Adım 1'de (Temel Bilgiler) kişi kontrolü yap
-      if (currentStep === 1) {
-        console.log('🔍 Adım 1 - Kişi kontrolü başlıyor');
-        const personExists = await checkNewPersonExists();
-        console.log('📊 Kişi kontrolü sonucu:', personExists);
-        if (!personExists) {
-          console.log('❌ Kişi zaten var, adım 2\'ye geçilemiyor');
-          return; // Kişi zaten varsa diğer adıma geçme
-        }
-        console.log('✅ Kişi kontrolü başarılı, adım 2\'ye geçiliyor');
-      }
-      
-      // Kişi kontrolü başarılıysa veya adım 1 değilse devam et
-      if (currentStep < totalSteps - 1) {
-        console.log('🔄 Adım değiştiriliyor:', currentStep, '->', currentStep + 1);
-        setCurrentStep(prev => prev + 1);
-      }
-    } else {
-      console.log('❌ Validasyon başarısız');
+    if (!validateCurrentStep()) return;
+
+    if (currentStep === 1) {
+      const ok = await checkNewPersonExists();
+      if (!ok) return;
     }
+    if (currentStep < totalSteps - 1) setCurrentStep((s) => s + 1);
   };
 
-  const handlePrevious = () => {
-    if (currentStep > 0) {
-      setCurrentStep(prev => prev - 1);
-    }
-  };
+  const handlePrevious = () => currentStep > 0 && setCurrentStep((s) => s - 1);
 
   const checkPersonExists = async () => {
     setLoading(true);
     try {
-      // Adım 0'da sadece validasyon yap, davet doğrulama yapma
-      console.log('Adım 0 - Davet gönderen bilgileri validasyonu başarılı');
       handleNext();
-    } catch (error) {
-      console.error('Error in step 0:', error);
+    } catch (e) {
+      console.error(e);
       alert('Bir hata oluştu. Lütfen tekrar deneyin.');
     } finally {
       setLoading(false);
@@ -206,41 +192,27 @@ const InviteForm: React.FC = () => {
   const checkNewPersonExists = async () => {
     setLoading(true);
     try {
-      // Güncellenmiş invite-verify fonksiyonunu kullan
       const supabaseUrl = `${SUPABASE_URL}/functions/v1/invite-verify`;
-      
-      const requestBody = {
+      const body = {
         first_name: formData.new_person_first_name.trim(),
         last_name: formData.new_person_last_name.trim(),
-        email: formData.new_person_email.trim()
+        email: formData.new_person_email.trim(),
       };
-      
-      console.log('Kişi kontrolü için gönderilen parametreler:', requestBody);
-      
-      const response = await fetch(supabaseUrl, {
+      const res = await fetch(supabaseUrl, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-        },
-        body: JSON.stringify(requestBody),
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${SUPABASE_ANON_KEY}` },
+        body: JSON.stringify(body),
       });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const result = await response.json();
-      
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const result = await res.json();
       if (result.exists) {
         alert('Bu kişi (ad, soyad, e-posta) zaten contacts tablosunda mevcut!');
         return false;
-      } else {
-        return true;
       }
-    } catch (error) {
-      console.error('Error checking new person:', error);
-      alert('Kişi kontrolü sırasında bir hata oluştu. Lütfen tekrar deneyin.');
+      return true;
+    } catch (e) {
+      console.error(e);
+      alert('Kişi kontrolü sırasında bir hata oluştu.');
       return false;
     } finally {
       setLoading(false);
@@ -250,20 +222,15 @@ const InviteForm: React.FC = () => {
   const handleSave = async () => {
     setLoading(true);
     try {
-      // Supabase Edge Function URL'i
       const supabaseUrl = `${SUPABASE_URL}/functions/v1/invite-submit`;
-      
-      const response = await fetch(supabaseUrl, {
+      const res = await fetch(supabaseUrl, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-        },
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${SUPABASE_ANON_KEY}` },
         body: JSON.stringify({
           inviter: {
             first_name: formData.inviter_first_name.trim(),
             last_name: formData.inviter_last_name.trim(),
-            email: formData.inviter_email.trim()
+            email: formData.inviter_email.trim(),
           },
           new_person: {
             first_name: formData.new_person_first_name,
@@ -288,88 +255,28 @@ const InviteForm: React.FC = () => {
             challenges: formData.new_person_challenges,
             lessons: formData.new_person_lessons_learned,
             future_goals: formData.new_person_goals,
-            investment_interest: formData.new_person_investments ? true : false,
-            collaboration_areas: formData.new_person_collaboration_areas
+            investment_interest: !!formData.new_person_investments,
+            collaboration_areas: formData.new_person_collaboration_areas,
           },
-          send_email_notification: false
+          send_email_notification: false,
         }),
       });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const result = await response.json();
-      
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const result = await res.json();
       if (result.success) {
         alert('Kişi başarıyla eklendi!');
-        // Form'u sıfırla veya başka bir sayfaya yönlendir
       } else {
         alert('Bir hata oluştu: ' + result.error);
       }
-    } catch (error) {
-      console.error('Error saving person:', error);
+    } catch (e) {
+      console.error(e);
       alert('Bir hata oluştu. Lütfen tekrar deneyin.');
     } finally {
       setLoading(false);
     }
   };
 
-  const [formData, setFormData] = useState<FormData>({
-    // Davet gönderen kişi bilgileri
-    inviter_first_name: '',
-    inviter_last_name: '',
-    inviter_email: '',
-    
-    // Yeni kişi bilgileri - Temel
-    new_person_first_name: '',
-    new_person_last_name: '',
-    new_person_age: '',
-    new_person_birthplace: '',
-    new_person_current_city: '',
-    new_person_proximity_level: 5,
-    new_person_email: '',
-    new_person_phone: '',
-    new_person_university: '',
-    new_person_department: '',
-    new_person_degree: '',
-    new_person_graduation_year: '',
-    new_person_description: '',
-    
-    // İş bilgileri
-    new_person_position: '',
-    new_person_company: '',
-    new_person_work_experience: '',
-    new_person_expertise: [],
-    new_person_services: [],
-    new_person_investments: '',
-    
-    // Kişisel özellikler
-    new_person_personal_traits: [],
-    new_person_values: [],
-    new_person_goals: '',
-    new_person_vision: '',
-    
-    // Sosyal
-    new_person_hobbies: [],
-    new_person_languages: [],
-    new_person_mentor: false,
-    new_person_volunteer_experience: '',
-    
-    // Deneyim
-    new_person_turning_points: '',
-    new_person_challenges: '',
-    new_person_achievements: '',
-    new_person_lessons_learned: '',
-    
-    // Bağlantı
-    new_person_connection_strength: 5,
-    new_person_meeting_frequency: '',
-    new_person_communication_preference: '',
-    new_person_collaboration_areas: ''
-  });
-
-  // Dropdown options
+  /** ---------- Dropdown verileri (özgün dosyandan aynen) ---------- */
   const expertiseOptions: DropdownOption[] = [
     { id: 'software_development', name: 'Yazılım Geliştirme', emoji: '💻' },
     { id: 'data_science', name: 'Veri Bilimi', emoji: '📊' },
@@ -417,7 +324,7 @@ const InviteForm: React.FC = () => {
     { id: 'partnership', name: 'İş Ortaklığı', emoji: '🤝' },
     { id: 'networking', name: 'Network Kurma', emoji: '🌐' },
     { id: 'career_coaching', name: 'Kariyer Koçluğu', emoji: '🚀' },
-    { id: 'other', name: 'Diğer', emoji: '➕' }
+    { id: 'other', name: 'Diğer', emoji: '➕' },
   ];
 
   const languageOptions: DropdownOption[] = [
@@ -438,189 +345,117 @@ const InviteForm: React.FC = () => {
     { id: 'norwegian', name: 'Norveççe', emoji: '🇳🇴' },
     { id: 'danish', name: 'Danca', emoji: '🇩🇰' },
     { id: 'finnish', name: 'Fince', emoji: '🇫🇮' },
-    { id: 'other', name: 'Diğer', emoji: '➕' }
+    { id: 'other', name: 'Diğer', emoji: '➕' },
   ];
 
-  // Dropdown state'leri
   const [expertiseDropdownOpen, setExpertiseDropdownOpen] = useState(false);
   const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false);
   const [languagesDropdownOpen, setLanguagesDropdownOpen] = useState(false);
 
-  // Dropdown toggle fonksiyonları
-  const toggleExpertiseDropdown = () => setExpertiseDropdownOpen(!expertiseDropdownOpen);
-  const toggleServicesDropdown = () => setServicesDropdownOpen(!servicesDropdownOpen);
-  const toggleLanguagesDropdown = () => setLanguagesDropdownOpen(!languagesDropdownOpen);
+  const toggleExpertiseDropdown = () => setExpertiseDropdownOpen((s) => !s);
+  const toggleServicesDropdown = () => setServicesDropdownOpen((s) => !s);
+  const toggleLanguagesDropdown = () => setLanguagesDropdownOpen((s) => !s);
 
-  // Dropdown seçim fonksiyonları
   const handleExpertiseSelect = (option: DropdownOption) => {
-    const newExpertise = formData.new_person_expertise.includes(option.id)
-      ? formData.new_person_expertise.filter(id => id !== option.id)
+    const arr = formData.new_person_expertise.includes(option.id)
+      ? formData.new_person_expertise.filter((id) => id !== option.id)
       : [...formData.new_person_expertise, option.id];
-    updateFormData('new_person_expertise', newExpertise);
+    updateFormData('new_person_expertise', arr);
   };
-
   const handleServicesSelect = (option: DropdownOption) => {
-    const newServices = formData.new_person_services.includes(option.id)
-      ? formData.new_person_services.filter(id => id !== option.id)
+    const arr = formData.new_person_services.includes(option.id)
+      ? formData.new_person_services.filter((id) => id !== option.id)
       : [...formData.new_person_services, option.id];
-    updateFormData('new_person_services', newServices);
+    updateFormData('new_person_services', arr);
   };
-
   const handleLanguagesSelect = (option: DropdownOption) => {
-    const newLanguages = formData.new_person_languages.includes(option.id)
-      ? formData.new_person_languages.filter(id => id !== option.id)
+    const arr = formData.new_person_languages.includes(option.id)
+      ? formData.new_person_languages.filter((id) => id !== option.id)
       : [...formData.new_person_languages, option.id];
-    updateFormData('new_person_languages', newLanguages);
+    updateFormData('new_person_languages', arr);
   };
 
-  // Seçili öğeleri kaldırma fonksiyonları
-  const removeExpertise = (id: string) => {
-    updateFormData('new_person_expertise', formData.new_person_expertise.filter(item => item !== id));
-  };
+  const removeExpertise = (id: string) =>
+    updateFormData('new_person_expertise', formData.new_person_expertise.filter((x) => x !== id));
+  const removeService = (id: string) =>
+    updateFormData('new_person_services', formData.new_person_services.filter((x) => x !== id));
+  const removeLanguage = (id: string) =>
+    updateFormData('new_person_languages', formData.new_person_languages.filter((x) => x !== id));
 
-  const removeService = (id: string) => {
-    updateFormData('new_person_services', formData.new_person_services.filter(item => item !== id));
-  };
+  const getSelectedExpertiseNames = () =>
+    formData.new_person_expertise.map((id) => expertiseOptions.find((o) => o.id === id)?.name || id);
+  const getSelectedServicesNames = () =>
+    formData.new_person_services.map((id) => expertiseOptions.find((o) => o.id === id)?.name || id);
+  const getSelectedLanguagesNames = () =>
+    formData.new_person_languages.map((id) => languageOptions.find((o) => o.id === id)?.name || id);
 
-  const removeLanguage = (id: string) => {
-    updateFormData('new_person_languages', formData.new_person_languages.filter(item => item !== id));
-  };
-
-  // Seçili öğelerin isimlerini bulma
-  const getSelectedExpertiseNames = () => {
-    return formData.new_person_expertise.map(id => 
-      expertiseOptions.find(option => option.id === id)?.name || id
-    );
-  };
-
-  const getSelectedServicesNames = () => {
-    return formData.new_person_services.map(id => 
-      expertiseOptions.find(option => option.id === id)?.name || id
-    );
-  };
-
-  const getSelectedLanguagesNames = () => {
-    return formData.new_person_languages.map(id => 
-      languageOptions.find(option => option.id === id)?.name || id
-    );
-  };
+  /** ---------- Step içerikleri (veri tarafına dokunmadan) ---------- */
+  const stepClass = (i: number) => (stepAnimations[i] ? 'step-content animated' : 'step-content');
 
   const renderStepContent = () => {
-    const stepClass = stepAnimations[currentStep] ? 'step-content animated' : 'step-content';
-    
     switch (currentStep) {
-      case 0: // Davet gönderen bilgileri
+      case 0:
         return (
-          <div className={stepClass}>
+          <div className={stepClass(0)}>
             <div className="form-section">
               <h3>👤 Davet Gönderen Bilgileri</h3>
-              
               <div className="form-group">
                 <label>Ad</label>
-                <input
-                  type="text"
-                  value={formData.inviter_first_name}
-                  onChange={(e) => updateFormData('inviter_first_name', e.target.value)}
-                  placeholder="Adınız"
-                />
+                <input value={formData.inviter_first_name} onChange={(e) => updateFormData('inviter_first_name', e.target.value)} placeholder="Adınız" />
               </div>
-              
               <div className="form-group">
                 <label>Soyad</label>
-                <input
-                  type="text"
-                  value={formData.inviter_last_name}
-                  onChange={(e) => updateFormData('inviter_last_name', e.target.value)}
-                  placeholder="Soyadınız"
-                />
+                <input value={formData.inviter_last_name} onChange={(e) => updateFormData('inviter_last_name', e.target.value)} placeholder="Soyadınız" />
               </div>
-            
               <div className="form-group">
                 <label>E-posta Adresi</label>
-                <input
-                  type="email"
-                  value={formData.inviter_email}
-                  onChange={(e) => updateFormData('inviter_email', e.target.value)}
-                  placeholder="e-posta@ornek.com"
-                />
+                <input type="email" value={formData.inviter_email} onChange={(e) => updateFormData('inviter_email', e.target.value)} placeholder="e-posta@ornek.com" />
               </div>
-            
-              <button 
-                className="nav-btn save-btn"
-                onClick={checkPersonExists}
-                disabled={loading}
-                style={{ marginTop: '20px', width: '100%' }}
-              >
-                {loading ? 'Kontrol Ediliyor...' : 'Devam Et'}
+              <button className="nav-btn save-btn full" onClick={checkPersonExists} disabled={loading}>
+                {loading ? 'Kontrol Ediliyor…' : 'Devam Et'}
               </button>
             </div>
           </div>
         );
 
-      case 1: // Temel Bilgiler
+      case 1:
         return (
-          <div className={stepClass}>
+          <div className={stepClass(1)}>
             <div className="form-section">
-              <h3>👤 Temel Bilgiler</h3>
-              
+              <h3>🧩 Temel Bilgiler</h3>
               <div className="form-row">
                 <div className="form-group">
                   <label>Ad</label>
-                  <input
-                    type="text"
-                    value={formData.new_person_first_name}
-                    onChange={(e) => updateFormData('new_person_first_name', e.target.value)}
-                    placeholder="Ad"
-                  />
+                  <input value={formData.new_person_first_name} onChange={(e) => updateFormData('new_person_first_name', e.target.value)} placeholder="Ad" />
                 </div>
                 <div className="form-group">
                   <label>Soyad</label>
-                  <input
-                    type="text"
-                    value={formData.new_person_last_name}
-                    onChange={(e) => updateFormData('new_person_last_name', e.target.value)}
-                    placeholder="Soyad"
-                  />
+                  <input value={formData.new_person_last_name} onChange={(e) => updateFormData('new_person_last_name', e.target.value)} placeholder="Soyad" />
                 </div>
               </div>
 
               <div className="form-row">
                 <div className="form-group">
                   <label>Yaş</label>
-                  <input
-                    type="number"
-                    value={formData.new_person_age}
-                    onChange={(e) => updateFormData('new_person_age', e.target.value)}
-                    placeholder="25"
-                  />
+                  <input type="number" value={formData.new_person_age} onChange={(e) => updateFormData('new_person_age', e.target.value)} placeholder="25" />
                 </div>
                 <div className="form-group">
                   <label>Nereli</label>
-                  <input
-                    type="text"
-                    value={formData.new_person_birthplace}
-                    onChange={(e) => updateFormData('new_person_birthplace', e.target.value)}
-                    placeholder="İstanbul"
-                  />
+                  <input value={formData.new_person_birthplace} onChange={(e) => updateFormData('new_person_birthplace', e.target.value)} placeholder="İstanbul" />
                 </div>
               </div>
 
               <div className="form-group">
                 <label>Şu anki Şehir</label>
-                <input
-                  type="text"
-                  value={formData.new_person_current_city}
-                  onChange={(e) => updateFormData('new_person_current_city', e.target.value)}
-                  placeholder="İstanbul"
-                />
+                <input value={formData.new_person_current_city} onChange={(e) => updateFormData('new_person_current_city', e.target.value)} placeholder="İstanbul" />
               </div>
 
               <div className="form-group">
                 <label>Yakınlık Seviyesi</label>
                 <input
                   type="range"
-                  min="1"
-                  max="10"
+                  min={1}
+                  max={10}
                   value={formData.new_person_proximity_level}
                   onChange={(e) => updateFormData('new_person_proximity_level', parseInt(e.target.value))}
                   className="range-slider"
@@ -634,136 +469,78 @@ const InviteForm: React.FC = () => {
               <div className="form-row">
                 <div className="form-group">
                   <label>E-posta</label>
-                  <input
-                    type="email"
-                    value={formData.new_person_email}
-                    onChange={(e) => updateFormData('new_person_email', e.target.value)}
-                    placeholder="e-posta@ornek.com"
-                  />
+                  <input type="email" value={formData.new_person_email} onChange={(e) => updateFormData('new_person_email', e.target.value)} placeholder="e-posta@ornek.com" />
                 </div>
                 <div className="form-group">
                   <label>Telefon</label>
-                  <input
-                    type="tel"
-                    value={formData.new_person_phone}
-                    onChange={(e) => updateFormData('new_person_phone', e.target.value)}
-                    placeholder="+90 555 123 45 67"
-                  />
+                  <input type="tel" value={formData.new_person_phone} onChange={(e) => updateFormData('new_person_phone', e.target.value)} placeholder="+90 555 123 45 67" />
                 </div>
               </div>
 
               <div className="form-row">
                 <div className="form-group">
                   <label>Üniversite</label>
-                  <input
-                    type="text"
-                    value={formData.new_person_university}
-                    onChange={(e) => updateFormData('new_person_university', e.target.value)}
-                    placeholder="Boğaziçi Üniversitesi"
-                  />
+                  <input value={formData.new_person_university} onChange={(e) => updateFormData('new_person_university', e.target.value)} placeholder="Boğaziçi Üniversitesi" />
                 </div>
                 <div className="form-group">
                   <label>Bölüm</label>
-                  <input
-                    type="text"
-                    value={formData.new_person_department}
-                    onChange={(e) => updateFormData('new_person_department', e.target.value)}
-                    placeholder="Bilgisayar Mühendisliği"
-                  />
+                  <input value={formData.new_person_department} onChange={(e) => updateFormData('new_person_department', e.target.value)} placeholder="Bilgisayar Mühendisliği" />
                 </div>
               </div>
 
               <div className="form-row">
                 <div className="form-group">
                   <label>Derece</label>
-                  <input
-                    type="text"
-                    value={formData.new_person_degree}
-                    onChange={(e) => updateFormData('new_person_degree', e.target.value)}
-                    placeholder="Lisans"
-                  />
+                  <input value={formData.new_person_degree} onChange={(e) => updateFormData('new_person_degree', e.target.value)} placeholder="Lisans" />
                 </div>
                 <div className="form-group">
                   <label>Mezuniyet Yılı</label>
-                  <input
-                    type="number"
-                    value={formData.new_person_graduation_year}
-                    onChange={(e) => updateFormData('new_person_graduation_year', e.target.value)}
-                    placeholder="2020"
-                  />
+                  <input type="number" value={formData.new_person_graduation_year} onChange={(e) => updateFormData('new_person_graduation_year', e.target.value)} placeholder="2020" />
                 </div>
               </div>
 
               <div className="form-group">
                 <label>Kısa Açıklama</label>
-                <textarea
-                  value={formData.new_person_description}
-                  onChange={(e) => updateFormData('new_person_description', e.target.value)}
-                  placeholder="Kişi hakkında kısa bir açıklama..."
-                  rows={3}
-                />
+                <textarea value={formData.new_person_description} onChange={(e) => updateFormData('new_person_description', e.target.value)} placeholder="Kişi hakkında kısa bir açıklama..." rows={3} />
               </div>
             </div>
           </div>
         );
 
-      case 2: // İş Bilgileri
+      case 2:
         return (
-          <div className={stepClass}>
+          <div className={stepClass(2)}>
             <div className="form-section">
               <h3>💼 İş Bilgileri</h3>
-              
               <div className="form-row">
                 <div className="form-group">
                   <label>Pozisyon</label>
-                  <input
-                    type="text"
-                    value={formData.new_person_position}
-                    onChange={(e) => updateFormData('new_person_position', e.target.value)}
-                    placeholder="Yazılım Geliştirici"
-                  />
+                  <input value={formData.new_person_position} onChange={(e) => updateFormData('new_person_position', e.target.value)} placeholder="Yazılım Geliştirici" />
                 </div>
                 <div className="form-group">
                   <label>Şirket</label>
-                  <input
-                    type="text"
-                    value={formData.new_person_company}
-                    onChange={(e) => updateFormData('new_person_company', e.target.value)}
-                    placeholder="Tech Company"
-                  />
+                  <input value={formData.new_person_company} onChange={(e) => updateFormData('new_person_company', e.target.value)} placeholder="Tech Company" />
                 </div>
               </div>
 
               <div className="form-group">
                 <label>İş Deneyimi</label>
-                <textarea
-                  value={formData.new_person_work_experience}
-                  onChange={(e) => updateFormData('new_person_work_experience', e.target.value)}
-                  placeholder="İş deneyimi hakkında bilgiler..."
-                  rows={3}
-                />
+                <textarea value={formData.new_person_work_experience} onChange={(e) => updateFormData('new_person_work_experience', e.target.value)} placeholder="İş deneyimi hakkında bilgiler..." rows={3} />
               </div>
 
               <div className="form-group">
                 <label>Uzmanlık Alanları</label>
                 <div className="dropdown-container">
-                  <button
-                    className={`dropdown-button ${expertiseDropdownOpen ? 'open' : ''}`}
-                    onClick={toggleExpertiseDropdown}
-                  >
+                  <button className={`dropdown-button ${expertiseDropdownOpen ? 'open' : ''}`} onClick={toggleExpertiseDropdown}>
                     <span>Uzmanlık alanları seçin</span>
                     <span>▼</span>
                   </button>
                   {expertiseDropdownOpen && (
                     <div className="dropdown-list">
-                      {expertiseOptions.map((option) => (
-                        <div
-                          key={option.id}
-                          className={`dropdown-item ${formData.new_person_expertise.includes(option.id) ? 'selected' : ''}`}
-                          onClick={() => handleExpertiseSelect(option)}
-                        >
-                          <span className="dropdown-item-emoji">{option.emoji}</span>
-                          <span className="dropdown-item-text">{option.name}</span>
+                      {expertiseOptions.map((o) => (
+                        <div key={o.id} className={`dropdown-item ${formData.new_person_expertise.includes(o.id) ? 'selected' : ''}`} onClick={() => handleExpertiseSelect(o)}>
+                          <span className="dropdown-item-emoji">{o.emoji}</span>
+                          <span className="dropdown-item-text">{o.name}</span>
                         </div>
                       ))}
                     </div>
@@ -771,13 +548,10 @@ const InviteForm: React.FC = () => {
                 </div>
                 {formData.new_person_expertise.length > 0 && (
                   <div className="selected-items">
-                    {getSelectedExpertiseNames().map((name, index) => (
-                      <div key={index} className="selected-item">
+                    {getSelectedExpertiseNames().map((name, i) => (
+                      <div key={i} className="selected-item">
                         <span>{name}</span>
-                        <span
-                          className="remove-item"
-                          onClick={() => removeExpertise(formData.new_person_expertise[index])}
-                        >
+                        <span className="remove-item" onClick={() => removeExpertise(formData.new_person_expertise[i])}>
                           ×
                         </span>
                       </div>
@@ -789,23 +563,16 @@ const InviteForm: React.FC = () => {
               <div className="form-group">
                 <label>Sunabileceği Hizmetler</label>
                 <div className="dropdown-container">
-                  <button
-                    className={`dropdown-button ${servicesDropdownOpen ? 'open' : ''}`}
-                    onClick={toggleServicesDropdown}
-                  >
+                  <button className={`dropdown-button ${servicesDropdownOpen ? 'open' : ''}`} onClick={toggleServicesDropdown}>
                     <span>Hizmetler seçin</span>
                     <span>▼</span>
                   </button>
                   {servicesDropdownOpen && (
                     <div className="dropdown-list">
-                      {expertiseOptions.map((option) => (
-                        <div
-                          key={option.id}
-                          className={`dropdown-item ${formData.new_person_services.includes(option.id) ? 'selected' : ''}`}
-                          onClick={() => handleServicesSelect(option)}
-                        >
-                          <span className="dropdown-item-emoji">{option.emoji}</span>
-                          <span className="dropdown-item-text">{option.name}</span>
+                      {expertiseOptions.map((o) => (
+                        <div key={o.id} className={`dropdown-item ${formData.new_person_services.includes(o.id) ? 'selected' : ''}`} onClick={() => handleServicesSelect(o)}>
+                          <span className="dropdown-item-emoji">{o.emoji}</span>
+                          <span className="dropdown-item-text">{o.name}</span>
                         </div>
                       ))}
                     </div>
@@ -813,13 +580,10 @@ const InviteForm: React.FC = () => {
                 </div>
                 {formData.new_person_services.length > 0 && (
                   <div className="selected-items">
-                    {getSelectedServicesNames().map((name, index) => (
-                      <div key={index} className="selected-item">
+                    {getSelectedServicesNames().map((name, i) => (
+                      <div key={i} className="selected-item">
                         <span>{name}</span>
-                        <span
-                          className="remove-item"
-                          onClick={() => removeService(formData.new_person_services[index])}
-                        >
+                        <span className="remove-item" onClick={() => removeService(formData.new_person_services[i])}>
                           ×
                         </span>
                       </div>
@@ -830,50 +594,28 @@ const InviteForm: React.FC = () => {
 
               <div className="form-group">
                 <label>Yatırım Alanları</label>
-                <textarea
-                  value={formData.new_person_investments}
-                  onChange={(e) => updateFormData('new_person_investments', e.target.value)}
-                  placeholder="İlgilendiği yatırım alanları..."
-                  rows={3}
-                />
+                <textarea value={formData.new_person_investments} onChange={(e) => updateFormData('new_person_investments', e.target.value)} placeholder="İlgilendiği yatırım alanları..." rows={3} />
               </div>
             </div>
           </div>
         );
 
-      case 3: // Kişisel Özellikler
+      case 3:
         return (
-          <div className={stepClass}>
+          <div className={stepClass(3)}>
             <div className="form-section">
               <h3>🎭 Kişisel Özellikler</h3>
-              
               <div className="form-group">
                 <label>Kişisel Hedefler</label>
-                <textarea
-                  value={formData.new_person_goals}
-                  onChange={(e) => updateFormData('new_person_goals', e.target.value)}
-                  placeholder="Kişisel ve profesyonel hedefleri..."
-                  rows={3}
-                />
+                <textarea value={formData.new_person_goals} onChange={(e) => updateFormData('new_person_goals', e.target.value)} placeholder="Kişisel ve profesyonel hedefleri..." rows={3} />
               </div>
-
               <div className="form-group">
                 <label>Vizyon</label>
-                <textarea
-                  value={formData.new_person_vision}
-                  onChange={(e) => updateFormData('new_person_vision', e.target.value)}
-                  placeholder="Gelecek vizyonu..."
-                  rows={3}
-                />
+                <textarea value={formData.new_person_vision} onChange={(e) => updateFormData('new_person_vision', e.target.value)} placeholder="Gelecek vizyonu..." rows={3} />
               </div>
-
               <div className="checkbox-group">
                 <label>
-                  <input
-                    type="checkbox"
-                    checked={formData.new_person_mentor}
-                    onChange={(e) => updateFormData('new_person_mentor', e.target.checked)}
-                  />
+                  <input type="checkbox" checked={formData.new_person_mentor} onChange={(e) => updateFormData('new_person_mentor', e.target.checked)} />
                   <span>Mentor olmak istiyor</span>
                 </label>
               </div>
@@ -881,32 +623,24 @@ const InviteForm: React.FC = () => {
           </div>
         );
 
-      case 4: // Sosyal Bilgiler
+      case 4:
         return (
-          <div className={stepClass}>
+          <div className={stepClass(4)}>
             <div className="form-section">
               <h3>🌍 Sosyal Bilgiler</h3>
-              
               <div className="form-group">
                 <label>Konuştuğu Diller</label>
                 <div className="dropdown-container">
-                  <button
-                    className={`dropdown-button ${languagesDropdownOpen ? 'open' : ''}`}
-                    onClick={toggleLanguagesDropdown}
-                  >
+                  <button className={`dropdown-button ${languagesDropdownOpen ? 'open' : ''}`} onClick={toggleLanguagesDropdown}>
                     <span>Diller seçin</span>
                     <span>▼</span>
                   </button>
                   {languagesDropdownOpen && (
                     <div className="dropdown-list">
-                      {languageOptions.map((option) => (
-                        <div
-                          key={option.id}
-                          className={`dropdown-item ${formData.new_person_languages.includes(option.id) ? 'selected' : ''}`}
-                          onClick={() => handleLanguagesSelect(option)}
-                        >
-                          <span className="dropdown-item-emoji">{option.emoji}</span>
-                          <span className="dropdown-item-text">{option.name}</span>
+                      {languageOptions.map((o) => (
+                        <div key={o.id} className={`dropdown-item ${formData.new_person_languages.includes(o.id) ? 'selected' : ''}`} onClick={() => handleLanguagesSelect(o)}>
+                          <span className="dropdown-item-emoji">{o.emoji}</span>
+                          <span className="dropdown-item-text">{o.name}</span>
                         </div>
                       ))}
                     </div>
@@ -914,13 +648,10 @@ const InviteForm: React.FC = () => {
                 </div>
                 {formData.new_person_languages.length > 0 && (
                   <div className="selected-items">
-                    {getSelectedLanguagesNames().map((name, index) => (
-                      <div key={index} className="selected-item">
+                    {getSelectedLanguagesNames().map((name, i) => (
+                      <div key={i} className="selected-item">
                         <span>{name}</span>
-                        <span
-                          className="remove-item"
-                          onClick={() => removeLanguage(formData.new_person_languages[index])}
-                        >
+                        <span className="remove-item" onClick={() => removeLanguage(formData.new_person_languages[i])}>
                           ×
                         </span>
                       </div>
@@ -931,78 +662,48 @@ const InviteForm: React.FC = () => {
 
               <div className="form-group">
                 <label>Gönüllülük Deneyimi</label>
-                <textarea
-                  value={formData.new_person_volunteer_experience}
-                  onChange={(e) => updateFormData('new_person_volunteer_experience', e.target.value)}
-                  placeholder="Gönüllülük deneyimleri..."
-                  rows={3}
-                />
+                <textarea value={formData.new_person_volunteer_experience} onChange={(e) => updateFormData('new_person_volunteer_experience', e.target.value)} placeholder="Gönüllülük deneyimleri..." rows={3} />
               </div>
             </div>
           </div>
         );
 
-      case 5: // Deneyim
+      case 5:
         return (
-          <div className={stepClass}>
+          <div className={stepClass(5)}>
             <div className="form-section">
               <h3>📈 Deneyim</h3>
-              
               <div className="form-group">
                 <label>Dönüm Noktaları</label>
-                <textarea
-                  value={formData.new_person_turning_points}
-                  onChange={(e) => updateFormData('new_person_turning_points', e.target.value)}
-                  placeholder="Hayatındaki önemli dönüm noktaları..."
-                  rows={3}
-                />
+                <textarea value={formData.new_person_turning_points} onChange={(e) => updateFormData('new_person_turning_points', e.target.value)} placeholder="Hayatındaki önemli dönüm noktaları..." rows={3} />
               </div>
-
               <div className="form-group">
                 <label>Karşılaştığı Zorluklar</label>
-                <textarea
-                  value={formData.new_person_challenges}
-                  onChange={(e) => updateFormData('new_person_challenges', e.target.value)}
-                  placeholder="Karşılaştığı zorluklar ve nasıl üstesinden geldiği..."
-                  rows={3}
-                />
+                <textarea value={formData.new_person_challenges} onChange={(e) => updateFormData('new_person_challenges', e.target.value)} placeholder="Zorluklar ve nasıl aşıldığı..." rows={3} />
               </div>
-
               <div className="form-group">
                 <label>Başarıları</label>
-                <textarea
-                  value={formData.new_person_achievements}
-                  onChange={(e) => updateFormData('new_person_achievements', e.target.value)}
-                  placeholder="Önemli başarıları..."
-                  rows={3}
-                />
+                <textarea value={formData.new_person_achievements} onChange={(e) => updateFormData('new_person_achievements', e.target.value)} placeholder="Önemli başarıları..." rows={3} />
               </div>
-
               <div className="form-group">
                 <label>Öğrendiği Dersler</label>
-                <textarea
-                  value={formData.new_person_lessons_learned}
-                  onChange={(e) => updateFormData('new_person_lessons_learned', e.target.value)}
-                  placeholder="Hayatından öğrendiği önemli dersler..."
-                  rows={3}
-                />
+                <textarea value={formData.new_person_lessons_learned} onChange={(e) => updateFormData('new_person_lessons_learned', e.target.value)} placeholder="Önemli dersler..." rows={3} />
               </div>
             </div>
           </div>
         );
 
-      case 6: // Bağlantı
+      case 6:
         return (
-          <div className={stepClass}>
+          <div className={stepClass(6)}>
             <div className="form-section">
               <h3>🤝 Bağlantı</h3>
-              
               <div className="form-group">
                 <label>Bağlantı Gücü</label>
                 <input
                   type="range"
-                  min="1"
-                  max="10"
+                  min={1}
+                  max={10}
                   value={formData.new_person_connection_strength}
                   onChange={(e) => updateFormData('new_person_connection_strength', parseInt(e.target.value))}
                   className="range-slider"
@@ -1015,37 +716,21 @@ const InviteForm: React.FC = () => {
 
               <div className="form-group">
                 <label>Görüşme Sıklığı</label>
-                <input
-                  type="text"
-                  value={formData.new_person_meeting_frequency}
-                  onChange={(e) => updateFormData('new_person_meeting_frequency', e.target.value)}
-                  placeholder="Haftada bir, ayda bir..."
-                />
+                <input value={formData.new_person_meeting_frequency} onChange={(e) => updateFormData('new_person_meeting_frequency', e.target.value)} placeholder="Haftada bir, ayda bir..." />
               </div>
 
               <div className="form-group">
                 <label>İletişim Tercihi</label>
-                <input
-                  type="text"
-                  value={formData.new_person_communication_preference}
-                  onChange={(e) => updateFormData('new_person_communication_preference', e.target.value)}
-                  placeholder="E-posta, telefon, LinkedIn..."
-                />
+                <input value={formData.new_person_communication_preference} onChange={(e) => updateFormData('new_person_communication_preference', e.target.value)} placeholder="E-posta, telefon, LinkedIn..." />
               </div>
 
               <div className="form-group">
                 <label>İş Birliği Yapma İsteği Alanlar</label>
-                <textarea
-                  value={formData.new_person_collaboration_areas}
-                  onChange={(e) => updateFormData('new_person_collaboration_areas', e.target.value)}
-                  placeholder="Hangi alanlarda işbirliği yapmak istediği..."
-                  rows={3}
-                />
+                <textarea value={formData.new_person_collaboration_areas} onChange={(e) => updateFormData('new_person_collaboration_areas', e.target.value)} placeholder="Hangi alanlarda işbirliği yapmak istediği..." rows={3} />
               </div>
             </div>
           </div>
         );
-
       default:
         return null;
     }
@@ -1053,67 +738,70 @@ const InviteForm: React.FC = () => {
 
   return (
     <div className="invite-form">
-      {/* Header */}
-      <div className="header">
-        <div className="logo-container">
-          <img src="/networkinggptlogo.jpeg" alt="NetworkingGPT Logo" className="logo-image" />
-        </div>
-      </div>
+      {/* HERO */}
+      <header className="hero">
+        <img src="/networkinggptlogo.jpeg" alt="NetworkingGPT" className="hero-logo" />
+        <h1 className="brand">NETWORKING <span>GPT</span></h1>
+        <p className="subtitle">Davete özel kişi ekleme platformu</p>
+        <p className="motto">✨ Mitolojik güçle ağınızı genişletin</p>
+      </header>
 
-      {/* Main Container */}
-      <div className="main-container">
-        {/* Step Header */}
+      {/* CARD */}
+      <div className="main-container card-glass">
+        {/* Step head */}
         <div className="step-header">
           <div className="step-title">
             <div className="step-icon">👥</div>
             <div>
-              <h2>Adım {currentStep + 1}: {stepTitles[currentStep]}</h2>
+              <div className="step-eyebrow">Adım {currentStep + 1} / {totalSteps}</div>
+              <h2>Adım {currentStep + 1}: Ağımıza Katılın</h2>
             </div>
+          </div>
+
+          {/* Progress */}
+          <div className="progress-wrap">
+            <div className="progress-bar">
+              <div className="progress-fill" style={{ width: `${progressPercent}%` }} />
+            </div>
+            <div className="progress-meta">
+              <span className="progress-label">{stepTitles[currentStep]}</span>
+              <span className="progress-percent">{progressPercent}% Tamamlandı</span>
+            </div>
+          </div>
+
+          {/* Step dots */}
+          <div className="step-dots">
+            {stepTitles.map((t, i) => (
+              <div key={t} className={`dot ${i === currentStep ? 'active' : ''}`} title={`${i + 1}. ${t}`}>
+                <span className="dot-icon">{stepIcons[i]}</span>
+                <span className="dot-index">{i + 1}</span>
+              </div>
+            ))}
           </div>
         </div>
 
-
-
-        {/* Navigation */}
+        {/* Navigation (üstte) */}
         <div className="navigation-section">
           {currentStep > 0 && (
-            <button className="nav-btn prev-btn" onClick={handlePrevious}>
-              ← Önceki Adım
-            </button>
+            <button className="nav-btn prev-btn" onClick={handlePrevious}>← Önceki Adım</button>
           )}
           {currentStep < totalSteps - 1 && currentStep > 0 && (
-            <button 
-              className="nav-btn next-btn" 
-              onClick={() => {
-                console.log('🚀 Buton tıklandı! currentStep:', currentStep);
-                handleNext();
-              }}
-              disabled={loading}
-            >
-              {loading ? 'Kontrol Ediliyor...' : 'Sonraki Adım →'}
+            <button className="nav-btn next-btn" onClick={handleNext} disabled={loading}>
+              {loading ? 'Kontrol Ediliyor…' : 'Sonraki Adım →'}
             </button>
           )}
           {currentStep === totalSteps - 1 && (
-            <button 
-              className="nav-btn save-btn" 
-              onClick={handleSave}
-              disabled={loading}
-            >
-              {loading ? 'Kaydediliyor...' : 'Kişi Ekle'}
+            <button className="nav-btn save-btn" onClick={handleSave} disabled={loading}>
+              {loading ? 'Kaydediliyor…' : 'Kişi Ekle'}
             </button>
           )}
         </div>
 
-        {/* Form Content */}
-        <div className="form-content">
-          {renderStepContent()}
-        </div>
-
-
+        {/* İçerik */}
+        <div className="form-content">{renderStepContent()}</div>
       </div>
     </div>
   );
 };
 
 export default InviteForm;
-

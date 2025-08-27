@@ -827,3 +827,237 @@
     font-size: 0.9rem;
   }
 }
+/* ---------- Temel Değişkenler ---------- */
+:root{
+  --bg-0:#0a0a0f;
+  --bg-1:#0f0f18;
+  --card:#181826e6;
+  --border:#8b5cf633;
+  --brand-0:#8B5CF6;
+  --brand-1:#A78BFA;
+  --brand-2:#6D28D9;
+  --gold:#F5C76A;
+  --text:#ffffff;
+  --muted:#b9b9c2;
+}
+
+/* ---------- Genel arka plan ---------- */
+.invite-form{
+  min-height:100vh;
+  padding:24px;
+  background:
+    radial-gradient(1200px 600px at 15% 85%, rgba(139,92,246,.12), transparent 60%),
+    radial-gradient(900px 500px at 80% 10%, rgba(167,139,250,.10), transparent 60%),
+    linear-gradient(135deg, var(--bg-0) 0%, var(--bg-1) 100%);
+  color:var(--text);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+/* ---------- Hero (logo + başlık + motto) ---------- */
+.hero{ text-align:center; margin-bottom:28px; animation: fadeInUp .8s ease-out; }
+.hero-logo{ width:72px; height:72px; object-fit:contain; filter: drop-shadow(0 8px 24px rgba(139,92,246,.5)); }
+.brand{ margin:8px 0 2px; letter-spacing:.5px; font-weight:800; font-size:36px; }
+.brand span{ color:var(--brand-1); text-shadow:0 0 24px rgba(167,139,250,.35); }
+.subtitle{ opacity:.8; margin:2px 0; }
+.motto{ opacity:.9; margin:0; color:#dcd3ff; }
+
+/* ---------- Kart (cam efekt + altın çizgi) ---------- */
+.main-container.card-glass{
+  width:100%;
+  max-width:980px;
+  border-radius:22px;
+  padding:32px;
+  background: linear-gradient(180deg, rgba(24,24,38,.9), rgba(20,20,30,.8));
+  border:1px solid var(--border);
+  box-shadow:
+    0 30px 80px rgba(0,0,0,.55),
+    inset 0 0 0 1px rgba(255,255,255,.06);
+  position:relative;
+}
+.main-container.card-glass::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:22px;
+  pointer-events:none;
+  box-shadow: 0 0 0 1px rgba(245,199,106,.25), 0 0 60px rgba(245,199,106,.07) inset;
+}
+
+/* ---------- Step başlık + ilerleme ---------- */
+.step-header{ display:flex; flex-direction:column; gap:16px; margin-bottom:18px; }
+.step-title{ display:flex; gap:14px; align-items:center; }
+.step-icon{ font-size:28px; color:var(--brand-1); filter:drop-shadow(0 0 10px rgba(139,92,246,.5)); }
+.step-eyebrow{ font-size:13px; color:#c7b6ff; opacity:.9; margin-bottom:2px; }
+.step-title h2{
+  margin:0;
+  font-size:22px;
+  background:linear-gradient(135deg,#fff, var(--brand-1));
+  -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+}
+
+/* Progress bar */
+.progress-wrap{ display:flex; flex-direction:column; gap:8px; }
+.progress-bar{
+  height:10px; border-radius:999px; overflow:hidden;
+  background: rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.12);
+}
+.progress-fill{
+  height:100%;
+  background:linear-gradient(90deg, var(--brand-0), var(--brand-1));
+  box-shadow:0 6px 18px rgba(139,92,246,.45);
+  transition:width .35s ease;
+}
+.progress-meta{ display:flex; justify-content:space-between; font-size:12px; color:var(--muted); }
+.progress-percent{ color:#c7b6ff; }
+
+/* Step dots (1..7) */
+.step-dots{ display:flex; gap:10px; margin-top:6px; }
+.dot{
+  position:relative; width:34px; height:34px; border-radius:10px;
+  display:flex; align-items:center; justify-content:center;
+  background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12);
+  transition:transform .2s ease, background .2s ease, border-color .2s ease;
+}
+.dot .dot-icon{ font-size:16px; opacity:.85; }
+.dot .dot-index{
+  position:absolute; bottom:-12px; font-size:10px; color:#9aa; opacity:.8;
+}
+.dot.active{
+  background:linear-gradient(135deg, var(--brand-0), var(--brand-1));
+  border-color:var(--brand-0);
+  box-shadow:0 10px 20px rgba(139,92,246,.3);
+  transform:translateY(-2px);
+}
+.dot.active .dot-index{ color:#dcd3ff; }
+
+/* ---------- Navigasyon butonları ---------- */
+.navigation-section{
+  display:flex; gap:12px; justify-content:flex-end; align-items:center; margin:10px 0 18px;
+}
+.nav-btn{
+  padding:14px 22px; border:none; border-radius:12px; font-weight:700; cursor:pointer;
+  transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+}
+.prev-btn{
+  background: rgba(255,255,255,.08); color:#d0d0d8; border:1px solid rgba(255,255,255,.14);
+}
+.prev-btn:hover{ transform:translateY(-2px); box-shadow:0 10px 20px rgba(0,0,0,.35); }
+
+.next-btn, .save-btn{
+  background: linear-gradient(135deg, var(--brand-0), var(--brand-1)); color:white;
+  border:1px solid var(--brand-0); box-shadow:0 8px 24px rgba(139,92,246,.35);
+}
+.next-btn:hover, .save-btn:hover{ transform:translateY(-3px); box-shadow:0 14px 34px rgba(139,92,246,.5); }
+
+.save-btn{
+  background: linear-gradient(135deg, #10B981, #059669);
+  border-color:#10B981; box-shadow:0 8px 24px rgba(16,185,129,.35);
+}
+.save-btn:hover{ box-shadow:0 14px 34px rgba(16,185,129,.5); }
+.full{ width:100%; margin-top:18px; }
+
+/* ---------- İçerik kartı ---------- */
+.form-content{
+  background: rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:18px; padding:24px; position:relative;
+}
+.form-content::before{
+  content:""; position:absolute; left:0; right:0; top:0; height:1px;
+  background: linear-gradient(90deg, transparent, var(--brand-1), transparent);
+}
+
+/* Başlıklar */
+.form-section{ margin-bottom:26px; animation: fadeInUp .6s ease-out; }
+.form-section h3{
+  margin:0 0 16px; font-size:20px; font-weight:800;
+  background:linear-gradient(135deg,#fff, var(--brand-1));
+  -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+}
+
+/* Inputlar */
+.form-group{ margin-bottom:18px; }
+.form-group label{ display:block; color:#cfcfe6; font-weight:600; margin-bottom:8px; font-size:.95rem; }
+.form-group:focus-within label{ color:var(--brand-1); }
+
+.form-group input, .form-group textarea{
+  width:100%; padding:14px 16px; border-radius:12px; color:#fff;
+  background: rgba(255,255,255,.08); border:2px solid rgba(255,255,255,.1);
+  transition: all .2s ease;
+}
+.form-group input:focus, .form-group textarea:focus{
+  outline:none; border-color:var(--brand-0);
+  box-shadow: 0 0 0 4px rgba(139,92,246,.12), 0 10px 24px rgba(0,0,0,.25);
+  background: rgba(255,255,255,.12); transform: translateY(-1px);
+}
+.form-group input::placeholder, .form-group textarea::placeholder{ color:#808093; }
+
+.form-row{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+
+/* Range */
+.range-slider{
+  width:100%; height:8px; border-radius:6px; background:rgba(255,255,255,.1);
+  border:1px solid rgba(255,255,255,.15); margin:12px 0;
+  -webkit-appearance:none; appearance:none;
+}
+.range-slider::-webkit-slider-thumb{
+  -webkit-appearance:none; width:26px; height:26px; border-radius:50%;
+  border:3px solid white; background:linear-gradient(135deg,var(--brand-0),var(--brand-1));
+  box-shadow:0 6px 16px rgba(139,92,246,.5);
+}
+.range-labels{ display:flex; justify-content:space-between; color:#8c8ca1; font-size:.85rem; }
+
+/* Checkbox */
+.checkbox-group{
+  display:flex; align-items:center; gap:12px; padding:16px;
+  background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12);
+  border-radius:12px;
+}
+.checkbox-group input[type="checkbox"]{ width:18px; height:18px; accent-color:var(--brand-0); }
+
+/* Dropdown */
+.dropdown-container{ position:relative; }
+.dropdown-button{
+  width:100%; padding:14px 16px; border-radius:12px; display:flex; justify-content:space-between; align-items:center;
+  background:rgba(255,255,255,.08); border:2px solid rgba(255,255,255,.1); color:#eaeaf5; cursor:pointer;
+}
+.dropdown-button.open{ border-color:var(--brand-0); box-shadow:0 0 0 4px rgba(139,92,246,.12); background:rgba(255,255,255,.12); }
+.dropdown-list{
+  position:absolute; left:0; right:0; top:calc(100% + 8px); max-height:250px; overflow:auto; z-index:40;
+  background:rgba(30,30,45,.96); border:1px solid rgba(255,255,255,.14); border-radius:12px; box-shadow:0 24px 70px rgba(0,0,0,.6);
+  animation: fadeInScale .2s ease-out;
+}
+.dropdown-item{
+  padding:14px 16px; display:flex; gap:10px; align-items:center; border-bottom:1px solid rgba(255,255,255,.08); cursor:pointer;
+}
+.dropdown-item:hover{ background:rgba(255,255,255,.08); }
+.dropdown-item.selected{ background:rgba(139,92,246,.2); border-left:3px solid var(--brand-0); color:#dcd3ff; }
+.dropdown-item:last-child{ border-bottom:none; }
+.dropdown-item-emoji{ font-size:18px; }
+.dropdown-item-text{ flex:1; }
+
+.selected-items{ display:flex; flex-wrap:wrap; gap:10px; margin-top:10px; }
+.selected-item{
+  padding:8px 10px; border-radius:10px; font-size:.85rem; display:flex; gap:8px; align-items:center;
+  background:rgba(139,92,246,.18); border:1px solid rgba(139,92,246,.32); color:#d7ccff;
+}
+.selected-item .remove-item{ cursor:pointer; color:#ff8484; }
+
+/* ---------- Responsive ---------- */
+@media (max-width:1024px){
+  .main-container.card-glass{ max-width:840px; padding:28px; }
+  .brand{ font-size:32px; }
+}
+@media (max-width:768px){
+  .invite-form{ padding:16px; }
+  .main-container.card-glass{ padding:22px; }
+  .form-row{ grid-template-columns:1fr; }
+  .navigation-section{ flex-direction:column; align-items:stretch; }
+  .nav-btn{ width:100%; }
+}
+@media (max-width:480px){
+  .brand{ font-size:26px; }
+  .hero-logo{ width:60px; height:60px; }
+}
