@@ -165,6 +165,7 @@ const InviteForm: React.FC = () => {
         }
       }
       
+      // Kişi kontrolü başarılıysa veya adım 1 değilse devam et
       if (currentStep < totalSteps - 1) {
         setCurrentStep(prev => prev + 1);
       }
@@ -219,17 +220,21 @@ const InviteForm: React.FC = () => {
       // Güncellenmiş invite-verify fonksiyonunu kullan
       const supabaseUrl = `${SUPABASE_URL}/functions/v1/invite-verify`;
       
+      const requestBody = {
+        first_name: formData.new_person_first_name.trim(),
+        last_name: formData.new_person_last_name.trim(),
+        email: formData.new_person_email.trim()
+      };
+      
+      console.log('Kişi kontrolü için gönderilen parametreler:', requestBody);
+      
       const response = await fetch(supabaseUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
         },
-        body: JSON.stringify({
-          first_name: formData.new_person_first_name.trim(),
-          last_name: formData.new_person_last_name.trim(),
-          email: formData.new_person_email.trim()
-        }),
+        body: JSON.stringify(requestBody),
       });
 
       if (!response.ok) {
