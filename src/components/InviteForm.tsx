@@ -150,6 +150,16 @@ function Dropdown({ options, selectedItems, onSelectionChange, placeholder, labe
 export default function InviteForm() {
   const [currentStep, setCurrentStep] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [inviteId, setInviteId] = useState<string>('');
+
+  // URL'den invite ID'sini al
+  useEffect(() => {
+    const pathParts = window.location.pathname.split('/');
+    const inviteIdFromUrl = pathParts[pathParts.length - 1];
+    if (inviteIdFromUrl && inviteIdFromUrl.length > 10) {
+      setInviteId(inviteIdFromUrl);
+    }
+  }, []);
 
   // Dropdown options - Mobil uygulamadaki ile aynı
   const expertiseOptions: DropdownOption[] = [
@@ -411,16 +421,16 @@ export default function InviteForm() {
       if (data && data.success) {
         console.log('Ağ listesinde kişi bulundu:', data);
         setCurrentStep(1); // Yeni kişi bilgilerine geç
-      } else {
+        } else {
         alert('Bu bilgilerle kayıtlı kişi bulunamadı. Lütfen bilgilerinizi kontrol ediniz.');
-      }
+        }
     } catch (error) {
       console.error('Hata:', error);
       alert('Bir hata oluştu. Lütfen tekrar deneyiniz.');
-    }
+      }
   };
 
-
+      
 
   const handleSave = async () => {
     const { new_person_first_name, new_person_last_name } = formData;
@@ -442,18 +452,18 @@ export default function InviteForm() {
             email: formData.inviter_email.trim()
           },
           new_person: {
-            first_name: new_person_first_name,
-            last_name: new_person_last_name,
+        first_name: new_person_first_name,
+        last_name: new_person_last_name,
             age: formData.new_person_age ? parseInt(formData.new_person_age) : null,
-            city: formData.new_person_birthplace,
-            current_city: formData.new_person_current_city,
-            email: formData.new_person_email,
-            phone: formData.new_person_phone,
+        city: formData.new_person_birthplace,
+        current_city: formData.new_person_current_city,
+        email: formData.new_person_email,
+        phone: formData.new_person_phone,
             university: formData.new_person_university,
             degree: formData.new_person_degree,
             graduation_year: formData.new_person_graduation_year ? parseInt(formData.new_person_graduation_year) : null,
-            position: formData.new_person_position,
-            company: formData.new_person_company,
+        position: formData.new_person_position,
+        company: formData.new_person_company,
             sectors: formData.new_person_personal_traits.map(item => item.name).join(', '),
             expertise: formData.new_person_expertise.map(item => item.name).join(', '),
             services: formData.new_person_services.map(item => item.name).join(', '),
@@ -462,10 +472,10 @@ export default function InviteForm() {
             investment_interest: formData.new_person_investment_interest,
             social_volunteer: formData.new_person_volunteer_experience,
             life_experience: formData.new_person_turning_points,
-            challenges: formData.new_person_challenges,
-            lessons: formData.new_person_lessons,
-            future_goals: formData.new_person_future_goals,
-            collaboration_areas: formData.new_person_collaboration_areas,
+        challenges: formData.new_person_challenges,
+        lessons: formData.new_person_lessons,
+        future_goals: formData.new_person_future_goals,
+        collaboration_areas: formData.new_person_collaboration_areas,
             summary: formData.new_person_description,
             goals: formData.new_person_goals,
             vision: formData.new_person_vision,
@@ -486,44 +496,44 @@ export default function InviteForm() {
 
       if (data && data.success) {
         alert('Kişi başarıyla eklendi!');
-        
-        // Formu sıfırla
-        setFormData({
-          inviter_first_name: '',
-          inviter_last_name: '',
-          inviter_email: '',
-          new_person_first_name: '',
-          new_person_last_name: '',
+      
+      // Formu sıfırla
+      setFormData({
+        inviter_first_name: '',
+        inviter_last_name: '',
+        inviter_email: '',
+        new_person_first_name: '',
+        new_person_last_name: '',
           new_person_age: '',
-          new_person_birthplace: '',
-          new_person_current_city: '',
+        new_person_birthplace: '',
+        new_person_current_city: '',
           new_person_proximity_level: 5,
           new_person_email: '',
           new_person_phone: '',
-          new_person_university: '',
-          new_person_department: '',
-          new_person_degree: '',
+        new_person_university: '',
+        new_person_department: '',
+        new_person_degree: '',
           new_person_graduation_year: '',
-          new_person_description: '',
-          new_person_position: '',
-          new_person_company: '',
-          new_person_work_experience: '',
+        new_person_description: '',
+        new_person_position: '',
+        new_person_company: '',
+        new_person_work_experience: '',
           new_person_expertise: [] as DropdownOption[],
           new_person_services: [] as DropdownOption[],
-          new_person_investments: '',
+        new_person_investments: '',
           new_person_personal_traits: [] as DropdownOption[],
           new_person_values: [] as DropdownOption[],
-          new_person_goals: '',
-          new_person_vision: '',
+        new_person_goals: '',
+        new_person_vision: '',
           new_person_hobbies: [] as DropdownOption[],
           new_person_languages: [] as DropdownOption[],
-          new_person_mentor: false,
-          new_person_volunteer_experience: '',
-          new_person_turning_points: '',
-          new_person_challenges: '',
-          new_person_lessons: '',
-          new_person_future_goals: '',
-          new_person_investment_interest: false,
+        new_person_mentor: false,
+        new_person_volunteer_experience: '',
+        new_person_turning_points: '',
+        new_person_challenges: '',
+        new_person_lessons: '',
+        new_person_future_goals: '',
+        new_person_investment_interest: false,
           new_person_collaboration_areas: '',
           send_email_notification: false
         });
@@ -543,14 +553,14 @@ export default function InviteForm() {
   const renderStepContent = () => {
     switch (currentStep) {
       case 0: // Davet gönderen bilgileri
-  return (
+        return (
           <div className="step-content">
             <div className="form-section">
-              <h3>Davet Gönderen Bilgileri</h3>
-              <p>Lütfen ağ listesinde kayıtlı olan bilgilerinizi giriniz.</p>
+              <h3>👤 Davet Gönderen Bilgileri</h3>
+              <p>Sizinle bağlantı kurmak isteyen kişinin bilgilerini girin</p>
               
               <div className="form-group">
-                <label>Ad *</label>
+                <label>Ad</label>
                 <input
                   type="text"
                   value={formData.inviter_first_name}
@@ -560,93 +570,94 @@ export default function InviteForm() {
               </div>
               
               <div className="form-group">
-                <label>Soyad *</label>
+                <label>Soyad</label>
                 <input
                   type="text"
                   value={formData.inviter_last_name}
                   onChange={(e) => updateFormData('inviter_last_name', e.target.value)}
                   placeholder="Soyadınız"
                 />
-            </div>
-            
-            <div className="form-group">
-                <label>E-posta *</label>
-              <input
-                type="email"
-                value={formData.inviter_email}
-                onChange={(e) => updateFormData('inviter_email', e.target.value)}
-                  placeholder="ornek@email.com"
-              />
-            </div>
-            
-            <button 
-                className="btn-primary"
+              </div>
+              
+              <div className="form-group">
+                <label>E-posta Adresi</label>
+                <input
+                  type="email"
+                  value={formData.inviter_email}
+                  onChange={(e) => updateFormData('inviter_email', e.target.value)}
+                  placeholder="e-posta@ornek.com"
+                />
+              </div>
+              
+              <button 
+                className="nav-btn save-btn"
                 onClick={checkPersonExists}
                 disabled={loading}
+                style={{ marginTop: '20px', width: '100%' }}
               >
                 {loading ? 'Kontrol Ediliyor...' : 'Devam Et'}
-            </button>
+              </button>
+            </div>
           </div>
-                </div>
         );
 
       case 1: // Temel Bilgiler
         return (
           <div className="step-content">
             <div className="form-section">
-              <h3>Temel Bilgiler</h3>
+              <h3>👤 Temel Bilgiler</h3>
               
-                <div className="form-row">
-                  <div className="form-group">
-                  <label>Ad *</label>
-                    <input
-                      type="text"
+              <div className="form-row">
+                <div className="form-group">
+                  <label>Ad</label>
+                  <input
+                    type="text"
                     value={formData.new_person_first_name}
                     onChange={(e) => updateFormData('new_person_first_name', e.target.value)}
                     placeholder="Ad"
-                    />
-                  </div>
-                  <div className="form-group">
-                  <label>Soyad *</label>
-                    <input
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Soyad</label>
+                  <input
                     type="text"
                     value={formData.new_person_last_name}
                     onChange={(e) => updateFormData('new_person_last_name', e.target.value)}
                     placeholder="Soyad"
                   />
-                  </div>
                 </div>
+              </div>
 
-                <div className="form-row">
-                  <div className="form-group">
+              <div className="form-row">
+                <div className="form-group">
                   <label>Yaş</label>
-                    <input
-                      type="number"
+                  <input
+                    type="number"
                     value={formData.new_person_age}
                     onChange={(e) => updateFormData('new_person_age', e.target.value)}
-                      placeholder="25"
-                    />
-                  </div>
-                  <div className="form-group">
-                  <label>Nereli</label>
-                    <input
-                      type="text"
-                      value={formData.new_person_birthplace}
-                      onChange={(e) => updateFormData('new_person_birthplace', e.target.value)}
-                      placeholder="İstanbul"
-                    />
-                  </div>
+                    placeholder="25"
+                  />
                 </div>
+                <div className="form-group">
+                  <label>Nereli</label>
+                  <input
+                    type="text"
+                    value={formData.new_person_birthplace}
+                    onChange={(e) => updateFormData('new_person_birthplace', e.target.value)}
+                    placeholder="İstanbul"
+                  />
+                </div>
+              </div>
 
-                  <div className="form-group">
+              <div className="form-group">
                 <label>Şu An Yaşadığı Şehir</label>
-                    <input
-                      type="text"
-                      value={formData.new_person_current_city}
-                      onChange={(e) => updateFormData('new_person_current_city', e.target.value)}
-                      placeholder="İstanbul"
-                    />
-                  </div>
+                <input
+                  type="text"
+                  value={formData.new_person_current_city}
+                  onChange={(e) => updateFormData('new_person_current_city', e.target.value)}
+                  placeholder="İstanbul"
+                />
+              </div>
 
               <div className="form-group">
                 <label>Yakınlık Seviyesi: {formData.new_person_proximity_level}/10</label>
@@ -665,8 +676,8 @@ export default function InviteForm() {
               </div>
 
               <div className="form-section">
-                <h4>İletişim Bilgileri</h4>
-                <p className="form-note">* E-posta veya telefon alanlarından en az biri zorunludur</p>
+                <h4>📧 İletişim Bilgileri</h4>
+                <p className="form-note">(E-posta veya telefon gerekli)</p>
                 
                 <div className="form-row">
                   <div className="form-group">
@@ -677,30 +688,36 @@ export default function InviteForm() {
                       onChange={(e) => updateFormData('new_person_email', e.target.value)}
                       placeholder="ornek@email.com"
                     />
-                </div>
+                  </div>
                   <div className="form-group">
                     <label>Telefon</label>
                     <input
                       type="tel"
                       value={formData.new_person_phone}
                       onChange={(e) => updateFormData('new_person_phone', e.target.value)}
-                      placeholder="+90 555 123 45 67"
+                      placeholder="+90 5XX XXX XX XX"
                     />
                   </div>
                 </div>
+                
+                {(!formData.new_person_email && !formData.new_person_phone) && (
+                  <div className="warning-message">
+                    ⚠️ E-posta veya telefon bilgilerinden en az biri girilmelidir.
+                  </div>
+                )}
               </div>
 
               <div className="form-section">
-                <h4>Eğitim Geçmişi</h4>
+                <h4>🎓 Eğitim Geçmişi</h4>
                 
                 <div className="form-row">
                   <div className="form-group">
-                    <label>Üniversite</label>
+                    <label>Okul/Üniversite</label>
                     <input
                       type="text"
                       value={formData.new_person_university}
                       onChange={(e) => updateFormData('new_person_university', e.target.value)}
-                      placeholder="İstanbul Teknik Üniversitesi"
+                      placeholder="Boğaziçi Üniversitesi"
                     />
                   </div>
                   <div className="form-group">
@@ -721,7 +738,7 @@ export default function InviteForm() {
                       type="text"
                       value={formData.new_person_degree}
                       onChange={(e) => updateFormData('new_person_degree', e.target.value)}
-                      placeholder="Lisans, Yüksek Lisans, Doktora"
+                      placeholder="Lisans"
                     />
                   </div>
                   <div className="form-group">
@@ -734,17 +751,17 @@ export default function InviteForm() {
                     />
                   </div>
                 </div>
-                </div>
+              </div>
 
-                  <div className="form-group">
-                <label>Kişi Hakkında Genel Açıklama</label>
-                  <textarea
-                    value={formData.new_person_description}
-                    onChange={(e) => updateFormData('new_person_description', e.target.value)}
-                    placeholder="Kişi hakkında kısa bir açıklama..."
-                    rows={3}
-                  />
-                </div>
+              <div className="form-group">
+                <label>Kişi hakkında genel notlar...</label>
+                <textarea
+                  value={formData.new_person_description}
+                  onChange={(e) => updateFormData('new_person_description', e.target.value)}
+                  placeholder="Kişi hakkında genel notlar..."
+                  rows={3}
+                />
+              </div>
 
               <div className="form-group checkbox-group">
                 <label>
@@ -753,9 +770,9 @@ export default function InviteForm() {
                     checked={formData.send_email_notification}
                     onChange={(e) => updateFormData('send_email_notification', e.target.checked)}
                   />
-                  Bilgilendirme E-postası Gönder
+                  Kişiye e-posta göndermek ister misiniz?
                 </label>
-                </div>
+              </div>
             </div>
           </div>
         );
@@ -764,236 +781,555 @@ export default function InviteForm() {
         return (
           <div className="step-content">
             <div className="form-section">
-              <h3>İş Bilgileri</h3>
+              <h3>💼 İş ve Profesyonel Bilgiler</h3>
               
-                <div className="form-row">
-                  <div className="form-group">
-                  <label>Şu Anki Pozisyonu</label>
-                    <input
-                      type="text"
-                      value={formData.new_person_position}
-                      onChange={(e) => updateFormData('new_person_position', e.target.value)}
-                      placeholder="Yazılım Geliştirici"
-                    />
-                  </div>
-                  <div className="form-group">
-                  <label>Şirket</label>
-                    <input
-                      type="text"
-                      value={formData.new_person_company}
-                      onChange={(e) => updateFormData('new_person_company', e.target.value)}
-                    placeholder="ABC Teknoloji"
-                    />
-                  </div>
-                </div>
-
+              <div className="form-row">
                 <div className="form-group">
-                <label>Daha Önceki İş Tecrübeleri</label>
-                  <textarea
-                    value={formData.new_person_work_experience}
-                    onChange={(e) => updateFormData('new_person_work_experience', e.target.value)}
-                  placeholder="Önceki iş deneyimlerinizi kısaca açıklayın..."
-                    rows={3}
+                  <label>👤 Pozisyon</label>
+                  <input
+                    type="text"
+                    value={formData.new_person_position}
+                    onChange={(e) => updateFormData('new_person_position', e.target.value)}
+                    placeholder="Senior Frontend Developer"
                   />
                 </div>
+                <div className="form-group">
+                  <label>🏢 Şirket</label>
+                  <input
+                    type="text"
+                    value={formData.new_person_company}
+                    onChange={(e) => updateFormData('new_person_company', e.target.value)}
+                    placeholder="Google"
+                  />
+                </div>
+              </div>
 
               <Dropdown
                 options={expertiseOptions}
                 selectedItems={formData.new_person_expertise}
                 onSelectionChange={(items) => updateFormData('new_person_expertise', items)}
-                placeholder="Uzmanlık alanları seçin..."
-                label="Uzmanlık Alanları"
+                placeholder="Uzmanlık alanı seçin..."
+                label="⭐ Uzmanlık Alanları"
               />
 
               <Dropdown
                 options={serviceOptions}
                 selectedItems={formData.new_person_services}
                 onSelectionChange={(items) => updateFormData('new_person_services', items)}
-                placeholder="Verebileceği hizmetler seçin..."
-                label="Verebileceği Hizmetler"
+                placeholder="Hizmet seçin..."
+                label="⚡ Verebileceği Hizmetler"
               />
 
-                <div className="form-group">
-                <label>Yatırım Yaptığı veya Destek Verdiği Projeler</label>
-                  <textarea
-                    value={formData.new_person_investments}
-                    onChange={(e) => updateFormData('new_person_investments', e.target.value)}
-                  placeholder="Destek verdiği projeleri açıklayın..."
-                    rows={3}
-                  />
-                </div>
+              <div className="form-group">
+                <label>📄 İş Deneyimi (Kısa Notlar)</label>
+                <textarea
+                  value={formData.new_person_work_experience}
+                  onChange={(e) => updateFormData('new_person_work_experience', e.target.value)}
+                  placeholder="Önceki iş deneyimleri, projeler, başarılar..."
+                  rows={3}
+                />
+              </div>
             </div>
-                </div>
+          </div>
         );
 
       case 3: // Kişisel Özellikler
         return (
           <div className="step-content">
             <div className="form-section">
-              <h3>Kişisel Özellikler</h3>
+              <h3>⭐ Kişisel Özellikler</h3>
               
-              <Dropdown
-                options={personalTraitsOptions}
-                selectedItems={formData.new_person_personal_traits}
-                onSelectionChange={(items) => updateFormData('new_person_personal_traits', items)}
-                placeholder="Kişisel özellikler seçin..."
-                label="Kişisel Özellikler"
-              />
-
-              <Dropdown
-                options={valuesOptions}
-                selectedItems={formData.new_person_values}
-                onSelectionChange={(items) => updateFormData('new_person_values', items)}
-                placeholder="Değer verdiği prensipler seçin..."
-                label="Değer Verdiği Prensipler"
-              />
-
-                <div className="form-group">
-                <label>Hedefleri</label>
-                  <textarea
-                    value={formData.new_person_goals}
-                    onChange={(e) => updateFormData('new_person_goals', e.target.value)}
-                  placeholder="Kısa ve uzun vadeli hedeflerini açıklayın..."
-                    rows={3}
-                  />
+              <div className="form-section">
+                <h4>💼 Kategori</h4>
+                <div className="category-buttons">
+                  <button className={`category-btn ${formData.new_person_personal_traits.length > 0 ? 'active' : ''}`}>
+                    💼 İş
+                  </button>
+                  <button className="category-btn">
+                    🏠 Aile
+                  </button>
+                  <button className="category-btn">
+                    👥 Arkadaş
+                  </button>
+                  <button className="category-btn">
+                    ➕ Diğer
+                  </button>
                 </div>
+              </div>
 
-                <div className="form-group">
-                <label>Vizyonu</label>
-                  <textarea
-                    value={formData.new_person_vision}
-                    onChange={(e) => updateFormData('new_person_vision', e.target.value)}
-                  placeholder="Gelecek vizyonunu açıklayın..."
-                    rows={3}
-                  />
+              <div className="form-group">
+                <label>❤️ Yakınlık Seviyesi: {formData.new_person_proximity_level}/10</label>
+                <input
+                  type="range"
+                  min="1"
+                  max="10"
+                  value={formData.new_person_proximity_level}
+                  onChange={(e) => updateFormData('new_person_proximity_level', parseInt(e.target.value))}
+                  className="range-slider"
+                />
+                <div className="range-labels">
+                  <span>Uzak (1)</span>
+                  <span>Yakın (10)</span>
                 </div>
+              </div>
+
+              <div className="form-section">
+                <h4>⭐ Kişisel Özellikler</h4>
+                <div className="traits-grid">
+                  <div className="traits-column">
+                    <label className="trait-item">
+                      <input
+                        type="checkbox"
+                        checked={formData.new_person_personal_traits.some(t => t.id === 'honesty')}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            updateFormData('new_person_personal_traits', [...formData.new_person_personal_traits, { id: 'honesty', name: 'Dürüstlük', emoji: '🤝' }]);
+                          } else {
+                            updateFormData('new_person_personal_traits', formData.new_person_personal_traits.filter(t => t.id !== 'honesty'));
+                          }
+                        }}
+                      />
+                      Dürüstlük
+                    </label>
+                    <label className="trait-item">
+                      <input
+                        type="checkbox"
+                        checked={formData.new_person_personal_traits.some(t => t.id === 'discipline')}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            updateFormData('new_person_personal_traits', [...formData.new_person_personal_traits, { id: 'discipline', name: 'Disiplin', emoji: '📋' }]);
+                          } else {
+                            updateFormData('new_person_personal_traits', formData.new_person_personal_traits.filter(t => t.id !== 'discipline'));
+                          }
+                        }}
+                      />
+                      Disiplin
+                    </label>
+                    <label className="trait-item">
+                      <input
+                        type="checkbox"
+                        checked={formData.new_person_personal_traits.some(t => t.id === 'patience')}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            updateFormData('new_person_personal_traits', [...formData.new_person_personal_traits, { id: 'patience', name: 'Sabırlılık', emoji: '😌' }]);
+                          } else {
+                            updateFormData('new_person_personal_traits', formData.new_person_personal_traits.filter(t => t.id !== 'patience'));
+                          }
+                        }}
+                      />
+                      Sabırlılık
+                    </label>
+                    <label className="trait-item">
+                      <input
+                        type="checkbox"
+                        checked={formData.new_person_personal_traits.some(t => t.id === 'teamwork')}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            updateFormData('new_person_personal_traits', [...formData.new_person_personal_traits, { id: 'teamwork', name: 'Takım Çalışması', emoji: '👥' }]);
+                          } else {
+                            updateFormData('new_person_personal_traits', formData.new_person_personal_traits.filter(t => t.id !== 'teamwork'));
+                          }
+                        }}
+                      />
+                      Takım Çalışması
+                    </label>
+                    <label className="trait-item">
+                      <input
+                        type="checkbox"
+                        checked={formData.new_person_personal_traits.some(t => t.id === 'creativity')}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            updateFormData('new_person_personal_traits', [...formData.new_person_personal_traits, { id: 'creativity', name: 'Yaratıcılık', emoji: '🎨' }]);
+                          } else {
+                            updateFormData('new_person_personal_traits', formData.new_person_personal_traits.filter(t => t.id !== 'creativity'));
+                          }
+                        }}
+                      />
+                      Yaratıcılık
+                    </label>
+                  </div>
+                  <div className="traits-column">
+                    <label className="trait-item">
+                      <input
+                        type="checkbox"
+                        checked={formData.new_person_personal_traits.some(t => t.id === 'reliability')}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            updateFormData('new_person_personal_traits', [...formData.new_person_personal_traits, { id: 'reliability', name: 'Güvenilirlik', emoji: '✅' }]);
+                          } else {
+                            updateFormData('new_person_personal_traits', formData.new_person_personal_traits.filter(t => t.id !== 'reliability'));
+                          }
+                        }}
+                      />
+                      Güvenilirlik
+                    </label>
+                    <label className="trait-item">
+                      <input
+                        type="checkbox"
+                        checked={formData.new_person_personal_traits.some(t => t.id === 'hardworking')}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            updateFormData('new_person_personal_traits', [...formData.new_person_personal_traits, { id: 'hardworking', name: 'Çalışkanlık', emoji: '💪' }]);
+                          } else {
+                            updateFormData('new_person_personal_traits', formData.new_person_personal_traits.filter(t => t.id !== 'hardworking'));
+                          }
+                        }}
+                      />
+                      Çalışkanlık
+                    </label>
+                    <label className="trait-item">
+                      <input
+                        type="checkbox"
+                        checked={formData.new_person_personal_traits.some(t => t.id === 'leadership')}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            updateFormData('new_person_personal_traits', [...formData.new_person_personal_traits, { id: 'leadership', name: 'Liderlik', emoji: '👑' }]);
+                          } else {
+                            updateFormData('new_person_personal_traits', formData.new_person_personal_traits.filter(t => t.id !== 'leadership'));
+                          }
+                        }}
+                      />
+                      Liderlik
+                    </label>
+                    <label className="trait-item">
+                      <input
+                        type="checkbox"
+                        checked={formData.new_person_personal_traits.some(t => t.id === 'communication')}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            updateFormData('new_person_personal_traits', [...formData.new_person_personal_traits, { id: 'communication', name: 'İletişim Becerisi', emoji: '💬' }]);
+                          } else {
+                            updateFormData('new_person_personal_traits', formData.new_person_personal_traits.filter(t => t.id !== 'communication'));
+                          }
+                        }}
+                      />
+                      İletişim Becerisi
+                    </label>
+                    <label className="trait-item">
+                      <input
+                        type="checkbox"
+                        checked={formData.new_person_personal_traits.some(t => t.id === 'adaptability')}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            updateFormData('new_person_personal_traits', [...formData.new_person_personal_traits, { id: 'adaptability', name: 'Uyum Yeteneği', emoji: '🔄' }]);
+                          } else {
+                            updateFormData('new_person_personal_traits', formData.new_person_personal_traits.filter(t => t.id !== 'adaptability'));
+                          }
+                        }}
+                      />
+                      Uyum Yeteneği
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div className="form-section">
+                <h4>💎 Değer Verdiği Prensipler</h4>
+                <div className="values-grid">
+                  <div className="values-column">
+                    <label className="value-item">
+                      <input
+                        type="checkbox"
+                        checked={formData.new_person_values.some(v => v.id === 'ethics')}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            updateFormData('new_person_values', [...formData.new_person_values, { id: 'ethics', name: 'Etik', emoji: '⚖️' }]);
+                          } else {
+                            updateFormData('new_person_values', formData.new_person_values.filter(v => v.id !== 'ethics'));
+                          }
+                        }}
+                      />
+                      Etik
+                    </label>
+                    <label className="value-item">
+                      <input
+                        type="checkbox"
+                        checked={formData.new_person_values.some(v => v.id === 'innovation')}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            updateFormData('new_person_values', [...formData.new_person_values, { id: 'innovation', name: 'İnovasyon', emoji: '💡' }]);
+                          } else {
+                            updateFormData('new_person_values', formData.new_person_values.filter(v => v.id !== 'innovation'));
+                          }
+                        }}
+                      />
+                      İnovasyon
+                    </label>
+                    <label className="value-item">
+                      <input
+                        type="checkbox"
+                        checked={formData.new_person_values.some(v => v.id === 'learning')}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            updateFormData('new_person_values', [...formData.new_person_values, { id: 'learning', name: 'Sürekli Öğrenme', emoji: '📚' }]);
+                          } else {
+                            updateFormData('new_person_values', formData.new_person_values.filter(v => v.id !== 'learning'));
+                          }
+                        }}
+                      />
+                      Sürekli Öğrenme
+                    </label>
+                    <label className="value-item">
+                      <input
+                        type="checkbox"
+                        checked={formData.new_person_values.some(v => v.id === 'empathy')}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            updateFormData('new_person_values', [...formData.new_person_values, { id: 'empathy', name: 'Empati', emoji: '❤️' }]);
+                          } else {
+                            updateFormData('new_person_values', formData.new_person_values.filter(v => v.id !== 'empathy'));
+                          }
+                        }}
+                      />
+                      Empati
+                    </label>
+                  </div>
+                  <div className="values-column">
+                    <label className="value-item">
+                      <input
+                        type="checkbox"
+                        checked={formData.new_person_values.some(v => v.id === 'sustainability')}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            updateFormData('new_person_values', [...formData.new_person_values, { id: 'sustainability', name: 'Sürdürülebilirlik', emoji: '🌱' }]);
+                          } else {
+                            updateFormData('new_person_values', formData.new_person_values.filter(v => v.id !== 'sustainability'));
+                          }
+                        }}
+                      />
+                      Sürdürülebilirlik
+                    </label>
+                    <label className="value-item">
+                      <input
+                        type="checkbox"
+                        checked={formData.new_person_values.some(v => v.id === 'quality')}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            updateFormData('new_person_values', [...formData.new_person_values, { id: 'quality', name: 'Kalite', emoji: '⭐' }]);
+                          } else {
+                            updateFormData('new_person_values', formData.new_person_values.filter(v => v.id !== 'quality'));
+                          }
+                        }}
+                      />
+                      Kalite
+                    </label>
+                    <label className="value-item">
+                      <input
+                        type="checkbox"
+                        checked={formData.new_person_values.some(v => v.id === 'transparency')}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            updateFormData('new_person_values', [...formData.new_person_values, { id: 'transparency', name: 'Şeffaflık', emoji: '🔍' }]);
+                          } else {
+                            updateFormData('new_person_values', formData.new_person_values.filter(v => v.id !== 'transparency'));
+                          }
+                        }}
+                      />
+                      Şeffaflık
+                    </label>
+                  </div>
+                  <div className="values-column">
+                    <label className="value-item">
+                      <input
+                        type="checkbox"
+                        checked={formData.new_person_values.some(v => v.id === 'social_impact')}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            updateFormData('new_person_values', [...formData.new_person_values, { id: 'social_impact', name: 'Topluma Fayda', emoji: '🤝' }]);
+                          } else {
+                            updateFormData('new_person_values', formData.new_person_values.filter(v => v.id !== 'social_impact'));
+                          }
+                        }}
+                      />
+                      Topluma Fayda
+                    </label>
+                    <label className="value-item">
+                      <input
+                        type="checkbox"
+                        checked={formData.new_person_values.some(v => v.id === 'customer_focus')}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            updateFormData('new_person_values', [...formData.new_person_values, { id: 'customer_focus', name: 'Müşteri Odaklılık', emoji: '🎯' }]);
+                          } else {
+                            updateFormData('new_person_values', formData.new_person_values.filter(v => v.id !== 'customer_focus'));
+                          }
+                        }}
+                      />
+                      Müşteri Odaklılık
+                    </label>
+                    <label className="value-item">
+                      <input
+                        type="checkbox"
+                        checked={formData.new_person_values.some(v => v.id === 'justice')}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            updateFormData('new_person_values', [...formData.new_person_values, { id: 'justice', name: 'Adalet', emoji: '⚖️' }]);
+                          } else {
+                            updateFormData('new_person_values', formData.new_person_values.filter(v => v.id !== 'justice'));
+                          }
+                        }}
+                      />
+                      Adalet
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div className="form-group">
+                <label>🎯 Hedefleri</label>
+                <textarea
+                  value={formData.new_person_goals}
+                  onChange={(e) => updateFormData('new_person_goals', e.target.value)}
+                  placeholder="Kısa ve uzun vadeli hedefler..."
+                  rows={3}
+                />
+              </div>
+
+              <div className="form-group">
+                <label>💎 Vizyonu</label>
+                <textarea
+                  value={formData.new_person_vision}
+                  onChange={(e) => updateFormData('new_person_vision', e.target.value)}
+                  placeholder="Kişisel vizyonu ve misyonu..."
+                  rows={3}
+                />
+              </div>
             </div>
-                </div>
+          </div>
         );
 
       case 4: // Sosyal
         return (
           <div className="step-content">
             <div className="form-section">
-              <h3>Sosyal</h3>
+              <h3>👥 Sosyal ve Networking</h3>
               
-              <Dropdown
-                options={hobbiesOptions}
-                selectedItems={formData.new_person_hobbies}
-                onSelectionChange={(items) => updateFormData('new_person_hobbies', items)}
-                placeholder="Hobiler ve ilgi alanları seçin..."
-                label="Hobiler ve İlgi Alanları"
-              />
+              <div className="form-group">
+                <label>🌍 Konuştuğu Diller</label>
+                <Dropdown
+                  options={languageOptions}
+                  selectedItems={formData.new_person_languages}
+                  onSelectionChange={(items) => updateFormData('new_person_languages', items)}
+                  placeholder="Dil seçin..."
+                  label=""
+                />
+              </div>
 
-              <Dropdown
-                options={languageOptions}
-                selectedItems={formData.new_person_languages}
-                onSelectionChange={(items) => updateFormData('new_person_languages', items)}
-                placeholder="Konuştuğu diller seçin..."
-                label="Konuştuğu Diller"
-              />
-
-                <div className="form-group">
+              <div className="form-group">
                 <label className="checkbox-label">
-                      <input
+                  <input
                     type="checkbox"
                     checked={formData.new_person_mentor}
                     onChange={(e) => updateFormData('new_person_mentor', e.target.checked)}
                   />
-                  Mentor Hizmeti Veriyor
+                  🎓 Mentor olarak hizmet veriyor
                 </label>
-                    </div>
-
-                <div className="form-group">
-                <label>Gönüllü İşler/Topluluk Deneyimleri</label>
-                  <textarea
-                    value={formData.new_person_volunteer_experience}
-                    onChange={(e) => updateFormData('new_person_volunteer_experience', e.target.value)}
-                  placeholder="Gönüllü çalışmalarını ve topluluk deneyimlerini açıklayın..."
-                    rows={3}
+                {formData.new_person_mentor && (
+                  <input
+                    type="text"
+                    placeholder="Mentorluk alanları..."
+                    style={{ marginTop: '10px' }}
                   />
-                </div>
+                )}
+              </div>
+
+              <div className="form-group">
+                <label>🤝 Gönüllü İşler / Topluluk Deneyimleri</label>
+                <textarea
+                  value={formData.new_person_volunteer_experience}
+                  onChange={(e) => updateFormData('new_person_volunteer_experience', e.target.value)}
+                  placeholder="Gönüllü çalışmalar ve topluluk deneyimleri..."
+                  rows={3}
+                />
+              </div>
             </div>
-                </div>
+          </div>
         );
 
       case 5: // Deneyim
         return (
           <div className="step-content">
             <div className="form-section">
-              <h3>Deneyim</h3>
+              <h3>🏆 Kritik Yaşam Deneyimleri</h3>
               
-                <div className="form-group">
-                <label>Hayatındaki Dönüm Noktaları</label>
-                  <textarea
-                    value={formData.new_person_turning_points}
-                    onChange={(e) => updateFormData('new_person_turning_points', e.target.value)}
-                  placeholder="Hayatındaki önemli dönüm noktalarını açıklayın..."
-                    rows={3}
-                  />
-                </div>
+              <div className="form-group">
+                <label>🔄 Hayatındaki Dönüm Noktaları</label>
+                <textarea
+                  value={formData.new_person_turning_points}
+                  onChange={(e) => updateFormData('new_person_turning_points', e.target.value)}
+                  placeholder="Şirket kurma, iş değiştirme, ülke değiştirme gibi dönüm noktaları..."
+                  rows={3}
+                />
+              </div>
 
-                <div className="form-group">
-                <label>Karşılaştığı Büyük Zorluklar</label>
-                  <textarea
-                    value={formData.new_person_challenges}
-                    onChange={(e) => updateFormData('new_person_challenges', e.target.value)}
-                  placeholder="Karşılaştığı zorlukları ve nasıl üstesinden geldiğini açıklayın..."
-                    rows={3}
-                  />
-                </div>
+              <div className="form-group">
+                <label>💪 Karşılaştığı Büyük Zorluklar</label>
+                <textarea
+                  value={formData.new_person_challenges}
+                  onChange={(e) => updateFormData('new_person_challenges', e.target.value)}
+                  placeholder="Karşılaştığı zorluklar ve nasıl aştığı..."
+                  rows={3}
+                />
+              </div>
 
-                <div className="form-group">
-                <label>Öğrendiği Büyük Dersler</label>
-                  <textarea
-                    value={formData.new_person_lessons}
-                    onChange={(e) => updateFormData('new_person_lessons', e.target.value)}
-                  placeholder="Hayatından öğrendiği önemli dersleri açıklayın..."
-                    rows={3}
-                  />
-                </div>
+              <div className="form-group">
+                <label>📚 Öğrendiği En Büyük Dersler</label>
+                <textarea
+                  value={formData.new_person_lessons}
+                  onChange={(e) => updateFormData('new_person_lessons', e.target.value)}
+                  placeholder="Hayattan öğrendiği en önemli dersler..."
+                  rows={3}
+                />
+              </div>
             </div>
-                </div>
+          </div>
         );
 
       case 6: // Gelecek
         return (
           <div className="step-content">
             <div className="form-section">
-              <h3>Gelecek</h3>
+              <h3>🚀 İleriye Dönük Planlar</h3>
               
-                <div className="form-group">
-                <label>5/10 Yıllık Hedefleri</label>
-                  <textarea
-                    value={formData.new_person_future_goals}
-                    onChange={(e) => updateFormData('new_person_future_goals', e.target.value)}
-                  placeholder="5-10 yıl içindeki hedeflerini açıklayın..."
-                    rows={3}
-                  />
-                </div>
+              <div className="form-group">
+                <label>🎯 5-10 Yıllık Hedefleri</label>
+                <textarea
+                  value={formData.new_person_future_goals}
+                  onChange={(e) => updateFormData('new_person_future_goals', e.target.value)}
+                  placeholder="Gelecek planları ve hedefleri..."
+                  rows={3}
+                />
+              </div>
 
-                <div className="form-group">
+              <div className="form-group">
                 <label className="checkbox-label">
-                      <input
+                  <input
                     type="checkbox"
                     checked={formData.new_person_investment_interest}
                     onChange={(e) => updateFormData('new_person_investment_interest', e.target.checked)}
                   />
-                  Yatırım Yapma İsteği Var
+                  💰 Yatırım yapma / ortaklık kurma isteği var
                 </label>
-                    </div>
-
-                <div className="form-group">
-                <label>İş Birliği Yapmak İstediği Alanlar</label>
+                {formData.new_person_investment_interest && (
                   <textarea
-                    value={formData.new_person_collaboration_areas}
-                    onChange={(e) => updateFormData('new_person_collaboration_areas', e.target.value)}
-                  placeholder="Hangi alanlarda iş birliği yapmak istediğini açıklayın..."
+                    placeholder="Hangi alanlarda işbirliği yapmak istediği..."
                     rows={3}
+                    style={{ marginTop: '10px' }}
                   />
-                </div>
+                )}
+              </div>
+
+              <div className="form-group">
+                <label>🤝 İş Birliği Yapma İsteği Alanlar</label>
+                <textarea
+                  value={formData.new_person_collaboration_areas}
+                  onChange={(e) => updateFormData('new_person_collaboration_areas', e.target.value)}
+                  placeholder="Hangi alanlarda işbirliği yapmak istediği..."
+                  rows={3}
+                />
+              </div>
             </div>
-        </div>
+          </div>
         );
 
       default:
@@ -1003,58 +1339,94 @@ export default function InviteForm() {
 
   return (
     <div className="invite-form">
+      {/* Header */}
       <div className="header">
-        <img src="/networkinggptlogo.jpeg" alt="NetworkingGPT Logo" className="logo" />
-        <div className="header-text">
-          <h1>NetworkingGPT</h1>
-          <p>Profesyonel Ağınızı Genişletin</p>
-          <p className="motto">Bağlantılarınızı Güçlendirin, Fırsatları Keşfedin</p>
+        <div className="logo-container">
+          <div className="logo-icon">🧠</div>
+          <h1 className="logo-text">
+            <span className="networking">NETWORKING</span>
+            <span className="gpt">GPT</span>
+          </h1>
         </div>
+        <p className="tagline">Davete özel kişi ekleme platformu</p>
+        <p className="subtagline">Mitolojik güçle ağınızı genişletin ✨</p>
       </div>
 
-      <div className="step-container">
+      {/* Main Container */}
+      <div className="main-container">
+        {/* Step Header */}
         <div className="step-header">
-          <div className="step-info">
-            <span className="step-icon">{stepIcons[currentStep]}</span>
+          <div className="step-title">
+            <div className="step-icon">👥</div>
             <div>
-              <h2>{stepTitles[currentStep]}</h2>
-              <p>Adım {currentStep + 1} / {totalSteps}</p>
+              <h2>Adım {currentStep + 1}: {stepTitles[currentStep]}</h2>
+              <p>Hermes'in rehberliğinde yeni bağlantınızı oluşturun</p>
             </div>
           </div>
         </div>
 
-        <div className="progress-container">
+        {/* Add Person Button */}
+        <div className="add-person-section">
+          <button className="add-person-btn">
+            <span className="add-icon">+</span>
+            <span>Yeni Kişi Ekle</span>
+          </button>
+          <p className="add-person-text">Ağınıza yeni bir bağlantı ekleyin ✨</p>
+        </div>
+
+        {/* Progress Bar */}
+        <div className="progress-section">
+          <div className="progress-info">
+            <span>Adım {currentStep + 1}/{totalSteps}</span>
+            <span>{Math.round(progress)}% Tamamlandı</span>
+          </div>
           <div className="progress-bar">
             <div className="progress-fill" style={{ width: `${progress}%` }}></div>
           </div>
-          <span className="progress-text">{Math.round(progress)}%</span>
+          <div className="step-indicators">
+            {Array.from({ length: totalSteps }, (_, i) => (
+              <div 
+                key={i} 
+                className={`step-dot ${i <= currentStep ? 'active' : ''} ${i === currentStep ? 'current' : ''}`}
+              >
+                {i === currentStep && <span className="step-label">{stepTitles[i]}</span>}
+              </div>
+            ))}
+          </div>
         </div>
 
-        {renderStepContent()}
-
-        <div className="navigation-buttons">
+        {/* Navigation */}
+        <div className="navigation-section">
           {currentStep > 0 && (
-            <button className="btn-secondary" onClick={handlePrevious}>
-              Geri
+            <button className="nav-btn prev-btn" onClick={handlePrevious}>
+              ← Önceki Adım
             </button>
           )}
-          
           {currentStep < totalSteps - 1 && currentStep > 0 && (
-            <button className="btn-primary" onClick={handleNext}>
-              İleri
+            <button className="nav-btn next-btn" onClick={handleNext}>
+              Sonraki Adım →
             </button>
           )}
-          
           {currentStep === totalSteps - 1 && (
             <button 
-              className="btn-primary" 
+              className="nav-btn save-btn" 
               onClick={handleSave}
               disabled={loading}
             >
-              {loading ? 'Kaydediliyor...' : 'Kaydet'}
+              {loading ? 'Kaydediliyor...' : 'Kişi Ekle'}
             </button>
-      )}
-    </div>
+          )}
+        </div>
+
+        {/* Form Content */}
+        <div className="form-content">
+          {renderStepContent()}
+        </div>
+
+        {/* Debug Info */}
+        <div className="debug-info">
+          Debug: Current Step: {currentStep}, Total Steps: {totalSteps}, Progress: {Math.round(progress)}%
+        </div>
       </div>
     </div>
   );
