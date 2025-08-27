@@ -493,7 +493,7 @@ export default function InviteForm() {
         goals: formData.new_person_goals,
         vision: formData.new_person_vision,
         closeness: formData.new_person_proximity_level,
-        sectors: formData.new_person_personal_traits.map(item => item.name).join(', '),
+
         user_id: 'web-invite' // Web davetleri için özel user_id
       };
 
@@ -595,7 +595,7 @@ export default function InviteForm() {
       });
       
       setCurrentStep(0);
-
+      
     } catch (error) {
       console.error('Genel hata:', error);
       alert('Bir hata oluştu. Lütfen tekrar deneyiniz.');
@@ -607,7 +607,7 @@ export default function InviteForm() {
   const renderStepContent = () => {
     switch (currentStep) {
       case 0: // Davet gönderen bilgileri
-        return (
+  return (
           <div className="step-content">
             <div className="form-section">
               <h3>Davet Gönderen Bilgileri</h3>
@@ -631,27 +631,27 @@ export default function InviteForm() {
                   onChange={(e) => updateFormData('inviter_last_name', e.target.value)}
                   placeholder="Soyadınız"
                 />
-              </div>
-              
-              <div className="form-group">
+            </div>
+            
+            <div className="form-group">
                 <label>E-posta *</label>
-                <input
-                  type="email"
-                  value={formData.inviter_email}
-                  onChange={(e) => updateFormData('inviter_email', e.target.value)}
+              <input
+                type="email"
+                value={formData.inviter_email}
+                onChange={(e) => updateFormData('inviter_email', e.target.value)}
                   placeholder="ornek@email.com"
-                />
-              </div>
-              
-              <button 
+              />
+            </div>
+            
+            <button 
                 className="btn-primary"
                 onClick={checkPersonExists}
                 disabled={loading}
               >
                 {loading ? 'Kontrol Ediliyor...' : 'Devam Et'}
-              </button>
-            </div>
+            </button>
           </div>
+                </div>
         );
 
       case 1: // Temel Bilgiler
@@ -660,57 +660,57 @@ export default function InviteForm() {
             <div className="form-section">
               <h3>Temel Bilgiler</h3>
               
-              <div className="form-row">
-                <div className="form-group">
+                <div className="form-row">
+                  <div className="form-group">
                   <label>Ad *</label>
-                  <input
-                    type="text"
+                    <input
+                      type="text"
                     value={formData.new_person_first_name}
                     onChange={(e) => updateFormData('new_person_first_name', e.target.value)}
                     placeholder="Ad"
-                  />
-                </div>
-                <div className="form-group">
+                    />
+                  </div>
+                  <div className="form-group">
                   <label>Soyad *</label>
-                  <input
+                    <input
                     type="text"
                     value={formData.new_person_last_name}
                     onChange={(e) => updateFormData('new_person_last_name', e.target.value)}
                     placeholder="Soyad"
                   />
+                  </div>
                 </div>
-              </div>
 
-              <div className="form-row">
-                <div className="form-group">
+                <div className="form-row">
+                  <div className="form-group">
                   <label>Yaş</label>
-                  <input
-                    type="number"
+                    <input
+                      type="number"
                     value={formData.new_person_age}
                     onChange={(e) => updateFormData('new_person_age', e.target.value)}
-                    placeholder="25"
-                  />
-                </div>
-                <div className="form-group">
+                      placeholder="25"
+                    />
+                  </div>
+                  <div className="form-group">
                   <label>Nereli</label>
-                  <input
-                    type="text"
-                    value={formData.new_person_birthplace}
-                    onChange={(e) => updateFormData('new_person_birthplace', e.target.value)}
-                    placeholder="İstanbul"
-                  />
+                    <input
+                      type="text"
+                      value={formData.new_person_birthplace}
+                      onChange={(e) => updateFormData('new_person_birthplace', e.target.value)}
+                      placeholder="İstanbul"
+                    />
+                  </div>
                 </div>
-              </div>
 
-              <div className="form-group">
+                  <div className="form-group">
                 <label>Şu An Yaşadığı Şehir</label>
-                <input
-                  type="text"
-                  value={formData.new_person_current_city}
-                  onChange={(e) => updateFormData('new_person_current_city', e.target.value)}
-                  placeholder="İstanbul"
-                />
-              </div>
+                    <input
+                      type="text"
+                      value={formData.new_person_current_city}
+                      onChange={(e) => updateFormData('new_person_current_city', e.target.value)}
+                      placeholder="İstanbul"
+                    />
+                  </div>
 
               <div className="form-group">
                 <label>Yakınlık Seviyesi: {formData.new_person_proximity_level}/10</label>
@@ -741,7 +741,7 @@ export default function InviteForm() {
                       onChange={(e) => updateFormData('new_person_email', e.target.value)}
                       placeholder="ornek@email.com"
                     />
-                  </div>
+                </div>
                   <div className="form-group">
                     <label>Telefon</label>
                     <input
@@ -798,17 +798,17 @@ export default function InviteForm() {
                     />
                   </div>
                 </div>
-              </div>
+                </div>
 
-              <div className="form-group">
+                  <div className="form-group">
                 <label>Kişi Hakkında Genel Açıklama</label>
-                <textarea
-                  value={formData.new_person_description}
-                  onChange={(e) => updateFormData('new_person_description', e.target.value)}
-                  placeholder="Kişi hakkında kısa bir açıklama..."
-                  rows={3}
-                />
-              </div>
+                  <textarea
+                    value={formData.new_person_description}
+                    onChange={(e) => updateFormData('new_person_description', e.target.value)}
+                    placeholder="Kişi hakkında kısa bir açıklama..."
+                    rows={3}
+                  />
+                </div>
 
               <div className="form-group checkbox-group">
                 <label>
@@ -819,7 +819,7 @@ export default function InviteForm() {
                   />
                   Bilgilendirme E-postası Gönder
                 </label>
-              </div>
+                </div>
             </div>
           </div>
         );
@@ -830,36 +830,36 @@ export default function InviteForm() {
             <div className="form-section">
               <h3>İş Bilgileri</h3>
               
-              <div className="form-row">
-                <div className="form-group">
+                <div className="form-row">
+                  <div className="form-group">
                   <label>Şu Anki Pozisyonu</label>
-                  <input
-                    type="text"
-                    value={formData.new_person_position}
-                    onChange={(e) => updateFormData('new_person_position', e.target.value)}
-                    placeholder="Yazılım Geliştirici"
-                  />
-                </div>
-                <div className="form-group">
+                    <input
+                      type="text"
+                      value={formData.new_person_position}
+                      onChange={(e) => updateFormData('new_person_position', e.target.value)}
+                      placeholder="Yazılım Geliştirici"
+                    />
+                  </div>
+                  <div className="form-group">
                   <label>Şirket</label>
-                  <input
-                    type="text"
-                    value={formData.new_person_company}
-                    onChange={(e) => updateFormData('new_person_company', e.target.value)}
+                    <input
+                      type="text"
+                      value={formData.new_person_company}
+                      onChange={(e) => updateFormData('new_person_company', e.target.value)}
                     placeholder="ABC Teknoloji"
+                    />
+                  </div>
+                </div>
+
+                <div className="form-group">
+                <label>Daha Önceki İş Tecrübeleri</label>
+                  <textarea
+                    value={formData.new_person_work_experience}
+                    onChange={(e) => updateFormData('new_person_work_experience', e.target.value)}
+                  placeholder="Önceki iş deneyimlerinizi kısaca açıklayın..."
+                    rows={3}
                   />
                 </div>
-              </div>
-
-              <div className="form-group">
-                <label>Daha Önceki İş Tecrübeleri</label>
-                <textarea
-                  value={formData.new_person_work_experience}
-                  onChange={(e) => updateFormData('new_person_work_experience', e.target.value)}
-                  placeholder="Önceki iş deneyimlerinizi kısaca açıklayın..."
-                  rows={3}
-                />
-              </div>
 
               <Dropdown
                 options={expertiseOptions}
@@ -877,17 +877,17 @@ export default function InviteForm() {
                 label="Verebileceği Hizmetler"
               />
 
-              <div className="form-group">
+                <div className="form-group">
                 <label>Yatırım Yaptığı veya Destek Verdiği Projeler</label>
-                <textarea
-                  value={formData.new_person_investments}
-                  onChange={(e) => updateFormData('new_person_investments', e.target.value)}
+                  <textarea
+                    value={formData.new_person_investments}
+                    onChange={(e) => updateFormData('new_person_investments', e.target.value)}
                   placeholder="Destek verdiği projeleri açıklayın..."
-                  rows={3}
-                />
-              </div>
+                    rows={3}
+                  />
+                </div>
             </div>
-          </div>
+                </div>
         );
 
       case 3: // Kişisel Özellikler
@@ -912,27 +912,27 @@ export default function InviteForm() {
                 label="Değer Verdiği Prensipler"
               />
 
-              <div className="form-group">
+                <div className="form-group">
                 <label>Hedefleri</label>
-                <textarea
-                  value={formData.new_person_goals}
-                  onChange={(e) => updateFormData('new_person_goals', e.target.value)}
+                  <textarea
+                    value={formData.new_person_goals}
+                    onChange={(e) => updateFormData('new_person_goals', e.target.value)}
                   placeholder="Kısa ve uzun vadeli hedeflerini açıklayın..."
-                  rows={3}
-                />
-              </div>
+                    rows={3}
+                  />
+                </div>
 
-              <div className="form-group">
+                <div className="form-group">
                 <label>Vizyonu</label>
-                <textarea
-                  value={formData.new_person_vision}
-                  onChange={(e) => updateFormData('new_person_vision', e.target.value)}
+                  <textarea
+                    value={formData.new_person_vision}
+                    onChange={(e) => updateFormData('new_person_vision', e.target.value)}
                   placeholder="Gelecek vizyonunu açıklayın..."
-                  rows={3}
-                />
-              </div>
+                    rows={3}
+                  />
+                </div>
             </div>
-          </div>
+                </div>
         );
 
       case 4: // Sosyal
@@ -957,28 +957,28 @@ export default function InviteForm() {
                 label="Konuştuğu Diller"
               />
 
-              <div className="form-group">
+                <div className="form-group">
                 <label className="checkbox-label">
-                  <input
+                      <input
                     type="checkbox"
                     checked={formData.new_person_mentor}
                     onChange={(e) => updateFormData('new_person_mentor', e.target.checked)}
                   />
                   Mentor Hizmeti Veriyor
                 </label>
-              </div>
+                    </div>
 
-              <div className="form-group">
+                <div className="form-group">
                 <label>Gönüllü İşler/Topluluk Deneyimleri</label>
-                <textarea
-                  value={formData.new_person_volunteer_experience}
-                  onChange={(e) => updateFormData('new_person_volunteer_experience', e.target.value)}
+                  <textarea
+                    value={formData.new_person_volunteer_experience}
+                    onChange={(e) => updateFormData('new_person_volunteer_experience', e.target.value)}
                   placeholder="Gönüllü çalışmalarını ve topluluk deneyimlerini açıklayın..."
-                  rows={3}
-                />
-              </div>
+                    rows={3}
+                  />
+                </div>
             </div>
-          </div>
+                </div>
         );
 
       case 5: // Deneyim
@@ -987,37 +987,37 @@ export default function InviteForm() {
             <div className="form-section">
               <h3>Deneyim</h3>
               
-              <div className="form-group">
+                <div className="form-group">
                 <label>Hayatındaki Dönüm Noktaları</label>
-                <textarea
-                  value={formData.new_person_turning_points}
-                  onChange={(e) => updateFormData('new_person_turning_points', e.target.value)}
+                  <textarea
+                    value={formData.new_person_turning_points}
+                    onChange={(e) => updateFormData('new_person_turning_points', e.target.value)}
                   placeholder="Hayatındaki önemli dönüm noktalarını açıklayın..."
-                  rows={3}
-                />
-              </div>
+                    rows={3}
+                  />
+                </div>
 
-              <div className="form-group">
+                <div className="form-group">
                 <label>Karşılaştığı Büyük Zorluklar</label>
-                <textarea
-                  value={formData.new_person_challenges}
-                  onChange={(e) => updateFormData('new_person_challenges', e.target.value)}
+                  <textarea
+                    value={formData.new_person_challenges}
+                    onChange={(e) => updateFormData('new_person_challenges', e.target.value)}
                   placeholder="Karşılaştığı zorlukları ve nasıl üstesinden geldiğini açıklayın..."
-                  rows={3}
-                />
-              </div>
+                    rows={3}
+                  />
+                </div>
 
-              <div className="form-group">
+                <div className="form-group">
                 <label>Öğrendiği Büyük Dersler</label>
-                <textarea
-                  value={formData.new_person_lessons}
-                  onChange={(e) => updateFormData('new_person_lessons', e.target.value)}
+                  <textarea
+                    value={formData.new_person_lessons}
+                    onChange={(e) => updateFormData('new_person_lessons', e.target.value)}
                   placeholder="Hayatından öğrendiği önemli dersleri açıklayın..."
-                  rows={3}
-                />
-              </div>
+                    rows={3}
+                  />
+                </div>
             </div>
-          </div>
+                </div>
         );
 
       case 6: // Gelecek
@@ -1026,38 +1026,38 @@ export default function InviteForm() {
             <div className="form-section">
               <h3>Gelecek</h3>
               
-              <div className="form-group">
+                <div className="form-group">
                 <label>5/10 Yıllık Hedefleri</label>
-                <textarea
-                  value={formData.new_person_future_goals}
-                  onChange={(e) => updateFormData('new_person_future_goals', e.target.value)}
+                  <textarea
+                    value={formData.new_person_future_goals}
+                    onChange={(e) => updateFormData('new_person_future_goals', e.target.value)}
                   placeholder="5-10 yıl içindeki hedeflerini açıklayın..."
-                  rows={3}
-                />
-              </div>
+                    rows={3}
+                  />
+                </div>
 
-              <div className="form-group">
+                <div className="form-group">
                 <label className="checkbox-label">
-                  <input
+                      <input
                     type="checkbox"
                     checked={formData.new_person_investment_interest}
                     onChange={(e) => updateFormData('new_person_investment_interest', e.target.checked)}
                   />
                   Yatırım Yapma İsteği Var
                 </label>
-              </div>
+                    </div>
 
-              <div className="form-group">
+                <div className="form-group">
                 <label>İş Birliği Yapmak İstediği Alanlar</label>
-                <textarea
-                  value={formData.new_person_collaboration_areas}
-                  onChange={(e) => updateFormData('new_person_collaboration_areas', e.target.value)}
+                  <textarea
+                    value={formData.new_person_collaboration_areas}
+                    onChange={(e) => updateFormData('new_person_collaboration_areas', e.target.value)}
                   placeholder="Hangi alanlarda iş birliği yapmak istediğini açıklayın..."
-                  rows={3}
-                />
-              </div>
+                    rows={3}
+                  />
+                </div>
             </div>
-          </div>
+        </div>
         );
 
       default:
@@ -1117,8 +1117,8 @@ export default function InviteForm() {
             >
               {loading ? 'Kaydediliyor...' : 'Kaydet'}
             </button>
-          )}
-        </div>
+      )}
+    </div>
       </div>
     </div>
   );
