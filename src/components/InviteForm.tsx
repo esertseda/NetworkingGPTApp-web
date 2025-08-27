@@ -478,6 +478,7 @@ export default function InviteForm() {
         graduation_year: formData.new_person_graduation_year ? parseInt(formData.new_person_graduation_year) : null,
         position: formData.new_person_position,
         company: formData.new_person_company,
+        sectors: formData.new_person_personal_traits.map(item => item.name).join(', '),
         expertise: formData.new_person_expertise.map(item => item.name).join(', '),
         services: formData.new_person_services.map(item => item.name).join(', '),
         languages: formData.new_person_languages.map(item => item.name).join(', '),
@@ -493,8 +494,9 @@ export default function InviteForm() {
         goals: formData.new_person_goals,
         vision: formData.new_person_vision,
         closeness: formData.new_person_proximity_level,
-
-        user_id: 'web-invite' // Web davetleri için özel user_id
+        department: formData.new_person_department,
+        connection_degree: 1,
+        network_degree: 1
       };
 
       // Yeni kişiyi ekle
