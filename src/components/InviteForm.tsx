@@ -156,19 +156,30 @@ const InviteForm: React.FC = () => {
   };
 
   const handleNext = async () => {
+    console.log('handleNext çağrıldı, currentStep:', currentStep);
+    
     if (validateCurrentStep()) {
+      console.log('Validasyon başarılı');
+      
       // Adım 1'de (Temel Bilgiler) kişi kontrolü yap
       if (currentStep === 1) {
+        console.log('Adım 1 - Kişi kontrolü başlıyor');
         const personExists = await checkNewPersonExists();
+        console.log('Kişi kontrolü sonucu:', personExists);
         if (!personExists) {
+          console.log('Kişi zaten var, adım 2\'ye geçilemiyor');
           return; // Kişi zaten varsa diğer adıma geçme
         }
+        console.log('Kişi kontrolü başarılı, adım 2\'ye geçiliyor');
       }
       
       // Kişi kontrolü başarılıysa veya adım 1 değilse devam et
       if (currentStep < totalSteps - 1) {
+        console.log('Adım değiştiriliyor:', currentStep, '->', currentStep + 1);
         setCurrentStep(prev => prev + 1);
       }
+    } else {
+      console.log('Validasyon başarısız');
     }
   };
 
