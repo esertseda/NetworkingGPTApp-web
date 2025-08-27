@@ -9,6 +9,10 @@
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 * {
@@ -19,6 +23,7 @@ body {
   margin: 0;
   padding: 0;
   background: #1A1A2E;
+  width: 100%;
 }
 
 .App-header {
@@ -37,6 +42,10 @@ body {
 }
 
 main {
-  max-width: 800px;
+  width: 100%;
+  max-width: 1000px;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
