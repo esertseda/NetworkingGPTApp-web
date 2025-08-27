@@ -3,6 +3,7 @@ import './InviteForm.css';
 
 // Supabase URL'ini environment variable'dan al
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://kprqdwwjywxtkariwjyd.supabase.co';
+const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtwcnFkd3dqeXd4dGthcml3anlkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU4MDYxMjYsImV4cCI6MjA3MTM4MjEyNn0.fuxy0dHa0D-DqyCopteghMn_HMrFagPm1NDMQF-29Uk';
 
 interface FormData {
   // Davet gönderen kişi bilgileri
@@ -186,6 +187,7 @@ const InviteForm: React.FC = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
         },
         body: JSON.stringify({
           inviteId: inviteId,
@@ -222,6 +224,7 @@ const InviteForm: React.FC = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
         },
         body: JSON.stringify({
           first_name: formData.new_person_first_name.trim(),
@@ -261,6 +264,7 @@ const InviteForm: React.FC = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
         },
         body: JSON.stringify({
           inviteId: inviteId,
