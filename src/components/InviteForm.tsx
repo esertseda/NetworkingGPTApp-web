@@ -929,7 +929,7 @@ const InviteForm: React.FC = () => {
       {/* Header */}
       <div className="header">
         <div className="logo-container">
-          <img src="/networkinggptlogo.jpeg" alt="NetworkingGPT Logo" className="logo-image" />
+          <img src="networkinggptlogo.jpeg" alt="NetworkingGPT Logo" className="logo-image" />
         </div>
       </div>
 
