@@ -1076,7 +1076,10 @@ const InviteForm: React.FC = () => {
           {currentStep < totalSteps - 1 && currentStep > 0 && (
             <button 
               className="nav-btn next-btn" 
-              onClick={handleNext}
+              onClick={() => {
+                console.log('🚀 Buton tıklandı! currentStep:', currentStep);
+                handleNext();
+              }}
               disabled={loading}
             >
               {loading ? 'Kontrol Ediliyor...' : 'Sonraki Adım →'}
