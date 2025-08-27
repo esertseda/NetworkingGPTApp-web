@@ -509,7 +509,6 @@ export default function InviteForm() {
           <div className="step-content">
             <div className="form-section">
               <h3>👤 Davet Gönderen Bilgileri</h3>
-              <p>Sizinle bağlantı kurmak isteyen kişinin bilgilerini girin</p>
               
               <div className="form-group">
                 <label>Ad</label>
@@ -1296,8 +1295,6 @@ export default function InviteForm() {
         <div className="logo-container">
           <img src="/networkinggptlogo.jpeg" alt="NetworkingGPT Logo" className="logo-image" />
         </div>
-        <p className="tagline">Davete özel kişi ekleme platformu</p>
-        <p className="subtagline">Mitolojik güçle ağınızı genişletin ✨</p>
       </div>
 
       {/* Main Container */}
@@ -1308,7 +1305,6 @@ export default function InviteForm() {
             <div className="step-icon">👥</div>
             <div>
               <h2>Adım {currentStep + 1}: {stepTitles[currentStep]}</h2>
-              <p>Hermes'in rehberliğinde yeni bağlantınızı oluşturun</p>
             </div>
           </div>
         </div>
@@ -1316,8 +1312,8 @@ export default function InviteForm() {
         {/* Progress Bar */}
         <div className="progress-section">
           <div className="progress-info">
-            <span>Adım {currentStep + 1}/{totalSteps}</span>
-            <span>{Math.round(progress)}% Tamamlandı</span>
+            <span></span>
+            <span></span>
           </div>
           <div className="progress-bar">
             <div className="progress-fill" style={{ width: `${progress}%` }}></div>

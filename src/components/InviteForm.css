@@ -32,8 +32,8 @@
 }
 
 .logo-image {
-  width: 120px;
-  height: 120px;
+  width: 200px;
+  height: 200px;
   border-radius: 20px;
   object-fit: cover;
   box-shadow: 0 8px 32px rgba(139, 92, 246, 0.3); /* primary */
@@ -687,8 +687,8 @@
   }
   
   .logo-image {
-    width: 100px;
-    height: 100px;
+    width: 150px;
+    height: 150px;
   }
   
   .form-row {
@@ -753,8 +753,8 @@
   }
   
   .logo-image {
-    width: 80px;
-    height: 80px;
+    width: 120px;
+    height: 120px;
   }
   
   .logo-container {
