@@ -190,8 +190,7 @@ const InviteForm: React.FC = () => {
           'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
         },
         body: JSON.stringify({
-          inviteId: inviteId,
-          email: formData.inviter_email
+          inviteId: inviteId
         }),
       });
 
