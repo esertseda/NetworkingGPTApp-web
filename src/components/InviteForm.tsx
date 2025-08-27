@@ -418,25 +418,7 @@ export default function InviteForm() {
     }
   };
 
-  const sendEmailNotification = async (newPersonEmail: string, inviterName: string) => {
-    try {
-      const { error } = await supabase.functions.invoke('send-invite-email', {
-        body: {
-          to: newPersonEmail,
-          inviter_name: inviterName,
-          invite_link: window.location.href
-        }
-      });
 
-      if (error) {
-        console.error('E-posta gönderme hatası:', error);
-        throw error;
-      }
-    } catch (error) {
-      console.error('E-posta gönderme hatası:', error);
-      throw error;
-    }
-  };
 
   const handleSave = async () => {
     const { new_person_first_name, new_person_last_name } = formData;
@@ -449,157 +431,107 @@ export default function InviteForm() {
     setLoading(true);
 
     try {
-      // Önce davet gönderen kişiyi bul (parent contact)
-      const { data: parentContact, error: parentError } = await supabase
-        .from('contacts')
-        .select('id')
-        .eq('first_name', formData.inviter_first_name.trim())
-        .eq('last_name', formData.inviter_last_name.trim())
-        .eq('email', formData.inviter_email.trim())
-        .single();
-
-      if (parentError) {
-        console.error('Parent contact bulunamadı:', parentError);
-        alert('Davet gönderen kişi bulunamadı. Lütfen tekrar deneyiniz.');
-        return;
-      }
-
-      // Yeni kişi verilerini hazırla - sadece contacts tablosunda var olan alanlar
-      const newContactData = {
-        first_name: new_person_first_name,
-        last_name: new_person_last_name,
-        age: formData.new_person_age ? parseInt(formData.new_person_age) : null,
-        city: formData.new_person_birthplace,
-        current_city: formData.new_person_current_city,
-        email: formData.new_person_email,
-        phone: formData.new_person_phone,
-        university: formData.new_person_university,
-        degree: formData.new_person_degree,
-        graduation_year: formData.new_person_graduation_year ? parseInt(formData.new_person_graduation_year) : null,
-        position: formData.new_person_position,
-        company: formData.new_person_company,
-        sectors: formData.new_person_personal_traits.map(item => item.name).join(', '),
-        expertise: formData.new_person_expertise.map(item => item.name).join(', '),
-        services: formData.new_person_services.map(item => item.name).join(', '),
-        languages: formData.new_person_languages.map(item => item.name).join(', '),
-        mentor_service: formData.new_person_mentor,
-        investment_interest: formData.new_person_investment_interest,
-        social_volunteer: formData.new_person_volunteer_experience,
-        life_experience: formData.new_person_turning_points,
-        challenges: formData.new_person_challenges,
-        lessons: formData.new_person_lessons,
-        future_goals: formData.new_person_future_goals,
-        collaboration_areas: formData.new_person_collaboration_areas,
-        summary: formData.new_person_description,
-        goals: formData.new_person_goals,
-        vision: formData.new_person_vision,
-        closeness: formData.new_person_proximity_level,
-        department: formData.new_person_department,
-        connection_degree: 1,
-        network_degree: 1
-      };
-
-      // Yeni kişiyi ekle
-      const { data: newContact, error: insertError } = await supabase
-        .from('contacts')
-        .insert([newContactData])
-        .select('id')
-        .single();
-
-      if (insertError) {
-        console.error('Supabase error:', insertError);
-        alert('Kişi eklenirken bir hata oluştu: ' + insertError.message);
-        return;
-      }
-
-      // Parent'ın mevcut degree'ini bul
-      const { data: parentRelationship } = await supabase
-        .from('relationships')
-        .select('degree')
-        .eq('child_contact_id', parentContact.id)
-        .single();
-
-      // Yeni kişinin degree'ini hesapla
-      const newDegree = parentRelationship ? parentRelationship.degree + 1 : 1;
-
-      // Parent-child ilişkisini kur (relationships tablosu)
-      const relationshipData = {
-        parent_contact_id: parentContact.id,
-        child_contact_id: newContact.id,
-        degree: newDegree,
-        relationship_type: 'invite'
-      };
-
-      const { error: relationshipError } = await supabase
-        .from('relationships')
-        .insert([relationshipData]);
-
-      if (relationshipError) {
-        console.error('Relationship oluşturma hatası:', relationshipError);
-        alert('İlişki oluşturulurken bir hata oluştu.');
-        return;
-      }
-
-      // E-posta bildirimi gönder
-      if (formData.send_email_notification && formData.new_person_email) {
-        try {
-          await sendEmailNotification(
-            formData.new_person_email,
-            `${formData.inviter_first_name} ${formData.inviter_last_name}`
-          );
-        } catch (error) {
-          console.error('E-posta gönderme hatası:', error);
-          // E-posta hatası olsa bile işlem devam etsin
+      // Supabase Edge Function kullanarak kişi ekleme işlemini yap
+      const { data, error } = await supabase.functions.invoke('invite-submit', {
+        body: {
+          inviter: {
+            first_name: formData.inviter_first_name.trim(),
+            last_name: formData.inviter_last_name.trim(),
+            email: formData.inviter_email.trim()
+          },
+          new_person: {
+            first_name: new_person_first_name,
+            last_name: new_person_last_name,
+            age: formData.new_person_age ? parseInt(formData.new_person_age) : null,
+            city: formData.new_person_birthplace,
+            current_city: formData.new_person_current_city,
+            email: formData.new_person_email,
+            phone: formData.new_person_phone,
+            university: formData.new_person_university,
+            degree: formData.new_person_degree,
+            graduation_year: formData.new_person_graduation_year ? parseInt(formData.new_person_graduation_year) : null,
+            position: formData.new_person_position,
+            company: formData.new_person_company,
+            sectors: formData.new_person_personal_traits.map(item => item.name).join(', '),
+            expertise: formData.new_person_expertise.map(item => item.name).join(', '),
+            services: formData.new_person_services.map(item => item.name).join(', '),
+            languages: formData.new_person_languages.map(item => item.name).join(', '),
+            mentor_service: formData.new_person_mentor,
+            investment_interest: formData.new_person_investment_interest,
+            social_volunteer: formData.new_person_volunteer_experience,
+            life_experience: formData.new_person_turning_points,
+            challenges: formData.new_person_challenges,
+            lessons: formData.new_person_lessons,
+            future_goals: formData.new_person_future_goals,
+            collaboration_areas: formData.new_person_collaboration_areas,
+            summary: formData.new_person_description,
+            goals: formData.new_person_goals,
+            vision: formData.new_person_vision,
+            closeness: formData.new_person_proximity_level,
+            department: formData.new_person_department,
+            connection_degree: 1,
+            network_degree: 1
+          },
+          send_email_notification: formData.send_email_notification
         }
+      });
+
+      if (error) {
+        console.error('Edge Function error:', error);
+        alert('Kişi eklenirken bir hata oluştu: ' + error.message);
+        return;
       }
 
-      alert('Kişi başarıyla eklendi!');
-      
-      // Formu sıfırla
-      setFormData({
-        inviter_first_name: '',
-        inviter_last_name: '',
-        inviter_email: '',
-        new_person_first_name: '',
-        new_person_last_name: '',
-        new_person_age: '',
-        new_person_birthplace: '',
-        new_person_current_city: '',
-        new_person_proximity_level: 5,
-        new_person_email: '',
-        new_person_phone: '',
-        new_person_university: '',
-        new_person_department: '',
-        new_person_degree: '',
-        new_person_graduation_year: '',
-        new_person_description: '',
-        new_person_position: '',
-        new_person_company: '',
-        new_person_work_experience: '',
-        new_person_expertise: [] as DropdownOption[],
-        new_person_services: [] as DropdownOption[],
-        new_person_investments: '',
-        new_person_personal_traits: [] as DropdownOption[],
-        new_person_values: [] as DropdownOption[],
-        new_person_goals: '',
-        new_person_vision: '',
-        new_person_hobbies: [] as DropdownOption[],
-        new_person_languages: [] as DropdownOption[],
-        new_person_mentor: false,
-        new_person_volunteer_experience: '',
-        new_person_turning_points: '',
-        new_person_challenges: '',
-        new_person_lessons: '',
-        new_person_future_goals: '',
-        new_person_investment_interest: false,
-        new_person_collaboration_areas: '',
-        send_email_notification: false
-      });
-      
-      setCurrentStep(0);
-      
+      if (data && data.success) {
+        alert('Kişi başarıyla eklendi!');
+        
+        // Formu sıfırla
+        setFormData({
+          inviter_first_name: '',
+          inviter_last_name: '',
+          inviter_email: '',
+          new_person_first_name: '',
+          new_person_last_name: '',
+          new_person_age: '',
+          new_person_birthplace: '',
+          new_person_current_city: '',
+          new_person_proximity_level: 5,
+          new_person_email: '',
+          new_person_phone: '',
+          new_person_university: '',
+          new_person_department: '',
+          new_person_degree: '',
+          new_person_graduation_year: '',
+          new_person_description: '',
+          new_person_position: '',
+          new_person_company: '',
+          new_person_work_experience: '',
+          new_person_expertise: [] as DropdownOption[],
+          new_person_services: [] as DropdownOption[],
+          new_person_investments: '',
+          new_person_personal_traits: [] as DropdownOption[],
+          new_person_values: [] as DropdownOption[],
+          new_person_goals: '',
+          new_person_vision: '',
+          new_person_hobbies: [] as DropdownOption[],
+          new_person_languages: [] as DropdownOption[],
+          new_person_mentor: false,
+          new_person_volunteer_experience: '',
+          new_person_turning_points: '',
+          new_person_challenges: '',
+          new_person_lessons: '',
+          new_person_future_goals: '',
+          new_person_investment_interest: false,
+          new_person_collaboration_areas: '',
+          send_email_notification: false
+        });
+        
+        setCurrentStep(0);
+      } else {
+        alert('Kişi eklenirken bir hata oluştu.');
+      }
     } catch (error) {
-      console.error('Genel hata:', error);
+      console.error('Hata:', error);
       alert('Bir hata oluştu. Lütfen tekrar deneyiniz.');
     } finally {
       setLoading(false);
