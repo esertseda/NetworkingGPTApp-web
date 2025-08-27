@@ -260,8 +260,38 @@ const InviteForm: React.FC = () => {
           'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
         },
         body: JSON.stringify({
-          inviteId: inviteId,
-          formData: formData
+          inviter: {
+            first_name: formData.inviter_first_name,
+            last_name: formData.inviter_last_name,
+            email: formData.inviter_email
+          },
+          new_person: {
+            first_name: formData.new_person_first_name,
+            last_name: formData.new_person_last_name,
+            age: parseInt(formData.new_person_age) || null,
+            city: formData.new_person_birthplace,
+            current_city: formData.new_person_current_city,
+            university: formData.new_person_university,
+            degree: formData.new_person_degree,
+            graduation_year: parseInt(formData.new_person_graduation_year) || null,
+            position: formData.new_person_position,
+            company: formData.new_person_company,
+            sectors: formData.new_person_expertise,
+            expertise: formData.new_person_expertise.join(', '),
+            services: formData.new_person_services.join(', '),
+            email: formData.new_person_email,
+            phone: formData.new_person_phone,
+            languages: formData.new_person_languages.join(', '),
+            mentor_service: formData.new_person_mentor,
+            social_volunteer: formData.new_person_volunteer_experience,
+            life_experience: formData.new_person_turning_points,
+            challenges: formData.new_person_challenges,
+            lessons: formData.new_person_lessons_learned,
+            future_goals: formData.new_person_goals,
+            investment_interest: formData.new_person_investments ? true : false,
+            collaboration_areas: formData.new_person_collaboration_areas
+          },
+          send_email_notification: false
         }),
       });
 
