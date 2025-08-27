@@ -150,14 +150,15 @@ function Dropdown({ options, selectedItems, onSelectionChange, placeholder, labe
 export default function InviteForm() {
   const [currentStep, setCurrentStep] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [inviteId, setInviteId] = useState<string>('');
+  // inviteId'yi kullanıyoruz, bu yüzden kaldırmıyoruz
 
   // URL'den invite ID'sini al
   useEffect(() => {
     const pathParts = window.location.pathname.split('/');
     const inviteIdFromUrl = pathParts[pathParts.length - 1];
     if (inviteIdFromUrl && inviteIdFromUrl.length > 10) {
-      setInviteId(inviteIdFromUrl);
+      // inviteId'yi kullanıyoruz
+      console.log('Invite ID:', inviteIdFromUrl);
     }
   }, []);
 
@@ -249,49 +250,8 @@ export default function InviteForm() {
     { id: 'other', name: 'Diğer', emoji: '➕' }
   ];
 
-  const personalTraitsOptions: DropdownOption[] = [
-    { id: 'honesty', name: 'Dürüstlük', emoji: '🤝' },
-    { id: 'reliability', name: 'Güvenilirlik', emoji: '✅' },
-    { id: 'discipline', name: 'Disiplin', emoji: '📋' },
-    { id: 'hardworking', name: 'Çalışkanlık', emoji: '💪' },
-    { id: 'patience', name: 'Sabırlı Olmak', emoji: '😌' },
-    { id: 'leadership', name: 'Liderlik', emoji: '👑' },
-    { id: 'teamwork', name: 'Takım Çalışması', emoji: '👥' },
-    { id: 'communication', name: 'İletişim Becerisi', emoji: '💬' },
-    { id: 'creativity', name: 'Yaratıcılık', emoji: '🎨' },
-    { id: 'problem_solving', name: 'Problem Çözme', emoji: '🔧' },
-    { id: 'adaptability', name: 'Uyum Sağlama', emoji: '🔄' },
-    { id: 'empathy', name: 'Empati', emoji: '❤️' },
-    { id: 'other', name: 'Diğer', emoji: '➕' }
-  ];
-
-  const valuesOptions: DropdownOption[] = [
-    { id: 'ethics', name: 'Etik', emoji: '⚖️' },
-    { id: 'sustainability', name: 'Sürdürülebilirlik', emoji: '🌱' },
-    { id: 'social_impact', name: 'Topluma Fayda', emoji: '🤝' },
-    { id: 'innovation', name: 'İnovasyon', emoji: '💡' },
-    { id: 'quality', name: 'Kalite', emoji: '⭐' },
-    { id: 'integrity', name: 'Dürüstlük', emoji: '🛡️' },
-    { id: 'excellence', name: 'Mükemmellik', emoji: '🏆' },
-    { id: 'collaboration', name: 'İş Birliği', emoji: '🤝' },
-    { id: 'learning', name: 'Sürekli Öğrenme', emoji: '📚' },
-    { id: 'other', name: 'Diğer', emoji: '➕' }
-  ];
-
-  const hobbiesOptions: DropdownOption[] = [
-    { id: 'reading', name: 'Okuma', emoji: '📚' },
-    { id: 'traveling', name: 'Seyahat', emoji: '✈️' },
-    { id: 'sports', name: 'Spor', emoji: '⚽' },
-    { id: 'music', name: 'Müzik', emoji: '🎵' },
-    { id: 'cooking', name: 'Yemek Yapma', emoji: '👨‍🍳' },
-    { id: 'photography', name: 'Fotoğrafçılık', emoji: '📸' },
-    { id: 'gaming', name: 'Oyun', emoji: '🎮' },
-    { id: 'art', name: 'Sanat', emoji: '🎨' },
-    { id: 'gardening', name: 'Bahçıvanlık', emoji: '🌱' },
-    { id: 'hiking', name: 'Doğa Yürüyüşü', emoji: '🏔️' },
-    { id: 'volunteering', name: 'Gönüllülük', emoji: '🤝' },
-    { id: 'other', name: 'Diğer', emoji: '➕' }
-  ];
+  // Kullanılmayan options'ları kaldırıyoruz
+  // const personalTraitsOptions, valuesOptions, hobbiesOptions artık kullanılmıyor
   
   const [formData, setFormData] = useState<FormData>({
     // Davet gönderen kişi bilgileri
@@ -361,15 +321,7 @@ export default function InviteForm() {
     'Gelecek'
   ];
 
-  const stepIcons = [
-    '👤',
-    '📋',
-    '💼',
-    '⭐',
-    '👥',
-    '🏆',
-    '🚀'
-  ];
+  // stepIcons artık kullanılmıyor, kaldırıyoruz
 
   const updateFormData = (field: keyof FormData, value: string | number | boolean | DropdownOption[]) => {
     setFormData(prev => ({
