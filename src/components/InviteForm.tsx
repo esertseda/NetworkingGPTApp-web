@@ -261,9 +261,9 @@ const InviteForm: React.FC = () => {
         },
         body: JSON.stringify({
           inviter: {
-            first_name: formData.inviter_first_name,
-            last_name: formData.inviter_last_name,
-            email: formData.inviter_email
+            first_name: formData.inviter_first_name.trim(),
+            last_name: formData.inviter_last_name.trim(),
+            email: formData.inviter_email.trim()
           },
           new_person: {
             first_name: formData.new_person_first_name,
