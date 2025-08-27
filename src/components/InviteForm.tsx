@@ -68,7 +68,7 @@ interface DropdownOption {
 const InviteForm: React.FC = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [inviteId, setInviteId] = useState<string>('');
+  // inviteId artık kullanılmıyor, kaldırıldı
   const [stepAnimations, setStepAnimations] = useState<{[key: number]: boolean}>({});
 
 
@@ -107,7 +107,7 @@ const InviteForm: React.FC = () => {
     const urlParams = new URLSearchParams(window.location.search);
     const id = urlParams.get('t');
     if (id) {
-      setInviteId(id);
+      // inviteId artık kullanılmıyor
     }
   }, []);
 
