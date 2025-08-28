@@ -169,10 +169,20 @@ const InviteForm: React.FC = () => {
     if (!validateCurrentStep()) return;
 
     if (currentStep === 1) {
+      console.log('🔍 Adım 1 - Kişi kontrolü başlıyor');
       const ok = await checkNewPersonExists();
-      if (!ok) return;
+      console.log('📊 Kişi kontrolü sonucu:', ok);
+      if (!ok) {
+        console.log('❌ Kişi zaten var, adım 2\'ye geçilemiyor');
+        return; // Kişi zaten varsa diğer adıma geçme
+      }
+      console.log('✅ Kişi kontrolü başarılı, adım 2\'ye geçiliyor');
     }
-    if (currentStep < totalSteps - 1) setCurrentStep((s) => s + 1);
+    
+    if (currentStep < totalSteps - 1) {
+      console.log('🔄 Adım değiştiriliyor:', currentStep, '->', currentStep + 1);
+      setCurrentStep((s) => s + 1);
+    }
   };
 
   const handlePrevious = () => currentStep > 0 && setCurrentStep((s) => s - 1);
@@ -198,20 +208,33 @@ const InviteForm: React.FC = () => {
         last_name: formData.new_person_last_name.trim(),
         email: formData.new_person_email.trim(),
       };
+      
+      console.log('Kişi kontrolü için gönderilen parametreler:', body);
+      
       const res = await fetch(supabaseUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${SUPABASE_ANON_KEY}` },
         body: JSON.stringify(body),
       });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      
+      if (!res.ok) {
+        console.error('HTTP Error:', res.status, res.statusText);
+        throw new Error(`HTTP ${res.status}`);
+      }
+      
       const result = await res.json();
+      console.log('Kişi kontrolü API sonucu:', result);
+      
       if (result.exists) {
+        console.log('❌ Kişi zaten var!');
         alert('Bu kişi (ad, soyad, e-posta) zaten contacts tablosunda mevcut!');
         return false;
       }
+      
+      console.log('✅ Kişi yeni, devam edilebilir');
       return true;
     } catch (e) {
-      console.error(e);
+      console.error('Kişi kontrolü hatası:', e);
       alert('Kişi kontrolü sırasında bir hata oluştu.');
       return false;
     } finally {
