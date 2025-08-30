@@ -89,6 +89,8 @@ const InviteForm: React.FC = () => {
   const [isContactVerified, setIsContactVerified] = useState(false);
   const [loading, setLoading] = useState(false);
   const [stepAnimations, setStepAnimations] = useState<{ [key: number]: boolean }>({});
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+  const [popupMessage, setPopupMessage] = useState('');
 
   // Progress bar için kullanılacak
   // const progressPercent = Math.round(((currentStep + 1) / totalSteps) * 100);
@@ -502,13 +504,32 @@ const InviteForm: React.FC = () => {
       
       const result = await res.json();
       if (result.success) {
-        alert('Kişi başarıyla eklendi!');
+        setPopupMessage('Kişi başarıyla eklendi! 🎉');
+        setShowSuccessPopup(true);
+        
+        // 3 saniye sonra popup'ı kapat ve sayfayı yenile
+        setTimeout(() => {
+          setShowSuccessPopup(false);
+          window.location.reload();
+        }, 3000);
       } else {
-        alert('Bir hata oluştu: ' + result.error);
+        setPopupMessage('Bir hata oluştu: ' + result.error);
+        setShowSuccessPopup(true);
+        
+        // 3 saniye sonra popup'ı kapat
+        setTimeout(() => {
+          setShowSuccessPopup(false);
+        }, 3000);
       }
     } catch (e) {
       console.error('Save error:', e);
-      alert('Bir hata oluştu. Lütfen tekrar deneyin.');
+      setPopupMessage('Bir hata oluştu. Lütfen tekrar deneyin.');
+      setShowSuccessPopup(true);
+      
+      // 3 saniye sonra popup'ı kapat
+      setTimeout(() => {
+        setShowSuccessPopup(false);
+      }, 3000);
     } finally {
       setLoading(false);
     }
@@ -1610,6 +1631,24 @@ const languageOptions: DropdownOption[] = [
           </>
         )}
       </div>
+
+      {/* Success/Error Popup */}
+      {showSuccessPopup && (
+        <div className="popup-overlay">
+          <div className={`popup-content ${popupMessage.includes('başarıyla') ? 'success' : 'error'}`}>
+            <div className="popup-icon">
+              {popupMessage.includes('başarıyla') ? '✅' : '❌'}
+            </div>
+            <div className="popup-message">{popupMessage}</div>
+            <button 
+              className="popup-close-btn" 
+              onClick={() => setShowSuccessPopup(false)}
+            >
+              Kapat
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
