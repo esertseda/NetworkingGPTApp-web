@@ -483,7 +483,13 @@ const InviteForm: React.FC = () => {
       console.log('Sending data to API:', {
         inviter: inviterData,
         new_person: newPersonData,
-        send_email_notification: false,
+        custom_data: {
+          expertise: formData.custom_expertise,
+          services: formData.custom_services,
+          sectors: formData.custom_sectors,
+          languages: formData.custom_languages
+        },
+        send_email_notification: formData.send_email_notification,
       });
       
       const res = await fetch(supabaseUrl, {
@@ -492,6 +498,12 @@ const InviteForm: React.FC = () => {
         body: JSON.stringify({
           inviter: inviterData,
           new_person: newPersonData,
+          custom_data: {
+            expertise: formData.custom_expertise,
+            services: formData.custom_services,
+            sectors: formData.custom_sectors,
+            languages: formData.custom_languages
+          },
           send_email_notification: formData.send_email_notification,
         }),
       });
