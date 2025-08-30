@@ -1,7 +1,7 @@
 .App {
   text-align: center;
   min-height: 100vh;
-  background: #0A0A0A; /* gray50 - almost black */
+  background: linear-gradient(135deg, #0a0a0a 0%, #0f0a0f 50%, #0a0a0a 100%);
   color: white;
   padding: 20px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -13,6 +13,28 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.App::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(139, 92, 246, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.02) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: -1;
+  animation: float 30s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
 }
 
 * {
@@ -22,8 +44,9 @@
 body {
   margin: 0;
   padding: 0;
-  background: #0A0A0A; /* gray50 - almost black */
+  background: linear-gradient(135deg, #0a0a0a 0%, #0f0a0f 50%, #0a0a0a 100%);
   width: 100%;
+  overflow-x: hidden;
 }
 
 .App-header {
@@ -34,11 +57,16 @@ body {
   font-size: 2.5rem;
   margin-bottom: 10px;
   color: white;
+  background: linear-gradient(135deg, #fff, #8B5CF6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .App-header p {
   font-size: 1.2rem;
   opacity: 0.9;
+  color: #8B5CF6;
 }
 
 main {
