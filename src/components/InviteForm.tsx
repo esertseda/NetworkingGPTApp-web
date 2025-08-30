@@ -1191,6 +1191,26 @@ const languageOptions: DropdownOption[] = [
                     ))}
                   </div>
                 )}
+                
+                {/* Diğer seçeneği için textarea */}
+                {formData.show_sectors_other && (
+                  <div className="other-input-container">
+                    <textarea
+                      value={formData.new_person_sectors_other}
+                      onChange={(e) => updateFormData('new_person_sectors_other', e.target.value)}
+                      placeholder="Sektör adını yazın..."
+                      className="other-textarea"
+                    />
+                    <button 
+                      type="button" 
+                      onClick={addSectorsOther}
+                      className="add-other-btn"
+                      disabled={!formData.new_person_sectors_other.trim()}
+                    >
+                      Ekle
+                    </button>
+                  </div>
+                )}
               </div>
 
               <div className="form-group">
@@ -1242,6 +1262,26 @@ const languageOptions: DropdownOption[] = [
                         </span>
                       </div>
                     ))}
+                  </div>
+                )}
+                
+                {/* Diğer seçeneği için textarea */}
+                {formData.show_expertise_other && (
+                  <div className="other-input-container">
+                    <textarea
+                      value={formData.new_person_expertise_other}
+                      onChange={(e) => updateFormData('new_person_expertise_other', e.target.value)}
+                      placeholder="Uzmanlık alanını yazın..."
+                      className="other-textarea"
+                    />
+                    <button 
+                      type="button" 
+                      onClick={addExpertiseOther}
+                      className="add-other-btn"
+                      disabled={!formData.new_person_expertise_other.trim()}
+                    >
+                      Ekle
+                    </button>
                   </div>
                 )}
               </div>
