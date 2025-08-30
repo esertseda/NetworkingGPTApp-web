@@ -90,7 +90,8 @@ const InviteForm: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [stepAnimations, setStepAnimations] = useState<{ [key: number]: boolean }>({});
 
-  const progressPercent = Math.round(((currentStep + 1) / totalSteps) * 100);
+  // Progress bar için kullanılacak
+  // const progressPercent = Math.round(((currentStep + 1) / totalSteps) * 100);
 
   useEffect(() => {
     setStepAnimations((prev) => ({ ...prev, [currentStep]: true }));
@@ -118,8 +119,8 @@ const InviteForm: React.FC = () => {
       setServicesDropdownOpen(false);
       setSectorsDropdownOpen(false);
       setLanguagesDropdownOpen(false);
-      setPersonalTraitsDropdownOpen(false);
-      setValuesDropdownOpen(false);
+      // setPersonalTraitsDropdownOpen(false);
+      // setValuesDropdownOpen(false);
     };
 
     document.addEventListener('click', handleClickOutside);
@@ -654,15 +655,15 @@ const languageOptions: DropdownOption[] = [
   const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false);
   const [sectorsDropdownOpen, setSectorsDropdownOpen] = useState(false);
   const [languagesDropdownOpen, setLanguagesDropdownOpen] = useState(false);
-  const [personalTraitsDropdownOpen, setPersonalTraitsDropdownOpen] = useState(false);
-  const [valuesDropdownOpen, setValuesDropdownOpen] = useState(false);
+  // const [personalTraitsDropdownOpen, setPersonalTraitsDropdownOpen] = useState(false);
+  // const [valuesDropdownOpen, setValuesDropdownOpen] = useState(false);
 
   const toggleExpertiseDropdown = () => setExpertiseDropdownOpen((s) => !s);
   const toggleServicesDropdown = () => setServicesDropdownOpen((s) => !s);
   const toggleSectorsDropdown = () => setSectorsDropdownOpen((s) => !s);
   const toggleLanguagesDropdown = () => setLanguagesDropdownOpen((s) => !s);
-  const togglePersonalTraitsDropdown = () => setPersonalTraitsDropdownOpen((s) => !s);
-  const toggleValuesDropdown = () => setValuesDropdownOpen((s) => !s);
+  // const togglePersonalTraitsDropdown = () => setPersonalTraitsDropdownOpen((s) => !s);
+  // const toggleValuesDropdown = () => setValuesDropdownOpen((s) => !s);
 
   const handleExpertiseSelect = (option: DropdownOption) => {
     if (option.id === 'other') {
@@ -726,19 +727,19 @@ const languageOptions: DropdownOption[] = [
     // Dropdown'ı açık tut - sadece "Diğer" seçildiğinde kapat
   };
 
-  const handlePersonalTraitsSelect = (option: DropdownOption) => {
-    const arr = formData.new_person_personal_traits.includes(option.id)
-      ? formData.new_person_personal_traits.filter((id) => id !== option.id)
-      : [...formData.new_person_personal_traits, option.id];
-    updateFormData('new_person_personal_traits', arr);
-  };
+  // const handlePersonalTraitsSelect = (option: DropdownOption) => {
+  //   const arr = formData.new_person_personal_traits.includes(option.id)
+  //     ? formData.new_person_personal_traits.filter((id) => id !== option.id)
+  //     : [...formData.new_person_personal_traits, option.id];
+  //   updateFormData('new_person_personal_traits', arr);
+  // };
 
-  const handleValuesSelect = (option: DropdownOption) => {
-    const arr = formData.new_person_values.includes(option.id)
-      ? formData.new_person_values.filter((id) => id !== option.id)
-      : [...formData.new_person_values, option.id];
-    updateFormData('new_person_values', arr);
-  };
+  // const handleValuesSelect = (option: DropdownOption) => {
+  //   const arr = formData.new_person_values.includes(option.id)
+  //     ? formData.new_person_values.filter((id) => id !== option.id)
+  //     : [...formData.new_person_values, option.id];
+  //   updateFormData('new_person_values', arr);
+  // };
 
   const removeExpertise = (id: string) => {
     // Uzmanlık listesinden kaldır
@@ -836,8 +837,8 @@ const languageOptions: DropdownOption[] = [
     }
   };
 
-  const removeService = (id: string) =>
-    updateFormData('new_person_services', formData.new_person_services.filter((x) => x !== id));
+  // const removeService = (id: string) =>
+  //   updateFormData('new_person_services', formData.new_person_services.filter((x) => x !== id));
   const removeServices = (id: string) => {
     // Hizmetler listesinden kaldır
     updateFormData('new_person_services', formData.new_person_services.filter((x) => x !== id));
@@ -857,11 +858,11 @@ const languageOptions: DropdownOption[] = [
     }
   };
 
-  const removePersonalTrait = (id: string) =>
-    updateFormData('new_person_personal_traits', formData.new_person_personal_traits.filter((x) => x !== id));
+  // const removePersonalTrait = (id: string) =>
+  //   updateFormData('new_person_personal_traits', formData.new_person_personal_traits.filter((x) => x !== id));
 
-  const removeValue = (id: string) =>
-    updateFormData('new_person_values', formData.new_person_values.filter((x) => x !== id));
+  // const removeValue = (id: string) =>
+  //   updateFormData('new_person_values', formData.new_person_values.filter((x) => x !== id));
 
   const getSelectedExpertiseNames = () =>
     formData.new_person_expertise.map((id) => {
@@ -921,11 +922,11 @@ const languageOptions: DropdownOption[] = [
       return id;
     });
 
-  const getSelectedPersonalTraitsNames = () =>
-    formData.new_person_personal_traits.map((id) => personalTraitsOptions.find((o) => o.id === id)?.name || id);
+  // const getSelectedPersonalTraitsNames = () =>
+  //   formData.new_person_personal_traits.map((id) => personalTraitsOptions.find((o) => o.id === id)?.name || id);
 
-  const getSelectedValuesNames = () =>
-    formData.new_person_values.map((id) => valuesOptions.find((o) => o.id === id)?.name || id);
+  // const getSelectedValuesNames = () =>
+  //   formData.new_person_values.map((id) => valuesOptions.find((o) => o.id === id)?.name || id);
 
   /** ---------- Step içerikleri (veri tarafına dokunmadan) ---------- */
   const stepClass = (i: number) => (stepAnimations[i] ? 'step-content animated' : 'step-content');
