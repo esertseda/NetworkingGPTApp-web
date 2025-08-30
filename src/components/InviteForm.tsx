@@ -450,6 +450,7 @@ const InviteForm: React.FC = () => {
         company: formData.new_person_company.trim(),
         expertise: formData.new_person_expertise.join(', '),
         services: formData.new_person_services.join(', '),
+        sectors: formData.new_person_sectors.join(', '),
         languages: formData.new_person_languages.join(', '),
         mentor_service: formData.new_person_mentor,
         social_volunteer: formData.new_person_volunteer_experience.trim(),
@@ -491,6 +492,18 @@ const InviteForm: React.FC = () => {
         },
         send_email_notification: formData.send_email_notification,
       });
+      
+      // Debug için custom verileri detaylı logla
+      console.log('Custom expertise details:', formData.custom_expertise);
+      console.log('Custom services details:', formData.custom_services);
+      console.log('Custom sectors details:', formData.custom_sectors);
+      console.log('Custom languages details:', formData.custom_languages);
+      
+      // Custom verilerin son durumunu kontrol et
+      console.log('Final new_person_expertise:', formData.new_person_expertise);
+      console.log('Final new_person_services:', formData.new_person_services);
+      console.log('Final new_person_sectors:', formData.new_person_sectors);
+      console.log('Final new_person_languages:', formData.new_person_languages);
       
       const res = await fetch(supabaseUrl, {
         method: 'POST',
@@ -549,72 +562,62 @@ const InviteForm: React.FC = () => {
 
   /** ---------- Dropdown verileri (özgün dosyandan aynen) ---------- */
   const expertiseOptions: DropdownOption[] = [
-    { id: 'software_development', name: 'Yazılım Geliştirme', emoji: '💻' },
-    { id: 'data_science', name: 'Veri Bilimi', emoji: '📊' },
-    { id: 'ai_ml', name: 'Yapay Zeka/Makine Öğrenmesi', emoji: '🤖' },
-    { id: 'cybersecurity', name: 'Siber Güvenlik', emoji: '🔒' },
-    { id: 'cloud_computing', name: 'Bulut Bilişim', emoji: '☁️' },
-    { id: 'devops', name: 'DevOps', emoji: '⚙️' },
-    { id: 'mobile_development', name: 'Mobil Geliştirme', emoji: '📱' },
-    { id: 'web_development', name: 'Web Geliştirme', emoji: '🌐' },
-    { id: 'ui_ux_design', name: 'UI/UX Tasarım', emoji: '🎨' },
-    { id: 'product_management', name: 'Ürün Yönetimi', emoji: '📋' },
+    { id: 'frontend', name: 'Frontend Development', emoji: '💻' },
+    { id: 'backend', name: 'Backend Development', emoji: '⚙️' },
+    { id: 'mobile', name: 'Mobile Development', emoji: '📱' },
+    { id: 'fullstack', name: 'Full Stack Development', emoji: '��' },
+    { id: 'devops', name: 'DevOps', emoji: '🔧' },
+    { id: 'data_science', name: 'Data Science', emoji: '📊' },
+    { id: 'ai_ml', name: 'AI/Machine Learning', emoji: '🤖' },
+    { id: 'ui_ux', name: 'UI/UX Tasarım', emoji: '🎨' },
+    { id: 'product_management', name: 'Product Management', emoji: '📋' },
     { id: 'project_management', name: 'Proje Yönetimi', emoji: '📈' },
-    { id: 'business_analysis', name: 'İş Analizi', emoji: '📊' },
-    { id: 'marketing', name: 'Pazarlama', emoji: '📢' },
-    { id: 'sales', name: 'Satış', emoji: '💰' },
-    { id: 'finance', name: 'Finans', emoji: '💳' },
+    { id: 'digital_marketing', name: 'Dijital Pazarlama', emoji: '📱' },
+    { id: 'content_marketing', name: 'İçerik Pazarlaması', emoji: '✍️' },
+    { id: 'seo', name: 'SEO/SEM', emoji: '🔍' },
+    { id: 'sales', name: 'Satış', emoji: '💼' },
+    { id: 'business_development', name: 'İş Geliştirme', emoji: '🚀' },
     { id: 'hr', name: 'İnsan Kaynakları', emoji: '👥' },
+    { id: 'finance', name: 'Finans', emoji: '💰' },
+    { id: 'accounting', name: 'Muhasebe', emoji: '📊' },
     { id: 'legal', name: 'Hukuk', emoji: '⚖️' },
     { id: 'consulting', name: 'Danışmanlık', emoji: '💡' },
-    { id: 'mentoring', name: 'Mentorluk', emoji: '🎓' },
-    { id: 'training', name: 'Eğitim/Kurs', emoji: '📚' },
-    { id: 'freelance_dev', name: 'Freelance Geliştirme', emoji: '💻' },
-    { id: 'web_design', name: 'Web Tasarım', emoji: '🌐' },
-    { id: 'mobile_dev', name: 'Mobil Uygulama Geliştirme', emoji: '📱' },
-    { id: 'ui_ux_service', name: 'UI/UX Tasarım Hizmeti', emoji: '🎨' },
-    { id: 'graphic_design_service', name: 'Grafik Tasarım Hizmeti', emoji: '🖼️' },
-    { id: 'content_creation', name: 'İçerik Üretimi', emoji: '✍️' },
-    { id: 'copywriting', name: 'Metin Yazarlığı', emoji: '📝' },
-    { id: 'translation_service', name: 'Çeviri Hizmeti', emoji: '🌍' },
-    { id: 'seo_service', name: 'SEO Optimizasyonu', emoji: '🔍' },
-    { id: 'social_media', name: 'Sosyal Medya Yönetimi', emoji: '📱' },
-    { id: 'digital_marketing_service', name: 'Dijital Pazarlama', emoji: '📊' },
-    { id: 'photography_service', name: 'Fotoğrafçılık', emoji: '📸' },
-    { id: 'video_production', name: 'Video Prodüksiyon', emoji: '🎬' },
-    { id: 'event_planning', name: 'Etkinlik Organizasyonu', emoji: '🎉' },
-    { id: 'project_management_service', name: 'Proje Yönetimi', emoji: '📋' },
-    { id: 'business_consulting', name: 'İş Danışmanlığı', emoji: '💼' },
-    { id: 'financial_consulting', name: 'Finansal Danışmanlık', emoji: '💰' },
-    { id: 'legal_service', name: 'Hukuki Danışmanlık', emoji: '⚖️' },
-    { id: 'accounting_service', name: 'Muhasebe Hizmeti', emoji: '📊' },
-    { id: 'hr_consulting', name: 'İK Danışmanlığı', emoji: '👥' },
-    { id: 'market_research', name: 'Pazar Araştırması', emoji: '🔬' },
-    { id: 'data_analysis', name: 'Veri Analizi', emoji: '📈' },
-    { id: 'investment_advice', name: 'Yatırım Danışmanlığı', emoji: '📈' },
-    { id: 'partnership', name: 'İş Ortaklığı', emoji: '🤝' },
-    { id: 'networking', name: 'Network Kurma', emoji: '🌐' },
-    { id: 'career_coaching', name: 'Kariyer Koçluğu', emoji: '🚀' },
-      { id: 'other', name: 'Diğer', emoji: '➕' },
-];
+    { id: 'research', name: 'Araştırma', emoji: '🔬' },
+    { id: 'writing', name: 'Yazım/Editörlük', emoji: '✒️' },
+    { id: 'translation', name: 'Çeviri', emoji: '🌍' },
+    { id: 'photography', name: 'Fotoğrafçılık', emoji: '📸' },
+    { id: 'videography', name: 'Videografi', emoji: '🎬' },
+    { id: 'graphic_design', name: 'Grafik Tasarım', emoji: '🎨' },
+    { id: 'architecture', name: 'Mimarlık', emoji: '🏗️' },
+    { id: 'engineering', name: 'Mühendislik', emoji: '⚙️' },
+    { id: 'teaching', name: 'Öğretmenlik/Eğitim', emoji: '👩‍🏫' },
+    { id: 'other', name: 'Diğer', emoji: '➕' },
+  ];
 
 const sectorsOptions: DropdownOption[] = [
   { id: 'technology', name: 'Teknoloji', emoji: '💻' },
-  { id: 'healthcare', name: 'Sağlık', emoji: '🏥' },
   { id: 'finance', name: 'Finans', emoji: '💰' },
+  { id: 'healthcare', name: 'Sağlık', emoji: '🏥' },
   { id: 'education', name: 'Eğitim', emoji: '🎓' },
-  { id: 'manufacturing', name: 'Üretim', emoji: '🏭' },
+  { id: 'marketing', name: 'Pazarlama', emoji: '📊' },
+  { id: 'design', name: 'Tasarım', emoji: '🎨' },
+  { id: 'engineering', name: 'Mühendislik', emoji: '⚙️' },
+  { id: 'law', name: 'Hukuk', emoji: '⚖️' },
+  { id: 'consulting', name: 'Danışmanlık', emoji: '💡' },
   { id: 'retail', name: 'Perakende', emoji: '🛍️' },
-  { id: 'consulting', name: 'Danışmanlık', emoji: '📋' },
-  { id: 'media', name: 'Medya', emoji: '📺' },
-  { id: 'real_estate', name: 'Emlak', emoji: '🏠' },
-  { id: 'transportation', name: 'Ulaştırma', emoji: '🚚' },
-  { id: 'energy', name: 'Enerji', emoji: '⚡' },
-  { id: 'food_beverage', name: 'Yiyecek & İçecek', emoji: '🍕' },
-  { id: 'automotive', name: 'Otomotiv', emoji: '🚗' },
-  { id: 'pharmaceuticals', name: 'İlaç', emoji: '💊' },
-  { id: 'tourism', name: 'Turizm', emoji: '✈️' },
+  { id: 'manufacturing', name: 'İmalat', emoji: '🏭' },
   { id: 'construction', name: 'İnşaat', emoji: '🏗️' },
+  { id: 'real_estate', name: 'Emlak', emoji: '🏠' },
+  { id: 'tourism', name: 'Turizm', emoji: '✈️' },
+  { id: 'food', name: 'Gıda', emoji: '🍽️' },
+  { id: 'automotive', name: 'Otomotiv', emoji: '🚗' },
+  { id: 'energy', name: 'Enerji', emoji: '⚡' },
+  { id: 'telecommunications', name: 'Telekomünikasyon', emoji: '📡' },
+  { id: 'media', name: 'Medya', emoji: '📺' },
+  { id: 'logistics', name: 'Lojistik', emoji: '🚚' },
+  { id: 'agriculture', name: 'Tarım', emoji: '🌾' },
+  { id: 'sports', name: 'Spor', emoji: '⚽' },
+  { id: 'entertainment', name: 'Eğlence', emoji: '🎭' },
   { id: 'other', name: 'Diğer', emoji: '➕' },
 ];
 
@@ -625,38 +628,65 @@ const servicesOptions: DropdownOption[] = [
   { id: 'freelance_dev', name: 'Freelance Geliştirme', emoji: '💻' },
   { id: 'web_design', name: 'Web Tasarım', emoji: '🌐' },
   { id: 'mobile_dev', name: 'Mobil Uygulama Geliştirme', emoji: '📱' },
-  { id: 'ui_ux_design', name: 'UI/UX Tasarım', emoji: '🎨' },
-  { id: 'data_analysis', name: 'Veri Analizi', emoji: '📊' },
-  { id: 'project_management', name: 'Proje Yönetimi', emoji: '📈' },
-  { id: 'business_development', name: 'İş Geliştirme', emoji: '🚀' },
-  { id: 'marketing', name: 'Pazarlama', emoji: '📢' },
-  { id: 'sales', name: 'Satış', emoji: '💰' },
-  { id: 'legal_services', name: 'Hukuki Hizmetler', emoji: '⚖️' },
-  { id: 'financial_advice', name: 'Finansal Danışmanlık', emoji: '💳' },
+  { id: 'ui_ux_service', name: 'UI/UX Tasarım Hizmeti', emoji: '🎨' },
+  { id: 'graphic_design_service', name: 'Grafik Tasarım Hizmeti', emoji: '🖼️' },
+  { id: 'content_creation', name: 'İçerik Üretimi', emoji: '✍️' },
+  { id: 'copywriting', name: 'Metin Yazarlığı', emoji: '📝' },
+  { id: 'translation_service', name: 'Çeviri Hizmeti', emoji: '🌍' },
+  { id: 'seo_service', name: 'SEO Optimizasyonu', emoji: '🔍' },
+  { id: 'social_media', name: 'Sosyal Medya Yönetimi', emoji: '📱' },
+  { id: 'digital_marketing_service', name: 'Dijital Pazarlama', emoji: '📊' },
+  { id: 'photography_service', name: 'Fotoğrafçılık', emoji: '📸' },
+  { id: 'video_production', name: 'Video Prodüksiyon', emoji: '🎬' },
+  { id: 'event_planning', name: 'Etkinlik Organizasyonu', emoji: '🎉' },
+  { id: 'project_management_service', name: 'Proje Yönetimi', emoji: '📋' },
+  { id: 'business_consulting', name: 'İş Danışmanlığı', emoji: '💼' },
+  { id: 'financial_consulting', name: 'Finansal Danışmanlık', emoji: '💰' },
+  { id: 'legal_service', name: 'Hukuki Danışmanlık', emoji: '⚖️' },
+  { id: 'accounting_service', name: 'Muhasebe Hizmeti', emoji: '📊' },
   { id: 'hr_consulting', name: 'İK Danışmanlığı', emoji: '👥' },
+  { id: 'market_research', name: 'Pazar Araştırması', emoji: '🔬' },
+  { id: 'data_analysis', name: 'Veri Analizi', emoji: '📈' },
+  { id: 'investment_advice', name: 'Yatırım Danışmanlığı', emoji: '📈' },
+  { id: 'partnership', name: 'İş Ortaklığı', emoji: '🤝' },
+  { id: 'networking', name: 'Network Kurma', emoji: '🌐' },
+  { id: 'career_coaching', name: 'Kariyer Koçluğu', emoji: '🚀' },
   { id: 'other', name: 'Diğer', emoji: '➕' },
 ];
 
 const languageOptions: DropdownOption[] = [
-    { id: 'turkish', name: 'Türkçe', emoji: '🇹🇷' },
-    { id: 'english', name: 'İngilizce', emoji: '🇺🇸' },
-    { id: 'german', name: 'Almanca', emoji: '🇩🇪' },
-    { id: 'french', name: 'Fransızca', emoji: '🇫🇷' },
-    { id: 'spanish', name: 'İspanyolca', emoji: '🇪🇸' },
-    { id: 'italian', name: 'İtalyanca', emoji: '🇮🇹' },
-    { id: 'russian', name: 'Rusça', emoji: '🇷🇺' },
-    { id: 'arabic', name: 'Arapça', emoji: '🇸🇦' },
-    { id: 'chinese', name: 'Çince', emoji: '🇨🇳' },
-    { id: 'japanese', name: 'Japonca', emoji: '🇯🇵' },
-    { id: 'korean', name: 'Korece', emoji: '🇰🇷' },
-    { id: 'portuguese', name: 'Portekizce', emoji: '🇵🇹' },
-    { id: 'dutch', name: 'Hollandaca', emoji: '🇳🇱' },
-    { id: 'swedish', name: 'İsveççe', emoji: '🇸🇪' },
-    { id: 'norwegian', name: 'Norveççe', emoji: '🇳🇴' },
-    { id: 'danish', name: 'Danca', emoji: '🇩🇰' },
-    { id: 'finnish', name: 'Fince', emoji: '🇫🇮' },
-    { id: 'other', name: 'Diğer', emoji: '➕' },
-  ];
+  { id: 'turkish', name: 'Türkçe', emoji: '🇹🇷' },
+  { id: 'english', name: 'İngilizce', emoji: '🇺🇸' },
+  { id: 'german', name: 'Almanca', emoji: '🇩🇪' },
+  { id: 'french', name: 'Fransızca', emoji: '🇫🇷' },
+  { id: 'spanish', name: 'İspanyolca', emoji: '🇪🇸' },
+  { id: 'italian', name: 'İtalyanca', emoji: '🇮🇹' },
+  { id: 'russian', name: 'Rusça', emoji: '🇷🇺' },
+  { id: 'arabic', name: 'Arapça', emoji: '🇸🇦' },
+  { id: 'chinese', name: 'Çince', emoji: '🇨🇳' },
+  { id: 'japanese', name: 'Japonca', emoji: '🇯🇵' },
+  { id: 'korean', name: 'Korece', emoji: '🇰🇷' },
+  { id: 'portuguese', name: 'Portekizce', emoji: '🇵🇹' },
+  { id: 'dutch', name: 'Hollandaca', emoji: '🇳🇱' },
+  { id: 'swedish', name: 'İsveççe', emoji: '🇸🇪' },
+  { id: 'norwegian', name: 'Norveççe', emoji: '🇳🇴' },
+  { id: 'danish', name: 'Danca', emoji: '🇩🇰' },
+  { id: 'finnish', name: 'Fince', emoji: '🇫🇮' },
+  { id: 'polish', name: 'Lehçe', emoji: '🇵🇱' },
+  { id: 'czech', name: 'Çekçe', emoji: '🇨🇿' },
+  { id: 'hungarian', name: 'Macarca', emoji: '🇭🇺' },
+  { id: 'greek', name: 'Yunanca', emoji: '🇬🇷' },
+  { id: 'hebrew', name: 'İbranice', emoji: '🇮🇱' },
+  { id: 'hindi', name: 'Hintçe', emoji: '🇮🇳' },
+  { id: 'urdu', name: 'Urduca', emoji: '🇵🇰' },
+  { id: 'bengali', name: 'Bengalce', emoji: '🇧🇩' },
+  { id: 'thai', name: 'Tayca', emoji: '🇹🇭' },
+  { id: 'vietnamese', name: 'Vietnamca', emoji: '🇻🇳' },
+  { id: 'indonesian', name: 'Endonezce', emoji: '🇮🇩' },
+  { id: 'malay', name: 'Malayca', emoji: '🇲🇾' },
+  { id: 'filipino', name: 'Filipince', emoji: '🇵🇭' },
+  { id: 'other', name: 'Diğer', emoji: '➕' },
+];
 
   // Kişisel özellikler seçenekleri
   const personalTraitsOptions: DropdownOption[] = [
@@ -818,6 +848,8 @@ const languageOptions: DropdownOption[] = [
       const customId = `custom_${Date.now()}`;
       const customName = formData.new_person_expertise_other.trim();
       
+      console.log('Adding custom expertise:', { id: customId, name: customName });
+      
       // Custom uzmanlığı custom_expertise array'ine ekle
       const newCustomExpertise = [...formData.custom_expertise, { id: customId, name: customName }];
       updateFormData('custom_expertise', newCustomExpertise);
@@ -825,6 +857,9 @@ const languageOptions: DropdownOption[] = [
       // Uzmanlık listesine custom ID'yi ekle
       const arr = [...formData.new_person_expertise, customId];
       updateFormData('new_person_expertise', arr);
+      
+      console.log('Updated custom_expertise:', newCustomExpertise);
+      console.log('Updated new_person_expertise:', arr);
       
       // Form'u temizle
       updateFormData('new_person_expertise_other', '');
@@ -898,68 +933,63 @@ const languageOptions: DropdownOption[] = [
   //   updateFormData('new_person_values', formData.new_person_values.filter((x) => x !== id));
 
   const getSelectedExpertiseNames = () =>
-    formData.new_person_expertise.map((id) => {
-      // Önce normal options'ta ara
-      const option = expertiseOptions.find((o) => o.id === id);
-      if (option) return option.name;
+    formData.new_person_expertise
+      .filter(id => !id.startsWith('custom_')) // Custom ID'leri filtrele
+      .map((id) => {
+        // Önce normal options'ta ara
+        const option = expertiseOptions.find((o) => o.id === id);
+        if (option) return option.name;
+        return id;
+      });
       
-      // Custom ID ise, custom_expertise'dan metni al
-      if (id.startsWith('custom_')) {
-        const customExpertise = formData.custom_expertise.find((ce) => ce.id === id);
-        return customExpertise ? customExpertise.name : id;
-      }
-      
-      return id;
-    });
   const getSelectedSectorsNames = () =>
-    formData.new_person_sectors.map((id) => {
-      // Önce normal options'ta ara
-      const option = sectorsOptions.find((o) => o.id === id);
-      if (option) return option.name;
-      
-      // Custom ID ise, custom_sectors'dan metni al
-      if (id.startsWith('custom_')) {
-        const customSector = formData.custom_sectors.find((cs) => cs.id === id);
-        return customSector ? customSector.name : id;
-      }
-      
-      return id;
-    });
+    formData.new_person_sectors
+      .filter(id => !id.startsWith('custom_')) // Custom ID'leri filtrele
+      .map((id) => {
+        // Önce normal options'ta ara
+        const option = sectorsOptions.find((o) => o.id === id);
+        if (option) return option.name;
+        return id;
+      });
     
   const getSelectedServicesNames = () =>
-    formData.new_person_services.map((id) => {
-      // Önce normal options'ta ara
-      const option = servicesOptions.find((o) => o.id === id);
-      if (option) return option.name;
+    formData.new_person_services
+      .filter(id => !id.startsWith('custom_')) // Custom ID'leri filtrele
+      .map((id) => {
+        // Önce normal options'ta ara
+        const option = servicesOptions.find((o) => o.id === id);
+        if (option) return option.name;
+        return id;
+      });
       
-      // Custom ID ise, custom_services'dan metni al
-      if (id.startsWith('custom_')) {
-        const customService = formData.custom_services.find((cs) => cs.id === id);
-        return customService ? customService.name : id;
-      }
-      
-      return id;
-    });
   const getSelectedLanguagesNames = () =>
-    formData.new_person_languages.map((id) => {
-      // Önce normal options'ta ara
-      const option = languageOptions.find((o) => o.id === id);
-      if (option) return option.name;
-      
-      // Custom ID ise, custom_languages'dan metni al
-      if (id.startsWith('custom_')) {
-        const customLanguage = formData.custom_languages.find((cl) => cl.id === id);
-        return customLanguage ? customLanguage.name : id;
-      }
-      
-      return id;
-    });
+    formData.new_person_languages
+      .filter(id => !id.startsWith('custom_')) // Custom ID'leri filtrele
+      .map((id) => {
+        // Önce normal options'ta ara
+        const option = languageOptions.find((o) => o.id === id);
+        if (option) return option.name;
+        return id;
+      });
 
   // const getSelectedPersonalTraitsNames = () =>
   //   formData.new_person_personal_traits.map((id) => personalTraitsOptions.find((o) => o.id === id)?.name || id);
 
   // const getSelectedValuesNames = () =>
   //   formData.new_person_values.map((id) => valuesOptions.find((o) => o.id === id)?.name || id);
+
+  // Custom verileri ayrı olarak göster
+  const getCustomExpertiseNames = () =>
+    formData.custom_expertise.map(item => item.name);
+    
+  const getCustomSectorsNames = () =>
+    formData.custom_sectors.map(item => item.name);
+    
+  const getCustomServicesNames = () =>
+    formData.custom_services.map(item => item.name);
+    
+  const getCustomLanguagesNames = () =>
+    formData.custom_languages.map(item => item.name);
 
   /** ---------- Step içerikleri (veri tarafına dokunmadan) ---------- */
   const stepClass = (i: number) => (stepAnimations[i] ? 'step-content animated' : 'step-content');
@@ -1144,23 +1174,21 @@ const languageOptions: DropdownOption[] = [
                   </div>
                 )}
                 
-                {/* Diğer seçeneği için textarea */}
-                {formData.show_sectors_other && (
-                  <div className="other-input-container">
-                    <textarea
-                      value={formData.new_person_sectors_other}
-                      onChange={(e) => updateFormData('new_person_sectors_other', e.target.value)}
-                      placeholder="Sektör adını yazın..."
-                      className="other-textarea"
-                    />
-                    <button 
-                      type="button" 
-                      onClick={addSectorsOther}
-                      className="add-other-btn"
-                      disabled={!formData.new_person_sectors_other.trim()}
-                    >
-                      Ekle
-                    </button>
+                {/* Custom verileri ayrı olarak göster */}
+                {formData.custom_sectors.length > 0 && (
+                  <div className="selected-items custom-items">
+                    <div className="custom-label">Özel Sektör:</div>
+                    {getCustomSectorsNames().map((name, i) => (
+                      <div key={i} className="selected-item custom-item">
+                        <span>{name}</span>
+                        <span className="remove-item" onClick={() => {
+                          const customId = formData.custom_sectors[i].id;
+                          removeSectors(customId);
+                        }}>
+                          ×
+                        </span>
+                      </div>
+                    ))}
                   </div>
                 )}
               </div>
@@ -1199,23 +1227,21 @@ const languageOptions: DropdownOption[] = [
                   </div>
                 )}
                 
-                {/* Diğer seçeneği için textarea */}
-                {formData.show_expertise_other && (
-                  <div className="other-input-container">
-                    <textarea
-                      value={formData.new_person_expertise_other}
-                      onChange={(e) => updateFormData('new_person_expertise_other', e.target.value)}
-                      placeholder="Uzmanlık alanını yazın..."
-                      className="other-textarea"
-                    />
-                    <button 
-                      type="button" 
-                      onClick={addExpertiseOther}
-                      className="add-other-btn"
-                      disabled={!formData.new_person_expertise_other.trim()}
-                    >
-                      Ekle
-                    </button>
+                {/* Custom verileri ayrı olarak göster */}
+                {formData.custom_expertise.length > 0 && (
+                  <div className="selected-items custom-items">
+                    <div className="custom-label">Özel Uzmanlık:</div>
+                    {getCustomExpertiseNames().map((name, i) => (
+                      <div key={i} className="selected-item custom-item">
+                        <span>{name}</span>
+                        <span className="remove-item" onClick={() => {
+                          const customId = formData.custom_expertise[i].id;
+                          removeExpertise(customId);
+                        }}>
+                          ×
+                        </span>
+                      </div>
+                    ))}
                   </div>
                 )}
               </div>
@@ -1247,6 +1273,24 @@ const languageOptions: DropdownOption[] = [
                       <div key={i} className="selected-item">
                         <span>{name}</span>
                         <span className="remove-item" onClick={() => removeServices(formData.new_person_services[i])}>
+                          ×
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                
+                {/* Custom verileri ayrı olarak göster */}
+                {formData.custom_services.length > 0 && (
+                  <div className="selected-items custom-items">
+                    <div className="custom-label">Özel Hizmet:</div>
+                    {getCustomServicesNames().map((name, i) => (
+                      <div key={i} className="selected-item custom-item">
+                        <span>{name}</span>
+                        <span className="remove-item" onClick={() => {
+                          const customId = formData.custom_services[i].id;
+                          removeServices(customId);
+                        }}>
                           ×
                         </span>
                       </div>
@@ -1379,6 +1423,24 @@ const languageOptions: DropdownOption[] = [
                       <div key={i} className="selected-item">
                         <span>{name}</span>
                         <span className="remove-item" onClick={() => removeLanguage(formData.new_person_languages[i])}>
+                          ×
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                
+                {/* Custom verileri ayrı olarak göster */}
+                {formData.custom_languages.length > 0 && (
+                  <div className="selected-items custom-items">
+                    <div className="custom-label">Özel Dil:</div>
+                    {getCustomLanguagesNames().map((name, i) => (
+                      <div key={i} className="selected-item custom-item">
+                        <span>{name}</span>
+                        <span className="remove-item" onClick={() => {
+                          const customId = formData.custom_languages[i].id;
+                          removeLanguage(customId);
+                        }}>
                           ×
                         </span>
                       </div>
