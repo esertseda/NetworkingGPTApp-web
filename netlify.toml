@@ -4,3 +4,4 @@
 
 [build.environment]
   NODE_VERSION = "18"
+  VITE_SERVER_URL = "https://networkinggpt-server-2zwr4ft0k-edas-projects-39e3c0f2.vercel.app"
